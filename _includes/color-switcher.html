@@ -1,0 +1,77 @@
+<div class="color-switcher-panel" id="colorSwitcher">
+  <div class="switcher-header">
+    <h4>🎨 تخصيص المظهر</h4>
+    <button class="close-switcher" onclick="closeColorSwitcher()">✕</button>
+  </div>
+  
+  <div class="switcher-body">
+    <!-- Theme Mode -->
+    <div class="switcher-section">
+      <h5>🌓 وضع العرض</h5>
+      <div class="theme-options">
+        <button class="theme-option" data-theme="light" onclick="setThemeMode('light')">
+          <span class="icon">☀️</span>
+          <span>فاتح</span>
+        </button>
+        <button class="theme-option" data-theme="dark" onclick="setThemeMode('dark')">
+          <span class="icon">🌙</span>
+          <span>داكن</span>
+        </button>
+        <button class="theme-option active" data-theme="auto" onclick="setThemeMode('auto')">
+          <span class="icon">💻</span>
+          <span>تلقائي</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- Primary Color Like Plus UI -->
+    <div class="switcher-section">
+      <h5>🎨 اللون الأساسي</h5>
+      <div class="color-presets">
+        {% for color in site.plus_ui.color_presets %}
+        <button class="color-preset" style="background: {{ color }}" data-color="{{ color }}" onclick="setPrimaryColor('{{ color }}')" title="{{ color }}"></button>
+        {% endfor %}
+        <!-- Custom color -->
+        <div class="custom-color-wrapper">
+          <input type="color" id="customColorPicker" value="{{ site.primary_color | default: '#2962ff' }}" onchange="setPrimaryColor(this.value)" title="لون مخصص">
+          <label>مخصص</label>
+        </div>
+      </div>
+    </div>
+
+    <!-- Layout Mode Like Plus UI -->
+    <div class="switcher-section">
+      <h5>📐 نمط العرض</h5>
+      <div class="layout-options">
+        <button class="layout-option active" data-layout="grid" onclick="setLayout('grid')">
+          <span>⊞</span> شبكة
+        </button>
+        <button class="layout-option" data-layout="list" onclick="setLayout('list')">
+          <span>☰</span> قائمة
+        </button>
+      </div>
+    </div>
+
+    <!-- Font Size -->
+    <div class="switcher-section">
+      <h5>🔤 حجم الخط</h5>
+      <div class="font-size-control">
+        <button onclick="changeFontSize(-1)">A-</button>
+        <span id="fontSizeValue">100%</span>
+        <button onclick="changeFontSize(1)">A+</button>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div class="switcher-actions">
+      <button class="reset-btn" onclick="resetTheme()">🔄 إعادة تعيين</button>
+      <button class="save-btn" onclick="closeColorSwitcher()">✅ حفظ</button>
+    </div>
+
+    <div class="switcher-footer">
+      <small>يتم حفظ تفضيلاتك تلقائياً في المتصفح</small>
+    </div>
+  </div>
+</div>
+
+<div class="switcher-overlay" id="switcherOverlay" onclick="closeColorSwitcher()"></div>

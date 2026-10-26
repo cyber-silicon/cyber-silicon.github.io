@@ -1,0 +1,12 @@
+<article class="post-card-mini">
+  <a href="{{ include.post.url | relative_url }}">
+    {% if include.post.image %}
+    <img src="{{ include.post.image | relative_url }}" alt="{{ include.post.title }}" loading="lazy">
+    {% endif %}
+    <div class="mini-content">
+      <span class="mini-category">{{ include.post.categories | first }}</span>
+      <h4>{{ include.post.title | truncate: 60 }}</h4>
+      <span class="mini-date">{{ include.post.date | date: "%d %b" }}</span>
+    </div>
+  </a>
+</article>

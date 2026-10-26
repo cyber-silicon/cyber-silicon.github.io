@@ -1,0 +1,72 @@
+---
+layout: default
+---
+<div class="home-page">
+  <!-- Hero Featured Section Like Plus UI -->
+  {% if site.plus_ui.featured_posts and site.posts.size > 0 %}
+  <section class="featured-section">
+    <div class="section-header">
+      <h2><span class="icon">🔥</span> المقالات المميزة</h2>
+    </div>
+    <div class="featured-grid">
+      {% for post in site.posts limit:1 %}
+      <article class="featured-card">
+        <a href="{{ post.url | relative_url }}">
+          {% if post.image %}
+          <div class="featured-image">
+            <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+            <div class="featured-overlay">
+              <span class="featured-badge">مميز</span>
+            </div>
+          </div>
+          {% endif %}
+          <div class="featured-content">
+            <div class="post-meta">
+              <span class="category">{{ post.categories | first }}</span>
+              <span class="date">{{ post.date | date: "%d %b %Y" }}</span>
+            </div>
+            <h3>{{ post.title }}</h3>
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 120 }}</p>
+          </div>
+        </a>
+      </article>
+      {% endfor %}
+      <div class="mini-featured">
+        {% for post in site.posts offset:1 limit:4 %}
+        {% include post-card-mini.html post=post %}
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+  {% endif %}
+
+  <!-- Latest Posts Grid Like Plus UI -->
+  <section class="latest-section">
+    <div class="section-header">
+      <h2><span class="icon">📚</span> أحدث المقالات</h2>
+      <div class="view-toggle">
+        <button class="toggle-btn active" data-view="grid" title="شبكة">⊞</button>
+        <button class="toggle-btn" data-view="list" title="قائمة">☰</button>
+      </div>
+    </div>
+    
+    <div class="posts-grid" id="postsGrid">
+      {% for post in paginator.posts %}
+        {% include post-card.html post=post %}
+      {% endfor %}
+    </div>
+
+    <!-- Pagination Like Plus UI -->
+    {% if paginator.total_pages > 1 %}
+    <div class="pagination">
+      {% if paginator.previous_page %}
+        <a href="{{ paginator.previous_page_path | relative_url }}" class="page-btn prev">← السابق</a>
+      {% endif %}
+      <span class="page-info">صفحة {{ paginator.page }} من {{ paginator.total_pages }}</span>
+      {% if paginator.next_page %}
+        <a href="{{ paginator.next_page_path | relative_url }}" class="page-btn next">التالي →</a>
+      {% endif %}
+    </div>
+    {% endif %}
+  </section>
+</div>

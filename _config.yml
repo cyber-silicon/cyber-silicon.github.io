@@ -1,0 +1,127 @@
+title: Cyber Silicon
+description: منصة متخصصة في أمن الشبكات، اختبار الاختراق، صيانة الإلكترونيات والعتاد، والحلول البرمجية ونظام كالي لينكس
+url: "https://cyber-silicon.github.io"
+baseurl: ""
+lang: ar
+timezone: Africa/Khartoum
+direction: rtl
+
+# === Plus UI Pro Theme Settings ===
+theme_mode: dual # light, dark, dual
+primary_color: "#2962ff" # لون Plus UI الأصلي
+enable_rtl: true
+enable_pwa: true
+enable_search: true
+enable_color_switcher: true
+
+# Author
+author:
+  name: Cyber Silicon
+  email: mylif2021@gmail.com
+  url: https://cyber-silicon.github.io
+  avatar: /assets/images/avatar.png
+
+# === Comments - يدعم Giscus (الأفضل) و Utterances ===
+comments:
+  provider: giscus # giscus, utterances, disqus, false
+  giscus:
+    repo: cyber-silicon/cyber-silicon.github.io
+    repo_id: "" # احصل عليه من giscus.app
+    category: General
+    category_id: ""
+    mapping: pathname
+    theme: preferred_color_scheme
+    lang: ar
+  utterances:
+    repo: cyber-silicon/cyber-silicon.github.io
+    issue_term: pathname
+    theme: github-light
+  disqus:
+    shortname: ""
+
+# === Navigation ===
+nav:
+  - title: الرئيسية
+    url: /
+    icon: 🏠
+  - title: الأقسام
+    url: /categories/
+    icon: 📚
+  - title: الوسوم
+    url: /tags/
+    icon: 🏷️
+  - title: حول
+    url: /about/
+    icon: ℹ️
+  - title: الخصوصية
+    url: /privacy/
+    icon: 🔒
+  - title: الشروط
+    url: /terms/
+    icon: 📜
+
+# === Jekyll Settings ===
+markdown: kramdown
+highlighter: rouge
+kramdown:
+  input: GFM
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    block:
+      line_numbers: true
+
+plugins:
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jemoji
+
+paginate: 12
+paginate_path: "/page:num/"
+
+defaults:
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      layout: post
+      comments: true
+      toc: true
+      author: Cyber Silicon
+
+collections:
+  pages:
+    output: true
+    permalink: /:name/
+
+sass:
+  style: compressed
+
+exclude:
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - README.md
+  - LICENSE
+
+# === Plus UI Pro Features ===
+plus_ui:
+  card_style: grid # grid, list
+  featured_posts: true
+  trending_posts: true
+  popular_tags: true
+  newsletter: true
+  color_presets:
+    - "#2962ff" # Plus UI Blue
+    - "#00b894" # Green
+    - "#e17055" # Orange
+    - "#6c5ce7" # Purple
+    - "#fdcb6e" # Yellow
+    - "#e84393" # Pink
+    - "#0984e3" # Dark Blue
+    - "#d63031" # Red
