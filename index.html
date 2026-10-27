@@ -1,14 +1,6 @@
 ---
-layout: default
+layout: home
 title: الرئيسية
 ---
-<div class="home-page">
-  {{ content }}
-</div>
 
-<!-- This file is fallback if no home layout -->
-<div class="posts-grid">
-  {% for post in site.posts %}
-    {% include post-card.html post=post %}
-  {% endfor %}
-</div>
+<!-- سيتم عرض المقالات تلقائياً عبر _layouts/home.html -->
