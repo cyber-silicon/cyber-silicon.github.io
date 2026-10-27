@@ -6,8 +6,6 @@ permalink: /privacy/
 lang: ar
 ---
 
-<div class="legal-page" dir="ltr" style="text-align:left;">
-
 # Privacy Policy for Cyber Silicon
 
 **Last Updated: October 26, 2026**
@@ -126,8 +124,6 @@ We comply with:
 - GitHub Pages Terms
 
 ---
-
-</div>
 
 <style>
 .legal-page h1 { font-size:28px; margin-bottom:20px; }
