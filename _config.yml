@@ -1,5 +1,5 @@
 title: Cyber Silicon
-description: منصة متخصصة في أمن الشبكات، اختبار الاختراق، صيانة الإلكترونيات والعتاد، والحلول البرمجية ونظام كالي لينكس
+description: منصة متخصصة في أمن الشبكات، اختبار الاختراق، صيانة الإلكترونيات والعتاد، والحلول البرمجية ونظام كالي لينكس.
 url: "https://cyber-silicon.github.io"
 baseurl: ""
 lang: ar
@@ -7,8 +7,8 @@ timezone: Africa/Khartoum
 direction: rtl
 
 # === Plus UI Pro Theme Settings ===
-theme_mode: dual # light, dark, dual
-primary_color: "#2962ff" # لون Plus UI الأصلي
+theme_mode: dual
+primary_color: "#2962ff"
 enable_rtl: true
 enable_pwa: true
 enable_search: true
@@ -21,14 +21,14 @@ author:
   url: https://cyber-silicon.github.io
   avatar: /assets/images/avatar.png
 
-# === Comments - يدعم Giscus (الأفضل) و Utterances ===
+# === Comments - Fixed ===
 comments:
-  provider: giscus # giscus, utterances, disqus, false
+  provider: utterances # الآن يعمل فوراً، يمكنك التغيير لـ giscus لاحقاً بعد إعداد Discussions
   giscus:
     repo: cyber-silicon/cyber-silicon.github.io
-    repo_id: "" # احصل عليه من giscus.app
+    repo_id: "R_kgDOVXRHBA"
     category: General
-    category_id: ""
+    category_id: "DIC_kwDOVXRHBM4DJtF0"
     mapping: pathname
     theme: preferred_color_scheme
     lang: ar
@@ -111,17 +111,17 @@ exclude:
 
 # === Plus UI Pro Features ===
 plus_ui:
-  card_style: grid # grid, list
+  card_style: grid
   featured_posts: true
   trending_posts: true
   popular_tags: true
   newsletter: true
   color_presets:
-    - "#2962ff" # Plus UI Blue
-    - "#00b894" # Green
-    - "#e17055" # Orange
-    - "#6c5ce7" # Purple
-    - "#fdcb6e" # Yellow
-    - "#e84393" # Pink
-    - "#0984e3" # Dark Blue
-    - "#d63031" # Red
+    - "#2962ff"
+    - "#00b894"
+    - "#e17055"
+    - "#6c5ce7"
+    - "#fdcb6e"
+    - "#e84393"
+    - "#0984e3"
+    - "#d63031"
