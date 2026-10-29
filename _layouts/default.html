@@ -27,6 +27,19 @@
       navigator.serviceWorker.register('{{ "/sw.js" | relative_url }}');
     }
   </script>
+  <script>
+// إصلاح تكرار BASH نهائي - يحذف الثاني تلقائياً كل نصف ثانية
+setInterval(function(){
+  document.querySelectorAll('.post-content .highlight').forEach(function(b){
+    var h=b.querySelectorAll('.code-header, .p-code-head, .highlight-header');
+    for(var i=1;i<h.length;i++){h[i].remove();}
+    var nested=b.querySelectorAll('.highlight');
+    for(var j=0;j<nested.length;j++){
+      if(nested[j]!==b){nested[j].outerHTML=nested[j].innerHTML;}
+    }
+  });
+}, 500);
+</script>
   {% endif %}
 </body>
 </html>
