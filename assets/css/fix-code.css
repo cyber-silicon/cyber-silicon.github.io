@@ -1,26 +1,19 @@
-/* FIX V3 - Plus UI Pro + Cyber Silicon - يمنع تكرار BASH */
+/* FIX V3.1 FINAL - حل جذري لتمنع تكرار BASH نهائياً */
 .post-content .highlight {
-  position: relative;
+  position: relative !important;
   background: #0f172a !important;
   border-radius: 12px !important;
   margin: 20px 0 !important;
-  border: 1px solid #1e293b;
+  border: 1px solid #1e293b !important;
   direction: ltr !important;
   text-align: left !important;
   overflow: hidden !important;
 }
 
-/* إصلاح التداخل: لو فيه highlight داخل highlight - فك التداخل */
+/* فك التداخل جذرياً - أهم سطر */
 .post-content .highlight .highlight {
-  background: transparent !important;
-  border: none !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  border-radius: 0 !important;
-}
-
-.post-content .highlight .highlight pre {
-  margin: 0 !important;
+  all: unset !important;
+  display: contents !important;
 }
 
 .post-content .highlight pre {
@@ -29,91 +22,33 @@
   margin: 0 !important;
   overflow-x: auto !important;
   direction: ltr !important;
-  text-align: left !important;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+  font-family: 'JetBrains Mono', monospace !important;
   font-size: 13.5px !important;
-  line-height: 1.7 !important;
   white-space: pre !important;
 }
 
-.post-content .highlight code {
-  color: #e2e8f0 !important;
-  background: transparent !important;
-  direction: ltr !important;
-  text-align: left !important;
-  display: block;
-  unicode-bidi: plaintext;
-}
-
-/* إخفاء الهيدر الثاني المكرر - هذا هو الحل الأساسي لمشكلتك */
+/* إخفاء كل الهيدرات المكررة - احتفظ بالأول فقط */
+.post-content .highlight > .code-header ~ .code-header,
+.post-content .highlight > .highlight-header ~ .highlight-header,
 .post-content .highlight .code-header:nth-of-type(n+2),
-.post-content .highlight .highlight-header:nth-of-type(n+2),
-.post-content .highlight > div.code-header ~ div.code-header {
+.post-content .highlight .highlight-header:nth-of-type(n+2) {
   display: none !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
-/* لو الثيم أضاف هيدر ونحن أضفنا هيدر - أخفِ واحد */
-.post-content .highlight:has(.p-code-head) .code-header,
-.post-content .highlight:has(.code-header) .p-code-head {
-  display: none !important;
-}
-.post-content .highlight:has(.p-code-head) .code-header:first-child {
-  display: flex !important;
-}
+.post-content .highlight table, .post-content .rouge-table { border: none !important; }
+.post-content .highlight .gutter, .post-content .rouge-gutter { display: none !important; }
 
-/* إصلاح Plus UI الأصلي - نخفي الهيدر المكرر من الثيم نفسه */
-.post-content .highlight .highlight-header + .highlight-header,
-.post-content .highlight .code-header + .code-header {
-  display: none !important;
-}
-
-/* إزالة Rouge line numbers */
-.post-content .highlight table { border: none !important; margin: 0 !important; }
-.post-content .highlight .gutter { display: none !important; }
-.post-content .rouge-table { border: none !important; }
-.post-content .rouge-gutter { display: none !important; }
-
-/* الهيدر الوحيد الصحيح */
-.code-header {
+.post-content .highlight > .code-header:first-child {
   display: flex !important;
   justify-content: space-between;
   align-items: center;
   background: #1e293b !important;
   padding: 8px 14px !important;
-  border-bottom: 1px solid #334155;
-  direction: ltr !important;
-  font-family: sans-serif !important;
+  border-bottom: 1px solid #334155 !important;
 }
-.code-lang {
-  color: #94a3b8;
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-}
-.copy-btn {
-  background: #334155;
-  color: #cbd5e1;
-  border: 1px solid #475569;
-  padding: 4px 12px;
-  border-radius: 6px;
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s;
-  display: flex;
-  align-items: center;
-  gap: 5px;
-}
-.copy-btn:hover { background: #2962ff; color: white; border-color: #2962ff; }
-.copy-btn.copied { background: #00b894; color: white; }
-
-/* كود inline */
-.post-content p code, .post-content li code {
-  background: rgba(41, 98, 255, 0.1);
-  color: #2962ff;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 0.9em;
-  direction: ltr;
-  display: inline-block;
-  unicode-bidi: plaintext;
-}
+.code-lang { color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase; }
+.copy-btn { background: #334155; color: #cbd5e1; border: 1px solid #475569; padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
+.copy-btn:hover { background: #2962ff; color: white; }
