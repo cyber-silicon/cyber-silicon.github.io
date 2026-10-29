@@ -21,8 +21,9 @@ author:
   url: https://cyber-silicon.github.io
   avatar: /assets/images/avatar.png
 
+# === Comments - Fixed ===
 comments:
-  provider: utterances
+  provider: utterances # الآن يعمل فوراً، يمكنك التغيير لـ giscus لاحقاً بعد إعداد Discussions
   giscus:
     repo: cyber-silicon/cyber-silicon.github.io
     repo_id: "R_kgDOVXRHBA"
@@ -35,45 +36,52 @@ comments:
     repo: cyber-silicon/cyber-silicon.github.io
     issue_term: pathname
     theme: github-light
+  disqus:
+    shortname: ""
 
+# === Navigation ===
 nav:
-    - title: الرئيسية
+  - title: الرئيسية
     url: /
     icon: 🏠
-    - title: الأقسام
+  - title: الأقسام
     url: /categories/
     icon: 📚
-    - title: الوسوم
+  - title: الوسوم
     url: /tags/
     icon: 🏷️
-    - title: حول
+  - title: حول
     url: /about/
     icon: ℹ️
-    - title: الخصوصية
+  - title: الخصوصية
     url: /privacy/
     icon: 🔒
-    - title: الشروط
+  - title: الشروط
     url: /terms/
     icon: 📜
 
 # === Jekyll Settings ===
+markdown: kramdown
+highlighter: rouge
 kramdown:
+  input: GFM
+  syntax_highlighter: rouge
   syntax_highlighter_opts:
     block:
-      line_numbers: false
+      line_numbers: true
 
 plugins:
-    - jekyll-feed
-    - jekyll-sitemap
-    - jekyll-seo-tag
-    - jekyll-paginate
-    - jemoji
+  - jekyll-feed
+  - jekyll-sitemap
+  - jekyll-seo-tag
+  - jekyll-paginate
+  - jemoji
 
 paginate: 12
 paginate_path: "/page:num/"
 
 defaults:
-    - scope:
+  - scope:
       path: ""
       type: "posts"
     values:
@@ -91,15 +99,15 @@ sass:
   style: compressed
 
 exclude:
-    - .sass-cache/
-    - .jekyll-cache/
-    - gemfiles/
-    - Gemfile
-    - Gemfile.lock
-    - node_modules/
-    - vendor/
-    - README.md
-    - LICENSE
+  - .sass-cache/
+  - .jekyll-cache/
+  - gemfiles/
+  - Gemfile
+  - Gemfile.lock
+  - node_modules/
+  - vendor/
+  - README.md
+  - LICENSE
 
 # === Plus UI Pro Features ===
 plus_ui:
@@ -109,11 +117,11 @@ plus_ui:
   popular_tags: true
   newsletter: true
   color_presets:
-        - "#2962ff"
-        - "#00b894"
-        - "#e17055"
-        - "#6c5ce7"
-        - "#fdcb6e"
-        - "#e84393"
-        - "#0984e3"
-        - "#d63031"
+    - "#2962ff"
+    - "#00b894"
+    - "#e17055"
+    - "#6c5ce7"
+    - "#fdcb6e"
+    - "#e84393"
+    - "#0984e3"
+    - "#d63031"
