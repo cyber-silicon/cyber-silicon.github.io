@@ -5,7 +5,8 @@ baseurl: ""
 lang: ar
 timezone: Africa/Khartoum
 direction: rtl
-
+git commit --allow-empty -m "fix: remove duplicate BASH header - V3.1 FINAL"
+git push
 # === Plus UI Pro Theme Settings ===
 theme_mode: dual
 primary_color: "#2962ff"
