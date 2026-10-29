@@ -1,4 +1,0 @@
-/* حل نهائي - 3 أسطر فقط - يمنع تكرار BASH */
-.post-content pre, .post-content code { direction: ltr !important; text-align: left !important; }
-.post-content .highlight .highlight { background: transparent !important; border: 0 !important; margin: 0 !important; padding: 0 !important; }
-.post-content .highlight > div:nth-child(2) { display: none !important; }
