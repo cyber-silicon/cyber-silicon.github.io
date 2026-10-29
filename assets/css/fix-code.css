@@ -1,13 +1,26 @@
-/* FIX: Code blocks - Plus UI Pro RTL Fix */
+/* FIX V3 - Plus UI Pro + Cyber Silicon - يمنع تكرار BASH */
 .post-content .highlight {
   position: relative;
   background: #0f172a !important;
   border-radius: 12px !important;
   margin: 20px 0 !important;
   border: 1px solid #1e293b;
-  direction: ltr !important; /* Code always LTR */
+  direction: ltr !important;
   text-align: left !important;
-  overflow: hidden;
+  overflow: hidden !important;
+}
+
+/* إصلاح التداخل: لو فيه highlight داخل highlight - فك التداخل */
+.post-content .highlight .highlight {
+  background: transparent !important;
+  border: none !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+}
+
+.post-content .highlight .highlight pre {
+  margin: 0 !important;
 }
 
 .post-content .highlight pre {
@@ -32,22 +45,44 @@
   unicode-bidi: plaintext;
 }
 
-/* Remove rouge line numbers table - we disable them */
+/* إخفاء الهيدر الثاني المكرر - هذا هو الحل الأساسي لمشكلتك */
+.post-content .highlight .code-header:nth-of-type(n+2),
+.post-content .highlight .highlight-header:nth-of-type(n+2),
+.post-content .highlight > div.code-header ~ div.code-header {
+  display: none !important;
+}
+
+/* لو الثيم أضاف هيدر ونحن أضفنا هيدر - أخفِ واحد */
+.post-content .highlight:has(.p-code-head) .code-header,
+.post-content .highlight:has(.code-header) .p-code-head {
+  display: none !important;
+}
+.post-content .highlight:has(.p-code-head) .code-header:first-child {
+  display: flex !important;
+}
+
+/* إصلاح Plus UI الأصلي - نخفي الهيدر المكرر من الثيم نفسه */
+.post-content .highlight .highlight-header + .highlight-header,
+.post-content .highlight .code-header + .code-header {
+  display: none !important;
+}
+
+/* إزالة Rouge line numbers */
 .post-content .highlight table { border: none !important; margin: 0 !important; }
 .post-content .highlight .gutter { display: none !important; }
 .post-content .rouge-table { border: none !important; }
 .post-content .rouge-gutter { display: none !important; }
 
-/* Copy button */
+/* الهيدر الوحيد الصحيح */
 .code-header {
-  display: flex;
+  display: flex !important;
   justify-content: space-between;
   align-items: center;
-  background: #1e293b;
-  padding: 8px 14px;
+  background: #1e293b !important;
+  padding: 8px 14px !important;
   border-bottom: 1px solid #334155;
-  direction: ltr;
-  font-family: sans-serif;
+  direction: ltr !important;
+  font-family: sans-serif !important;
 }
 .code-lang {
   color: #94a3b8;
@@ -71,7 +106,7 @@
 .copy-btn:hover { background: #2962ff; color: white; border-color: #2962ff; }
 .copy-btn.copied { background: #00b894; color: white; }
 
-/* Inline code */
+/* كود inline */
 .post-content p code, .post-content li code {
   background: rgba(41, 98, 255, 0.1);
   color: #2962ff;
@@ -81,50 +116,4 @@
   direction: ltr;
   display: inline-block;
   unicode-bidi: plaintext;
-}
-[data-theme="dark"] .post-content p code { background: rgba(41,98,255,0.2); color: #768fff; }
-
-/* Fix card image - no broken outside image */
-.post-card .card-image {
-  position: relative;
-  aspect-ratio: 16/9;
-  overflow: hidden;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  display: grid;
-  place-items: center;
-}
-.post-card .card-image img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.post-card .card-image:empty,
-.post-card.no-image .card-image {
-  background: linear-gradient(135deg, #2962ff 0%, #6c5ce7 100%);
-  min-height: 180px;
-}
-.post-card.no-image .card-image::after {
-  content: '📚';
-  font-size: 48px;
-  opacity: 0.5;
-}
-
-/* TikTok - better placement */
-.tiktok-top-wrapper {
-  background: linear-gradient(135deg, #000 0%, #1a1a1a 100%);
-  border-radius: 16px;
-  padding: 20px;
-  margin: 20px 0 25px;
-  border: 1px solid #2d2d2d;
-  text-align: center;
-}
-.tiktok-top-wrapper h4 {
-  color: white;
-  margin-bottom: 12px;
-  font-size: 14px;
-}
-.tiktok-embed-wrapper {
-  display: flex;
-  justify-content: center;
-  margin: 15px 0;
 }
