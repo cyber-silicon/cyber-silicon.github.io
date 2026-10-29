@@ -1,54 +1,21 @@
-/* FIX V3.1 FINAL - حل جذري لتمنع تكرار BASH نهائياً */
+/* FIX MINIMAL - يخفي التكرار فقط */
 .post-content .highlight {
-  position: relative !important;
-  background: #0f172a !important;
-  border-radius: 12px !important;
-  margin: 20px 0 !important;
-  border: 1px solid #1e293b !important;
   direction: ltr !important;
   text-align: left !important;
-  overflow: hidden !important;
 }
 
-/* فك التداخل جذرياً - أهم سطر */
-.post-content .highlight .highlight {
-  all: unset !important;
-  display: contents !important;
-}
-
-.post-content .highlight pre {
-  background: transparent !important;
-  padding: 20px !important;
-  margin: 0 !important;
-  overflow-x: auto !important;
-  direction: ltr !important;
-  font-family: 'JetBrains Mono', monospace !important;
-  font-size: 13.5px !important;
-  white-space: pre !important;
-}
-
-/* إخفاء كل الهيدرات المكررة - احتفظ بالأول فقط */
-.post-content .highlight > .code-header ~ .code-header,
-.post-content .highlight > .highlight-header ~ .highlight-header,
-.post-content .highlight .code-header:nth-of-type(n+2),
-.post-content .highlight .highlight-header:nth-of-type(n+2) {
+/* أخفِ الهيدر الثاني المكرر - هذا كل الحل */
+.post-content .highlight .code-header:nth-of-type(2),
+.post-content .highlight .highlight-header:nth-of-type(2),
+.post-content .highlight > div.code-header ~ div.code-header,
+.post-content .highlight > div:nth-child(2).code-header {
   display: none !important;
-  height: 0 !important;
-  padding: 0 !important;
+}
+
+/* فك التداخل بدون كسر الألوان */
+.post-content .highlight .highlight {
+  background: transparent !important;
+  border: none !important;
   margin: 0 !important;
+  padding: 0 !important;
 }
-
-.post-content .highlight table, .post-content .rouge-table { border: none !important; }
-.post-content .highlight .gutter, .post-content .rouge-gutter { display: none !important; }
-
-.post-content .highlight > .code-header:first-child {
-  display: flex !important;
-  justify-content: space-between;
-  align-items: center;
-  background: #1e293b !important;
-  padding: 8px 14px !important;
-  border-bottom: 1px solid #334155 !important;
-}
-.code-lang { color: #94a3b8; font-size: 12px; font-weight: 600; text-transform: uppercase; }
-.copy-btn { background: #334155; color: #cbd5e1; border: 1px solid #475569; padding: 4px 12px; border-radius: 6px; font-size: 12px; cursor: pointer; }
-.copy-btn:hover { background: #2962ff; color: white; }
