@@ -1,40 +1,70 @@
 
-/* Cyber Silicon - Beautiful Code Blocks */
-.post-content .highlight,
+/* Cyber Silicon - Code Blocks - Ultimate Mobile Fix */
+.post-content .highlighter-rouge,
 .post-content div.highlighter-rouge,
+.post-content .highlight,
 .post-content figure.highlight {
   position: relative;
-  margin: 24px 0 !important;
-  border-radius: 14px !important;
-  overflow: hidden;
-  border: 1px solid #1e293b;
-  background: #0f172a;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15);
+  margin: 18px 0 !important;
+  border-radius: 12px !important;
+  overflow: hidden !important;
+  border: 1px solid #1e293b !important;
+  background: #0f172a !important;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15) !important;
   direction: ltr !important;
   text-align: left !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
 }
 
-/* Header with language and copy button */
+/* Remove nested double borders - fix for double header issue in screenshot */
+.post-content .highlighter-rouge .highlight,
+.post-content div.highlighter-rouge div.highlight {
+  border: none !important;
+  margin: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
+  background: transparent !important;
+}
+.post-content .highlighter-rouge .highlight pre,
+.post-content div.highlighter-rouge div.highlight pre {
+  border-radius: 0 0 12px 12px !important;
+}
+
+/* Header */
 .code-block-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
-  padding: 12px 16px;
+  padding: 10px 14px;
   border-bottom: 1px solid #1e293b;
   direction: ltr;
   font-family: 'Tajawal', sans-serif;
   user-select: none;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  flex-wrap: nowrap;
+  gap: 8px;
 }
 .code-lang {
   display: flex;
   align-items: center;
   gap: 8px;
   color: #94a3b8;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  min-width: 0;
+  flex: 1;
 }
 .code-lang::before {
   content: '';
@@ -43,96 +73,124 @@
   border-radius: 50%;
   background: #2962ff;
   box-shadow: 0 0 0 3px rgba(41,98,255,0.15);
+  flex-shrink: 0;
 }
 .code-lang.bash::before { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.15); }
-.code-lang.python::before { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
-.code-lang.javascript::before { background: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.15); }
-.code-lang.html::before { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+.code-lang.python::before { background: #f59e0b; }
+.code-lang.javascript::before { background: #eab308; }
+.code-lang.html::before { background: #ef4444; }
+.code-lang.code::before { background: #64748b; }
 
 .copy-btn {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  background: rgba(255,255,255,0.06);
+  gap: 5px;
+  background: rgba(255,255,255,0.08);
   color: #cbd5e1;
-  border: 1px solid rgba(255,255,255,0.1);
-  padding: 6px 14px;
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 5px 12px;
   border-radius: 8px;
-  font-size: 12.5px;
+  font-size: 12px;
   font-weight: 600;
   cursor: pointer;
-  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  transition: all 0.2s;
   font-family: 'Tajawal', sans-serif;
-  backdrop-filter: blur(10px);
+  white-space: nowrap;
+  flex-shrink: 0;
+  min-width: 0;
 }
-.copy-btn:hover { background: #2962ff; color: white; border-color: #2962ff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(41,98,255,0.3); }
+.copy-btn:hover { background: #2962ff; color: white; border-color: #2962ff; }
 .copy-btn.copied { background: #10b981; color: white; border-color: #10b981; }
-.copy-btn svg { width: 14px; height: 14px; }
+.copy-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
 
+/* Pre - core fix */
 .post-content .highlight pre,
 .post-content div.highlighter-rouge pre,
-.post-content figure.highlight pre {
+.post-content figure.highlight pre,
+.post-content .highlighter-rouge pre {
   background: transparent !important;
-  padding: 18px 20px !important;
+  padding: 14px 16px !important;
   margin: 0 !important;
   overflow-x: auto !important;
+  overflow-y: hidden !important;
+  -webkit-overflow-scrolling: touch !important;
   direction: ltr !important;
   text-align: left !important;
   font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
-  font-size: 13.5px !important;
-  line-height: 1.75 !important;
+  font-size: 13px !important;
+  line-height: 1.6 !important;
   white-space: pre !important;
-  color: #e2e8f0;
-  scrollbar-width: thin;
-  scrollbar-color: #334155 #0f172a;
+  word-wrap: normal !important;
+  word-break: normal !important;
+  color: #e2e8f0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+  display: block !important;
 }
-.post-content .highlight pre::-webkit-scrollbar { height: 8px; }
+.post-content .highlight pre::-webkit-scrollbar { height: 6px; }
 .post-content .highlight pre::-webkit-scrollbar-track { background: #0f172a; }
-.post-content .highlight pre::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
-.post-content .highlight pre::-webkit-scrollbar-thumb:hover { background: #475569; }
+.post-content .highlight pre::-webkit-scrollbar-thumb { background: #334155; border-radius: 3px; }
 
-.post-content .highlight code {
+.post-content .highlight code,
+.post-content div.highlighter-rouge code {
   color: #e2e8f0 !important;
   background: transparent !important;
   direction: ltr !important;
   text-align: left !important;
-  display: block;
-  unicode-bidi: plaintext;
+  display: block !important;
+  unicode-bidi: plaintext !important;
   font-family: inherit !important;
   font-size: inherit !important;
   line-height: inherit !important;
   padding: 0 !important;
   border: none !important;
+  white-space: pre !important;
+  word-break: normal !important;
+  overflow-wrap: normal !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
 }
 
-/* Remove Rouge table wrapper */
-.post-content .highlight table, .post-content .rouge-table { border: none !important; margin: 0 !important; width: 100%; background: transparent !important; }
+/* Remove Rouge table wrapper that causes overflow */
+.post-content .highlight table, .post-content .rouge-table { border: none !important; margin: 0 !important; width: 100% !important; max-width: 100% !important; background: transparent !important; display: block !important; overflow-x: auto !important; }
 .post-content .highlight .gutter, .post-content .rouge-gutter, .post-content .gl { display: none !important; }
-.post-content .highlight .code, .post-content .rouge-code { width: 100% !important; }
+.post-content .highlight .code, .post-content .rouge-code { width: 100% !important; max-width: 100% !important; display: block !important; }
 
-/* Inline code */
-.post-content p code, .post-content li code, .post-content td code {
-  background: rgba(41, 98, 255, 0.1);
-  color: #1e40af;
-  padding: 3px 8px;
-  border-radius: 6px;
-  font-size: 0.88em;
-  direction: ltr;
-  display: inline-block;
-  unicode-bidi: plaintext;
-  font-family: 'JetBrains Mono', monospace;
-  font-weight: 600;
-  border: 1px solid rgba(41,98,255,0.15);
-  vertical-align: baseline;
-  line-height: 1.4;
+/* Inline code - fix for long URLs like in screenshot */
+.post-content p code,
+.post-content li code,
+.post-content td code,
+.post-content blockquote code {
+  background: rgba(41, 98, 255, 0.1) !important;
+  color: #1e40af !important;
+  padding: 2px 6px !important;
+  border-radius: 6px !important;
+  font-size: 0.88em !important;
+  direction: ltr !important;
+  display: inline !important;
+  unicode-bidi: plaintext !important;
+  font-family: 'JetBrains Mono', monospace !important;
+  font-weight: 600 !important;
+  border: 1px solid rgba(41,98,255,0.15) !important;
+  line-height: 1.4 !important;
+  white-space: normal !important;
+  word-break: break-word !important;
+  overflow-wrap: anywhere !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  vertical-align: baseline !important;
 }
-[data-theme="dark"] .post-content p code, [data-theme="dark"] .post-content li code {
-  background: rgba(41,98,255,0.18);
-  color: #93c5fd;
-  border-color: rgba(41,98,255,0.25);
+[data-theme="dark"] .post-content p code,
+[data-theme="dark"] .post-content li code,
+[data-theme="dark"] .post-content blockquote code {
+  background: rgba(41,98,255,0.18) !important;
+  color: #93c5fd !important;
+  border-color: rgba(41,98,255,0.25) !important;
 }
 
-/* Syntax Highlighting - One Dark Pro Inspired */
+/* Syntax colors */
 .highlight .c, .highlight .cm, .highlight .c1, .highlight .cs { color: #64748b; font-style: italic; }
 .highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt { color: #c678dd; font-weight: 600; }
 .highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .si, .highlight .sx, .highlight .s1 { color: #98c379; }
@@ -142,21 +200,44 @@
 .highlight .o, .highlight .ow { color: #56b6c2; }
 .highlight .p { color: #abb2bf; }
 .highlight .mi, .highlight .mf, .highlight .mh, .highlight .il { color: #d19a66; }
-.highlight .se { color: #56b6c2; }
-.highlight .err { color: #f87171; background: rgba(248,113,113,0.1); }
 
-/* Terminal window dots */
-.code-block-header.dots::before {
-  content: '';
-  display: inline-block;
-  width: 52px;
-  height: 12px;
-  background: radial-gradient(circle at 6px 6px, #ef4444 6px, transparent 6px),
-              radial-gradient(circle at 22px 6px, #f59e0b 6px, transparent 6px),
-              radial-gradient(circle at 38px 6px, #22c55e 6px, transparent 6px);
-  margin-left: 0;
-  margin-right: 12px;
+/* MOBILE ULTIMATE FIX */
+@media (max-width: 768px) {
+  .post-content .highlighter-rouge,
+  .post-content div.highlighter-rouge,
+  .post-content .highlight,
+  .post-content figure.highlight {
+    margin: 14px 0 !important;
+    border-radius: 10px !important;
+    max-width: 100% !important;
+    width: 100% !important;
+  }
+  .code-block-header { padding: 8px 10px; }
+  .code-lang { font-size: 11px; }
+  .copy-btn { padding: 4px 10px; font-size: 11px; }
+  .copy-btn span { font-size: 11px; }
+  .post-content .highlight pre,
+  .post-content div.highlighter-rouge pre {
+    padding: 12px 10px !important;
+    font-size: 12px !important;
+    line-height: 1.5 !important;
+  }
+  .post-content p code,
+  .post-content li code,
+  .post-content blockquote code {
+    font-size: 0.82em !important;
+    padding: 2px 5px !important;
+    word-break: break-all !important;
+    overflow-wrap: anywhere !important;
+  }
+}
+@media (max-width: 400px) {
+  .post-content .highlight pre { font-size: 11px !important; padding: 10px 8px !important; }
+  .code-block-header { padding: 6px 8px; }
+  .code-lang { font-size: 10px; gap: 6px; }
+  .copy-btn { padding: 3px 8px; font-size: 10px; }
 }
 
-/* Line highlight on hover */
-.post-content .highlight pre span:hover { background: rgba(255,255,255,0.04); }
+/* Prevent body horizontal scroll from code blocks */
+.post-content { overflow-x: hidden !important; max-width: 100% !important; }
+.post-content .highlight { max-width: 100% !important; overflow: hidden !important; }

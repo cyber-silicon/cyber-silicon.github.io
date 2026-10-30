@@ -1,34 +1,25 @@
 
-/* Cyber Silicon - Main JS - Clean & Functional */
+/* Cyber Silicon - Main JS - Mobile Ultimate Fix */
 (function() {
   'use strict';
-
   const STORAGE_KEY = 'cyber-silicon-theme';
-
-  function getTheme() {
-    try { return localStorage.getItem(STORAGE_KEY) || 'light'; }
-    catch { return 'light'; }
-  }
+  function getTheme() { try { return localStorage.getItem(STORAGE_KEY) || 'light'; } catch { return 'light'; } }
   function setTheme(theme) {
     try { localStorage.setItem(STORAGE_KEY, theme); } catch {}
     document.documentElement.setAttribute('data-theme', theme);
     document.documentElement.setAttribute('data-theme-mode', theme);
   }
-
   function initTheme() {
     const saved = getTheme();
     const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
     const effective = saved === 'auto' ? (prefersDark ? 'dark' : 'light') : saved;
     setTheme(effective === 'dark' ? 'dark' : 'light');
   }
-
   window.toggleTheme = function() {
     const current = document.documentElement.getAttribute('data-theme') || 'light';
     const next = current === 'dark' ? 'light' : 'dark';
     setTheme(next);
   };
-
-  // Mobile menu
   window.toggleMobileMenu = function() {
     const menu = document.getElementById('mobileMenu');
     const overlay = document.getElementById('mobileOverlay');
@@ -38,8 +29,6 @@
     if (overlay) overlay.classList.toggle('active', !isActive);
     document.body.style.overflow = !isActive ? 'hidden' : '';
   };
-
-  // Search modal
   window.openSearch = function() {
     const modal = document.getElementById('searchModal');
     const overlay = document.getElementById('searchOverlay');
@@ -54,16 +43,9 @@
     document.getElementById('searchOverlay')?.classList.remove('active');
     document.body.style.overflow = '';
   };
-
-  // Share & bookmark
   window.sharePost = function() {
-    if (navigator.share) {
-      navigator.share({ title: document.title, url: location.href }).catch(()=>{});
-    } else {
-      navigator.clipboard.writeText(location.href).then(() => {
-        showToast('✅ تم نسخ رابط المقال');
-      });
-    }
+    if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(()=>{}); }
+    else { navigator.clipboard.writeText(location.href).then(() => { showToast('✅ تم نسخ رابط المقال'); }); }
   };
   window.toggleBookmark = function() {
     try {
@@ -78,16 +60,15 @@
   window.subscribeNewsletter = function(e) {
     e.preventDefault();
     const email = e.target.querySelector('input[type="email"]')?.value || '';
-    showToast(`✅ شكراً! تم تسجيل ${email} - سيتم تفعيل النشرة قريباً`);
+    showToast(`✅ شكراً! تم تسجيل ${email}`);
     e.target.reset();
   };
-
   function showToast(msg) {
     let t = document.getElementById('toast');
     if (!t) {
       t = document.createElement('div');
       t.id = 'toast';
-      t.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1e2128;color:white;padding:12px 20px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:9999;font-size:13px;font-weight:600;transition:all 0.3s;opacity:0;pointer-events:none;';
+      t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e2128;color:white;padding:10px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:9999;font-size:12px;font-weight:600;transition:all 0.3s;opacity:0;pointer-events:none;max-width:90vw;word-break:break-word;text-align:center;';
       document.body.appendChild(t);
     }
     t.textContent = msg;
@@ -95,8 +76,6 @@
     t.style.transform = 'translateX(-50%) translateY(0)';
     setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(10px)'; }, 3000);
   }
-
-  // Progress bar
   function initProgressBar() {
     const bar = document.getElementById('progress-bar');
     if (!bar) return;
@@ -108,67 +87,83 @@
     }, { passive: true });
   }
 
-  // Beautiful code blocks with copy button
+  // ULTIMATE FIX for double headers and mobile overflow
   function initCodeBlocks() {
-    const blocks = document.querySelectorAll('.post-content .highlight, .post-content div.highlighter-rouge, .post-content figure.highlight');
-    blocks.forEach((block) => {
-      if (block.querySelector('.code-block-header')) return; // already processed
-      
-      // Find pre and code
-      const pre = block.querySelector('pre');
-      if (!pre) return;
-      const code = pre.querySelector('code') || pre;
-      
-      // Detect language
-      let lang = 'code';
-      const classList = (block.className + ' ' + pre.className + ' ' + code.className).toLowerCase();
-      if (classList.includes('bash') || classList.includes('shell') || classList.includes('sh')) lang = 'bash';
-      else if (classList.includes('python') || classList.includes('py')) lang = 'python';
-      else if (classList.includes('javascript') || classList.includes('js')) lang = 'javascript';
-      else if (classList.includes('html')) lang = 'html';
-      else if (classList.includes('css')) lang = 'css';
-      else if (classList.includes('json')) lang = 'json';
-      else if (classList.includes('yaml') || classList.includes('yml')) lang = 'yaml';
-      else if (classList.includes('ruby')) lang = 'ruby';
-      else if (classList.includes('go')) lang = 'go';
-      else if (classList.includes('sql')) lang = 'sql';
-      else if (classList.includes('docker')) lang = 'dockerfile';
-      // Try data-lang
-      const dataLang = block.getAttribute('data-lang') || pre.getAttribute('data-lang');
-      if (dataLang) lang = dataLang.toLowerCase();
+    // Select only outermost blocks - skip inner .highlight if inside .highlighter-rouge
+    const allBlocks = document.querySelectorAll('.post-content div.highlighter-rouge, .post-content figure.highlight');
+    const blocks = [];
+    allBlocks.forEach(block => {
+      // Skip if already processed
+      if (block.querySelector('.code-block-header')) return;
+      // If this is a figure.highlight, keep it
+      // If this is highlighter-rouge, keep it (it's outermost)
+      blocks.push(block);
+    });
+    // Also handle standalone .highlight not inside highlighter-rouge (rare)
+    document.querySelectorAll('.post-content .highlight').forEach(el => {
+      if (el.closest('div.highlighter-rouge')) return; // skip inner
+      if (el.closest('figure.highlight')) return; // skip if inside figure
+      if (el.querySelector('.code-block-header')) return;
+      // Check if already covered by highlighter-rouge parent
+      if (el.parentElement && el.parentElement.classList.contains('highlighter-rouge')) return;
+      // Standalone highlight
+      if (!blocks.includes(el)) blocks.push(el);
+    });
 
-      // Create header
+    blocks.forEach((block) => {
+      if (block.querySelector('.code-block-header')) return;
+      
+      // Find pre and code inside
+      let pre = block.querySelector('pre');
+      if (!pre) return;
+      let code = pre.querySelector('code') || pre;
+      
+      // Detect language - look at classes
+      let lang = 'code';
+      const classStr = (block.className + ' ' + pre.className + ' ' + (code.className || '')).toLowerCase();
+      if (classStr.includes('bash') || classStr.includes('shell') || classStr.includes('sh')) lang = 'bash';
+      else if (classStr.includes('python') || /py/.test(classStr)) lang = 'python';
+      else if (classStr.includes('javascript') || /js/.test(classStr)) lang = 'javascript';
+      else if (classStr.includes('html')) lang = 'html';
+      else if (classStr.includes('css')) lang = 'css';
+      else if (classStr.includes('json')) lang = 'json';
+      else if (classStr.includes('yaml') || classStr.includes('yml')) lang = 'yaml';
+      else if (classStr.includes('ruby')) lang = 'ruby';
+      else if (classStr.includes('go')) lang = 'go';
+      else if (classStr.includes('sql')) lang = 'sql';
+      else if (classStr.includes('docker')) lang = 'dockerfile';
+      
+      const dataLang = block.getAttribute('data-lang') || pre.getAttribute('data-lang') || block.dataset.lang;
+      if (dataLang) lang = dataLang.toLowerCase().replace('plaintext','code');
+
+      // Create header only once
       const header = document.createElement('div');
       header.className = 'code-block-header';
       header.innerHTML = `
         <span class="code-lang ${lang}">${lang}</span>
         <button class="copy-btn" aria-label="نسخ الكود">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v3"/></svg>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v3"/></svg>
           <span>نسخ</span>
         </button>
       `;
 
       const btn = header.querySelector('.copy-btn');
       btn.addEventListener('click', async () => {
-        const text = code.innerText || code.textContent;
+        const text = code.innerText || code.textContent || '';
         try {
           await navigator.clipboard.writeText(text);
           const span = btn.querySelector('span');
           const original = span.textContent;
           btn.classList.add('copied');
           span.textContent = 'تم النسخ ✓';
-          setTimeout(() => {
-            btn.classList.remove('copied');
-            span.textContent = original;
-          }, 2000);
+          setTimeout(() => { btn.classList.remove('copied'); span.textContent = original; }, 2000);
         } catch {
-          // Fallback
           const range = document.createRange();
           range.selectNodeContents(code);
           const sel = window.getSelection();
           sel.removeAllRanges();
           sel.addRange(range);
-          document.execCommand('copy');
+          try { document.execCommand('copy'); } catch {}
           sel.removeAllRanges();
           const span = btn.querySelector('span');
           span.textContent = 'تم النسخ ✓';
@@ -177,17 +172,14 @@
         }
       });
 
+      // Insert header at top of block
       block.insertBefore(header, block.firstChild);
     });
   }
 
-  // Keyboard shortcuts
   function initShortcuts() {
     document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') {
-        e.preventDefault();
-        openSearch();
-      }
+      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); }
       if (e.key === 'Escape') {
         closeSearch();
         const menu = document.getElementById('mobileMenu');
@@ -195,8 +187,6 @@
       }
     });
   }
-
-  // View toggle grid/list
   function initViewToggle() {
     document.querySelectorAll('.toggle-btn').forEach(btn => {
       btn.addEventListener('click', () => {
@@ -212,10 +202,7 @@
     });
     try {
       const saved = localStorage.getItem('cyber-view');
-      if (saved) {
-        const btn = document.querySelector(`.toggle-btn[data-view="${saved}"]`);
-        if (btn) btn.click();
-      }
+      if (saved) { const btn = document.querySelector(`.toggle-btn[data-view="${saved}"]`); if (btn) btn.click(); }
     } catch {}
   }
 
@@ -226,5 +213,4 @@
     initShortcuts();
     initViewToggle();
   });
-
 })();
