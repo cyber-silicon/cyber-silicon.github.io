@@ -1,0 +1,162 @@
+
+/* Cyber Silicon - Beautiful Code Blocks */
+.post-content .highlight,
+.post-content div.highlighter-rouge,
+.post-content figure.highlight {
+  position: relative;
+  margin: 24px 0 !important;
+  border-radius: 14px !important;
+  overflow: hidden;
+  border: 1px solid #1e293b;
+  background: #0f172a;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15);
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+/* Header with language and copy button */
+.code-block-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(180deg, #1e293b 0%, #0f172a 100%);
+  padding: 12px 16px;
+  border-bottom: 1px solid #1e293b;
+  direction: ltr;
+  font-family: 'Tajawal', sans-serif;
+  user-select: none;
+}
+.code-lang {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #94a3b8;
+  font-size: 12.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.code-lang::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #2962ff;
+  box-shadow: 0 0 0 3px rgba(41,98,255,0.15);
+}
+.code-lang.bash::before { background: #22c55e; box-shadow: 0 0 0 3px rgba(34,197,94,0.15); }
+.code-lang.python::before { background: #f59e0b; box-shadow: 0 0 0 3px rgba(245,158,11,0.15); }
+.code-lang.javascript::before { background: #eab308; box-shadow: 0 0 0 3px rgba(234,179,8,0.15); }
+.code-lang.html::before { background: #ef4444; box-shadow: 0 0 0 3px rgba(239,68,68,0.15); }
+
+.copy-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(255,255,255,0.06);
+  color: #cbd5e1;
+  border: 1px solid rgba(255,255,255,0.1);
+  padding: 6px 14px;
+  border-radius: 8px;
+  font-size: 12.5px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4,0,0.2,1);
+  font-family: 'Tajawal', sans-serif;
+  backdrop-filter: blur(10px);
+}
+.copy-btn:hover { background: #2962ff; color: white; border-color: #2962ff; transform: translateY(-1px); box-shadow: 0 4px 12px rgba(41,98,255,0.3); }
+.copy-btn.copied { background: #10b981; color: white; border-color: #10b981; }
+.copy-btn svg { width: 14px; height: 14px; }
+
+.post-content .highlight pre,
+.post-content div.highlighter-rouge pre,
+.post-content figure.highlight pre {
+  background: transparent !important;
+  padding: 18px 20px !important;
+  margin: 0 !important;
+  overflow-x: auto !important;
+  direction: ltr !important;
+  text-align: left !important;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace !important;
+  font-size: 13.5px !important;
+  line-height: 1.75 !important;
+  white-space: pre !important;
+  color: #e2e8f0;
+  scrollbar-width: thin;
+  scrollbar-color: #334155 #0f172a;
+}
+.post-content .highlight pre::-webkit-scrollbar { height: 8px; }
+.post-content .highlight pre::-webkit-scrollbar-track { background: #0f172a; }
+.post-content .highlight pre::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
+.post-content .highlight pre::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+.post-content .highlight code {
+  color: #e2e8f0 !important;
+  background: transparent !important;
+  direction: ltr !important;
+  text-align: left !important;
+  display: block;
+  unicode-bidi: plaintext;
+  font-family: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+  padding: 0 !important;
+  border: none !important;
+}
+
+/* Remove Rouge table wrapper */
+.post-content .highlight table, .post-content .rouge-table { border: none !important; margin: 0 !important; width: 100%; background: transparent !important; }
+.post-content .highlight .gutter, .post-content .rouge-gutter, .post-content .gl { display: none !important; }
+.post-content .highlight .code, .post-content .rouge-code { width: 100% !important; }
+
+/* Inline code */
+.post-content p code, .post-content li code, .post-content td code {
+  background: rgba(41, 98, 255, 0.1);
+  color: #1e40af;
+  padding: 3px 8px;
+  border-radius: 6px;
+  font-size: 0.88em;
+  direction: ltr;
+  display: inline-block;
+  unicode-bidi: plaintext;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 600;
+  border: 1px solid rgba(41,98,255,0.15);
+  vertical-align: baseline;
+  line-height: 1.4;
+}
+[data-theme="dark"] .post-content p code, [data-theme="dark"] .post-content li code {
+  background: rgba(41,98,255,0.18);
+  color: #93c5fd;
+  border-color: rgba(41,98,255,0.25);
+}
+
+/* Syntax Highlighting - One Dark Pro Inspired */
+.highlight .c, .highlight .cm, .highlight .c1, .highlight .cs { color: #64748b; font-style: italic; }
+.highlight .k, .highlight .kc, .highlight .kd, .highlight .kn, .highlight .kp, .highlight .kr, .highlight .kt { color: #c678dd; font-weight: 600; }
+.highlight .s, .highlight .sb, .highlight .sc, .highlight .sd, .highlight .s2, .highlight .sh, .highlight .si, .highlight .sx, .highlight .s1 { color: #98c379; }
+.highlight .n, .highlight .na, .highlight .nb, .highlight .nc, .highlight .nd, .highlight .ne, .highlight .nf, .highlight .ni, .highlight .nl, .highlight .nn, .highlight .nx, .highlight .py { color: #e2e8f0; }
+.highlight .nf { color: #61afef; }
+.highlight .nc { color: #e5c07b; font-weight: 600; }
+.highlight .o, .highlight .ow { color: #56b6c2; }
+.highlight .p { color: #abb2bf; }
+.highlight .mi, .highlight .mf, .highlight .mh, .highlight .il { color: #d19a66; }
+.highlight .se { color: #56b6c2; }
+.highlight .err { color: #f87171; background: rgba(248,113,113,0.1); }
+
+/* Terminal window dots */
+.code-block-header.dots::before {
+  content: '';
+  display: inline-block;
+  width: 52px;
+  height: 12px;
+  background: radial-gradient(circle at 6px 6px, #ef4444 6px, transparent 6px),
+              radial-gradient(circle at 22px 6px, #f59e0b 6px, transparent 6px),
+              radial-gradient(circle at 38px 6px, #22c55e 6px, transparent 6px);
+  margin-left: 0;
+  margin-right: 12px;
+}
+
+/* Line highlight on hover */
+.post-content .highlight pre span:hover { background: rgba(255,255,255,0.04); }

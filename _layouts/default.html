@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="{{ site.lang | default: 'ar' }}" dir="{{ site.direction | default: 'rtl' }}" data-theme="light">
+{% include head.html %}
+<body>
+  <div id="progress-bar"></div>
+  {% include header.html %}
+
+  <div class="site-wrapper">
+    <div class="container layout-container">
+      <main class="main-content">
+        {{ content }}
+      </main>
+      {% include sidebar.html %}
+    </div>
+  </div>
+
+  {% include footer.html %}
+  {% include search-modal.html %}
+  
+  <script src="{{ '/assets/js/main.js' | relative_url }}"></script>
+</body>
+</html>

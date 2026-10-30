@@ -1,0 +1,74 @@
+<aside class="sidebar">
+  <div class="widget about-widget">
+    <div class="widget-header">
+      <h4>👋 عن المدونة</h4>
+    </div>
+    <div class="widget-body">
+      <img src="{{ site.author.avatar | default: '/assets/images/avatar.png' | relative_url }}" alt="{{ site.author.name }}" class="about-avatar">
+      <h5>{{ site.author.name }}</h5>
+      <p>{{ site.description | truncate: 120 }}</p>
+      <a href="{{ '/about/' | relative_url }}" class="widget-btn">اقرأ المزيد</a>
+    </div>
+  </div>
+
+  <div class="widget categories-widget">
+    <div class="widget-header">
+      <h4>📚 الأقسام</h4>
+    </div>
+    <div class="widget-body">
+      {% assign categories = site.categories | sort %}
+      {% for category in categories %}
+      <a href="{{ '/categories/' | relative_url }}#{{ category[0] | slugify }}" class="category-item">
+        <span class="cat-name">{{ category[0] }}</span>
+        <span class="cat-count">{{ category[1].size }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="widget tags-widget">
+    <div class="widget-header">
+      <h4>🏷️ الوسوم الشائعة</h4>
+    </div>
+    <div class="widget-body tags-cloud">
+      {% assign tags = site.tags | sort %}
+      {% for tag in tags limit:20 %}
+      <a href="{{ '/tags/' | relative_url }}#{{ tag[0] | slugify }}" class="tag-cloud-item">{{ tag[0] }}</a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="widget popular-widget">
+    <div class="widget-header">
+      <h4>🔥 الأكثر قراءة</h4>
+    </div>
+    <div class="widget-body">
+      {% for post in site.posts limit:5 %}
+      <a href="{{ post.url | relative_url }}" class="popular-item">
+        {% if post.image %}
+        <img src="{{ post.image | relative_url }}" alt="{{ post.title }}" loading="lazy">
+        {% else %}
+        <div class="popular-placeholder">📚</div>
+        {% endif %}
+        <div class="popular-content">
+          <h5>{{ post.title | truncate: 50 }}</h5>
+          <span>{{ post.date | date: "%d %b" }}</span>
+        </div>
+      </a>
+      {% endfor %}
+    </div>
+  </div>
+
+  <div class="widget newsletter-widget">
+    <div class="widget-header">
+      <h4>📧 النشرة البريدية</h4>
+    </div>
+    <div class="widget-body">
+      <p>اشترك ليصلك كل جديد في الأمن السيبراني</p>
+      <form class="newsletter-form" onsubmit="subscribeNewsletter(event)">
+        <input type="email" placeholder="بريدك الإلكتروني" required>
+        <button type="submit">اشتراك</button>
+      </form>
+    </div>
+  </div>
+</aside>
