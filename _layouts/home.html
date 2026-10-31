@@ -30,7 +30,7 @@ electronics
 <section class="shell section featured-wrap">
   <div class="section-title"><div><span class="eyebrow">مختار</span><h2>مقال مميز</h2></div></div>
   <a class="featured-card" href="{{ featured.url | relative_url }}">
-    <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="" fetchpriority="high">{% else %}<span>01</span>{% endif %}</div>
+    <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="" fetchpriority="high" decoding="async">{% else %}<span>01</span>{% endif %}</div>
     <div class="featured-copy"><span class="meta">{{ featured.categories | first }} • {{ featured.date | date: "%Y-%m-%d" }}</span><h3>{{ featured.title }}</h3><p>{{ featured.description | default: featured.excerpt | strip_html | truncate: 170 }}</p><b>اقرأ المقال ←</b></div>
   </a>
 </section>
@@ -41,7 +41,7 @@ electronics
   <div class="post-grid">
     {% for post in paginator.posts %}
     <article class="post-card">
-      <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}</a>
+      <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}</a>
       <div class="card-body"><span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</p><div class="card-foot"><span>{{ post.content | number_of_words | divided_by: 180 | plus: 1 }} دقائق</span><a href="{{ post.url | relative_url }}">اقرأ ←</a></div></div>
     </article>
     {% endfor %}
