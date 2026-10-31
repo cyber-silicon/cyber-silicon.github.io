@@ -1,118 +1,45 @@
 ---
 layout: page
-title: Privacy Policy
-description: Privacy Policy for Cyber Silicon and TikTok API integration
+title: سياسة الخصوصية
+description: سياسة الخصوصية الخاصة بموقع Cyber Silicon.
 permalink: /privacy/
 ---
 
-## Privacy Policy for Cyber Silicon
+آخر تحديث: 31 أكتوبر 2026
 
-**Last Updated: October 27, 2026**
+تحترم Cyber Silicon خصوصية الزوار، ويعمل الموقع حاليًا كمدونة ثابتة مستضافة عبر GitHub Pages بدون قاعدة بيانات خاصة بالمستخدمين.
 
-This Privacy Policy describes how Cyber Silicon ("we", "us", "our") collects, uses, and protects your personal information when you use our website https://cyber-silicon.github.io and our integration with TikTok API.
+### البيانات التي نخزنها محليًا
 
-### 1. Information We Collect
+يستخدم الموقع التخزين المحلي في المتصفح فقط لحفظ بعض تفضيلاتك، مثل:
 
-**1.1 Information You Provide**
+- المظهر الداكن أو الفاتح.
+- المقالات التي اخترت حفظها في صفحة المحفوظات.
 
-- Email address when you subscribe to our newsletter
-- Comments via Giscus (GitHub Discussions) - your GitHub username and comment content
-- Contact form inquiries
+تبقى هذه البيانات على جهازك ولا يتم إرسالها إلى خادم تابع لـ Cyber Silicon.
 
-**1.2 Automatically Collected Information**
+### الاستضافة والخدمات الخارجية
 
-- Browser type, device type, IP address (anonymized)
-- Pages visited, time spent via GitHub Pages
-- Cookies for theme preferences (color, dark mode) stored locally in your browser
+يتم استضافة الموقع عبر GitHub Pages. وقد يتصل المتصفح بخدمات خارجية مستخدمة في الصفحة، مثل Google Fonts، وفق سياسات الخصوصية الخاصة بمزودي تلك الخدمات.
 
-**1.3 TikTok API Data**
+قد تحتوي المقالات مستقبلًا على روابط أو محتوى مضمن من خدمات خارجية. عند التفاعل مع خدمة خارجية تخضع بياناتك لسياسة تلك الخدمة.
 
-When you view a post that includes an embedded TikTok video:
+### ملفات تعريف الارتباط
 
-- We display the TikTok video using TikTok's official embed player (iframe)
-- We do not collect, store, or process your TikTok login, password, or personal TikTok data
-- We use a local file `my_tiktok_videos.json` which contains metadata of our own public TikTok videos only (title, URL, cover image) - not user data
-- The TikTok embed player may set cookies according to TikTok's own Privacy Policy
+لا يستخدم القالب الحالي ملفات تعريف ارتباط إعلانية أو نظام تتبع تابعًا لنا. بعض الخدمات الخارجية قد تستخدم تقنياتها الخاصة عند تحميل محتواها.
 
-We do NOT access:
+### الإعلانات وبيع البيانات
 
-- Your private TikTok messages
-- Your TikTok followers or following list
-- Your TikTok account settings
-- Any non-public TikTok data
+لا نبيع بيانات الزوار، ولا يضم القالب الحالي نظام إعلانات أو ملفات تتبع إعلانية خاصة بالموقع.
 
-### 2. How We Use Your Information
+### الأمان
 
-- To provide and improve our content (tutorials, maintenance guides)
-- To display relevant TikTok tutorial videos alongside articles
-- To respond to comments and inquiries
-- To send newsletter if you subscribed
-- To remember your theme preferences locally
+يتم تقديم الموقع عبر HTTPS من خلال GitHub Pages. لا يحتفظ الموقع حاليًا بحسابات مستخدمين أو كلمات مرور أو قاعدة بيانات شخصية.
 
-### 3. TikTok API Integration - Detailed Disclosure
+### التغييرات
 
-**Purpose of TikTok Integration:**
+قد يتم تحديث هذه السياسة عند إضافة وظائف جديدة إلى الموقع. سيتم تعديل تاريخ آخر تحديث عند حدوث تغيير جوهري.
 
-Our website integrates with TikTok to:
+### التواصل
 
-1. Automatically fetch metadata of our own TikTok channel videos (not user videos) from a local JSON file
-2. Match article lesson number (e.g., "Lesson 12") with TikTok video title containing "Lesson 12" and embed that video in the article
-3. Use TikTok video cover image as fallback article thumbnail if no other image exists
-
-**Data Flow:**
-
-Article file `lesson-12.md` -> Script searches `my_tiktok_videos.json` for "Lesson 12" -> Finds URL and cover -> Embeds in Jekyll post -> Displayed via TikTok Player iframe
-
-**No User TikTok Authentication:**
-
-We do NOT require users to log in with TikTok to view our site. The embed is public.
-
-### 4. Data Sharing
-
-We do not sell, trade, or share your personal data with third parties, except:
-
-- GitHub Pages (hosting)
-- Giscus (comments, powered by GitHub Discussions)
-- TikTok (when you interact with embedded TikTok player)
-- If required by law
-
-### 5. Cookies
-
-- Essential: Theme preferences stored in localStorage - no tracking
-- Third-party: TikTok embed may set cookies
-- No advertising cookies
-
-You can disable cookies in browser settings.
-
-### 6. Data Retention
-
-- Newsletter emails: until you unsubscribe
-- Comments: as long as GitHub Discussion exists
-- Theme preferences: until you clear browser storage
-
-### 7. Your Rights
-
-- Access: request what data we have about you
-- Deletion: request deletion of newsletter email and comments
-- Opt-out: unsubscribe from newsletter, disable cookies
-- TikTok: revoke access via TikTok settings if you ever authorized us
-
-### 8. Children's Privacy
-
-Our site is not directed to children under 13. We do not knowingly collect data from children.
-
-### 9. Security
-
-We use GitHub Pages HTTPS, no server database. Theme preferences are client-side only.
-
-### 10. Changes
-
-We may update this policy. Changes will be posted here with updated date.
-
-### 11. Contact
-
-For privacy questions:
-
-- Email: mylif2021@gmail.com
-- Website: https://cyber-silicon.github.io/about/
-- GitHub: https://github.com/cyber-silicon/cyber-silicon.github.io/issues
+للاستفسارات المتعلقة بالخصوصية يمكنك التواصل عبر صفحة [حول Cyber Silicon](/about/).
