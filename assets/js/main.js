@@ -108,7 +108,7 @@
     });
   });
 
-  const article=q('#articleContent'),toc=q('#articleToc');
+  const article=q('#articleContent'),toc=q('#articleToc'),mobileToc=q('#mobileArticleToc');
   if(article&&toc){
     const headings=qa('h2,h3',article);
     const slug=s=>s.trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'');
@@ -118,8 +118,9 @@
       used.add(h.id);
       const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;a.className=h.tagName==='H3'?'sub':'';
       toc.appendChild(a);
+      if(mobileToc){const m=a.cloneNode(true);mobileToc.appendChild(m)}
     });
-    if(!headings.length)toc.closest('.article-aside')?.remove();
+    if(!headings.length){toc.closest('.article-aside')?.remove();q('#mobileToc')?.remove();}
     else if('IntersectionObserver' in window){
       const links=qa('a',toc);
       const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
