@@ -64,3 +64,62 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 .page-shell .prose li+li{margin-top:6px}
 .page-shell .prose h2{padding-top:4px}
 .page-shell .prose strong{color:var(--text)}
+
+
+/* Mobile article hardening */
+.article-content{
+  min-width:0;
+  max-width:100%;
+  overflow-wrap:anywhere;
+  word-break:normal;
+}
+.article-content iframe,
+.article-content video,
+.article-content embed,
+.article-content object{
+  display:block;
+  max-width:100%;
+}
+.article-content .tiktok-embed-wrapper{
+  max-width:100%;
+  overflow:hidden;
+}
+.article-content pre,
+.article-content table,
+.article-content img{
+  max-width:100%;
+}
+@media(max-width:620px){
+  .article-shell{width:min(100% - 18px,1160px)}
+  .article-header{width:100%}
+  .article-header h1{
+    font-size:clamp(30px,9vw,38px);
+    line-height:1.25;
+    overflow-wrap:anywhere;
+  }
+  .article-deck{line-height:1.7}
+  .article-layout{width:100%;gap:0;margin-top:28px}
+  .article-content{width:100%;min-width:0}
+  .article-content p,
+  .article-content li{overflow-wrap:anywhere}
+  .article-content iframe{
+    width:100%!important;
+    max-width:100%!important;
+  }
+  .article-content table{
+    width:max-content;
+    min-width:100%;
+    max-width:none;
+  }
+  .article-content .code-wrap{
+    max-width:100%;
+    overflow:hidden;
+  }
+  .article-content pre{
+    width:100%;
+    max-width:100%;
+    overflow-x:auto;
+    -webkit-overflow-scrolling:touch;
+  }
+  .article-meta{justify-content:flex-start}
+}
