@@ -6,6 +6,7 @@
     </a>
     <nav class="desktop-nav" aria-label="التنقل الرئيسي">
       {% for item in site.nav %}<a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active"{% endif %}>{{ item.title }}</a>{% endfor %}
+      <a href="{{ '/bookmarks/' | relative_url }}"{% if page.url == '/bookmarks/' %} class="active"{% endif %}>المحفوظات</a>
     </nav>
     <div class="header-actions">
       <button class="icon-button" data-search-open aria-label="بحث">⌕</button>
@@ -15,5 +16,6 @@
   </div>
   <nav class="mobile-nav" data-mobile-nav aria-label="قائمة الهاتف">
     {% for item in site.nav %}<a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% endfor %}
+    <a href="{{ '/bookmarks/' | relative_url }}">المحفوظات</a>
   </nav>
 </header>

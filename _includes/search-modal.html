@@ -1,8 +1,22 @@
 <div class="search-backdrop" data-search-backdrop hidden></div>
 <section class="search-dialog" data-search-dialog hidden role="dialog" aria-modal="true" aria-labelledby="search-title">
-  <div class="search-head"><h2 id="search-title">ابحث في المدونة</h2><button class="icon-button" data-search-close aria-label="إغلاق">×</button></div>
-  <input id="searchInput" type="search" placeholder="اكتب عنواناً أو كلمة..." autocomplete="off">
+  <div class="search-head">
+    <div><span class="eyebrow">SEARCH</span><h2 id="search-title">ابحث في المدونة</h2></div>
+    <button class="icon-button" data-search-close aria-label="إغلاق">×</button>
+  </div>
+  <div class="search-input-wrap">
+    <input id="searchInput" type="search" placeholder="عنوان، وصف، قسم أو وسم..." autocomplete="off">
+    <kbd>Ctrl K</kbd>
+  </div>
+  <div class="search-meta"><span id="searchCount">{{ site.posts | size }}</span> نتيجة</div>
   <div id="searchResults" class="search-results">
-    {% for post in site.posts %}<a class="search-item" data-search-text="{{ post.title | downcase }} {{ post.tags | join: ' ' | downcase }}" href="{{ post.url | relative_url }}"><strong>{{ post.title }}</strong><small>{{ post.date | date: "%Y-%m-%d" }}</small></a>{% endfor %}
+    {% for post in site.posts %}
+    <a class="search-item"
+       data-search-text="{{ post.title | downcase | escape }} {{ post.description | default: post.excerpt | strip_html | downcase | escape }} {{ post.tags | join: ' ' | downcase | escape }} {{ post.categories | join: ' ' | downcase | escape }}"
+       href="{{ post.url | relative_url }}">
+      <div><strong>{{ post.title }}</strong><small>{{ post.description | default: post.excerpt | strip_html | truncate: 90 }}</small></div>
+      <span>{{ post.categories | first | default: "تقنية" }}</span>
+    </a>
+    {% endfor %}
   </div>
 </section>
