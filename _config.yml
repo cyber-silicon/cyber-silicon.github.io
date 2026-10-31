@@ -5,6 +5,7 @@ baseurl: ""
 lang: ar
 timezone: Africa/Khartoum
 direction: rtl
+logo: /assets/images/avatar.png
 author:
   name: Cyber Silicon
   url: https://cyber-silicon.github.io
