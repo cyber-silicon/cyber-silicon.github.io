@@ -1,7 +1,7 @@
 ---
 title: "[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس"
 date: 2026-10-27 04:24:31 +0200
-image: https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogaNcFDuVCB6qQKZKtEIWBBAoCcgSifSbqf461~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=b28b81fa&x-expires=1792094400&x-signature=4Hu0HPdGjtlWo%2FgPxGjEr%2FHj%2Fy4%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover
+image: /assets/images/627.webp
 description: "[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس"
 summary: "[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس"
 lang: ar
@@ -11,7 +11,7 @@ toc: true
 tiktok_url: "https://www.tiktok.com/@cyber_silicon/video/7668964574950952212?utm_campaign=tt4d_open_api&utm_source=sbawotogm6mg76anhw"
 ---
 
-![[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس](https://p19-common-sign.tiktokcdn.com/tos-alisg-p-0037/ogaNcFDuVCB6qQKZKtEIWBBAoCcgSifSbqf461~tplv-tiktokx-cropcenter-q:300:400:q70.webp?dr=14782&refresh_token=b28b81fa&x-expires=1792094400&x-signature=4Hu0HPdGjtlWo%2FgPxGjEr%2FHj%2Fy4%3D&t=bacd0480&ps=933b5bde&shp=d05b14bd&shcp=8aecc5ac&idc=my2&biz_tag=tt_video&s=TIKTOK_FOR_DEVELOPER&sc=cover){: .center-image }
+![Kali Linux بعد التثبيت](/assets/images/627.webp){: .center-image }
 
 مرحباً بكم زوار ومتابعي **Cyber Silicon**. يُعد نظام **Kali Linux** التوزيعة القياسية الأكثر انتشاراً في اختبار الاختراق والأمن السيبراني، إلا أن الانتهاء من عملية التثبيت لا يعني أن النظام جاهز للعمل بشكل مثالي؛ حيث توجد مجموعة من الخطوات التقنية الحاسمة والتكوينات الأساسية التي يجب ضبطها لضمان استقرار النظام وتحديث مستودعاته وسلاسة بيئة سطر الأوامر (Terminal) والواجهة الرسومية (GUI).
 
