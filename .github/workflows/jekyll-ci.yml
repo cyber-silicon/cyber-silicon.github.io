@@ -31,5 +31,8 @@ jobs:
       - name: Build site
         run: bundle exec jekyll build --trace
 
+      - name: Check internal links and assets
+        run: python3 scripts/check_internal_links.py
+
       - name: Verify protected TikTok file exists
         run: test -f tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
