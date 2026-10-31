@@ -50,3 +50,10 @@
   .article-shell{padding-block:34px}
   .page-shell>h1{font-size:34px}
 }
+
+/* Keyboard focus */
+a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visible{
+  outline:3px solid color-mix(in srgb,var(--accent) 78%,white);
+  outline-offset:3px;
+}
+.search-dialog input:focus-visible{border-color:var(--accent)}
