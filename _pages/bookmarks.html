@@ -1,26 +1,26 @@
 ---
 layout: page
 title: المحفوظات
-description: المقالات التي حفظتها على هذا الجهاز.
+description: احتفظ بالمقالات التي تريد الرجوع إليها لاحقًا على هذا الجهاز.
 permalink: /bookmarks/
 ---
 
 <div class="bookmarks-note">
-  <p>المحفوظات تبقى على هذا الجهاز فقط ولا يتم رفعها إلى أي خادم.</p>
+  <p>استخدم «حفظ» داخل أي مقال لبناء قائمة قراءتك الخاصة. المحفوظات تبقى في متصفحك على هذا الجهاز فقط، لذلك لا تحتاج إلى حساب ولا يتم رفع قائمتك إلى Cyber Silicon.</p>
 </div>
 
 <div id="bookmarksEmpty" class="empty-state">
   <span>☆</span>
-  <h2>لا توجد مقالات محفوظة</h2>
-  <p>افتح أي مقال واضغط زر «حفظ» ليظهر هنا.</p>
-  <a class="button primary" href="{{ '/' | relative_url }}">استكشف المقالات</a>
+  <h2>قائمة القراءة فارغة</h2>
+  <p>عندما تجد مقالًا تريد الرجوع إليه لاحقًا، افتحه واضغط «حفظ» وسيظهر هنا تلقائيًا.</p>
+  <a class="button primary" href="{{ '/' | relative_url }}">استكشف أحدث المقالات</a>
 </div>
 
 <div id="bookmarksGrid" class="post-grid bookmarks-grid" hidden>
 {% for post in site.posts %}
   <article class="post-card bookmark-card" data-bookmark-url="{{ post.url | relative_url }}">
     <a class="card-media" href="{{ post.url | relative_url }}">
-      {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy">{% else %}<span>CS</span>{% endif %}
+      {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>CS</span>{% endif %}
     </a>
     <div class="card-body">
       <span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span>
