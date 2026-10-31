@@ -38,7 +38,7 @@ electronics
 
 <section class="shell section" id="latest">
   <div class="section-title"><div><span class="eyebrow">الأحدث</span><h2>آخر المقالات</h2></div><a href="{{ '/categories/' | relative_url }}">كل الأقسام ←</a></div>
-  <div class="post-grid">
+  <div class="post-grid{% if paginator.posts.size == 1 %} single-post-grid{% endif %}">
     {% for post in paginator.posts %}
     <article class="post-card">
       <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}</a>
