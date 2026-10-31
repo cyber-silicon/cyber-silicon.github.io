@@ -2,21 +2,6 @@
 layout: default
 ---
 <article class="shell article-shell">
-  <script type="application/ld+json">
-  {
-    "@context":"https://schema.org",
-    "@type":"BlogPosting",
-    "headline":{{ page.title | jsonify }},
-    "description":{{ page.description | default: page.excerpt | strip_html | strip_newlines | jsonify }},
-    "datePublished":"{{ page.date | date_to_xmlschema }}",
-    "dateModified":"{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
-    "mainEntityOfPage":{"@type":"WebPage","@id":"{{ page.url | absolute_url }}"},
-    "author":{"@type":"Organization","name":{{ site.author.name | jsonify }},"url":"{{ site.author.url }}"},
-    "publisher":{"@type":"Organization","name":{{ site.title | jsonify }},"url":"{{ site.url }}"}{% if page.image %},
-    "image":"{{ page.image | absolute_url }}"{% endif %}
-  }
-  </script>
-
   <header class="article-header">
     <a class="eyebrow" href="{{ '/categories/' | relative_url }}#{{ page.categories | first | slugify }}">{{ page.categories | first | default: "مقال" }}</a>
     <h1>{{ page.title }}</h1>
@@ -70,7 +55,7 @@ layout: default
       {% for post in related_posts %}
         {% if post.url != page.url and shown < 3 %}
         <article class="post-card">
-          <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy">{% else %}<span>CS</span>{% endif %}</a>
+          <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>CS</span>{% endif %}</a>
           <div class="card-body">
             <span class="meta">{{ post.date | date: "%Y-%m-%d" }}</span>
             <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
