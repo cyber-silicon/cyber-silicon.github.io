@@ -2,16 +2,86 @@
 layout: default
 ---
 <article class="shell article-shell">
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"BlogPosting",
+    "headline":{{ page.title | jsonify }},
+    "description":{{ page.description | default: page.excerpt | strip_html | strip_newlines | jsonify }},
+    "datePublished":"{{ page.date | date_to_xmlschema }}",
+    "dateModified":"{{ page.last_modified_at | default: page.date | date_to_xmlschema }}",
+    "mainEntityOfPage":{"@type":"WebPage","@id":"{{ page.url | absolute_url }}"},
+    "author":{"@type":"Organization","name":{{ site.author.name | jsonify }},"url":"{{ site.author.url }}"},
+    "publisher":{"@type":"Organization","name":{{ site.title | jsonify }},"url":"{{ site.url }}"}{% if page.image %},
+    "image":"{{ page.image | absolute_url }}"{% endif %}
+  }
+  </script>
+
   <header class="article-header">
-    <a class="eyebrow" href="{{ '/categories/' | relative_url }}">{{ page.categories | first | default: "مقال" }}</a>
+    <a class="eyebrow" href="{{ '/categories/' | relative_url }}#{{ page.categories | first | slugify }}">{{ page.categories | first | default: "مقال" }}</a>
     <h1>{{ page.title }}</h1>
     <p class="article-deck">{{ page.description | default: page.excerpt | strip_html }}</p>
-    <div class="article-meta"><span>{{ page.date | date: "%Y-%m-%d" }}</span><span>{{ content | number_of_words | divided_by: 180 | plus: 1 }} دقائق قراءة</span><button data-share>مشاركة</button><button data-bookmark data-url="{{ page.url | relative_url }}">حفظ</button></div>
+    <div class="article-meta">
+      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      <span>{{ content | number_of_words | divided_by: 180 | plus: 1 }} دقائق قراءة</span>
+      <button data-share>مشاركة</button>
+      <button data-bookmark data-url="{{ page.url | relative_url }}">حفظ</button>
+    </div>
   </header>
-  {% if page.image %}<figure class="article-cover"><img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high"></figure>{% endif %}
+
+  {% if page.image %}
+  <figure class="article-cover">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high">
+  </figure>
+  {% endif %}
+
   <div class="article-layout">
-    <aside class="article-aside"><div class="aside-box"><span>في هذا المقال</span><p>استخدم العناوين للتنقل السريع أثناء القراءة.</p></div></aside>
-    <div class="prose article-content">{{ content }}</div>
+    <aside class="article-aside">
+      <div class="aside-box">
+        <span>في هذا المقال</span>
+        <nav id="articleToc" class="article-toc" aria-label="جدول المحتويات"></nav>
+      </div>
+    </aside>
+    <div class="prose article-content" id="articleContent">{{ content }}</div>
   </div>
-  {% if page.tags %}<div class="tag-row">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>{% endfor %}</div>{% endif %}
+
+  {% if page.tags %}
+  <div class="tag-row">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>{% endfor %}</div>
+  {% endif %}
+
+  {% if page.previous or page.next %}
+  <nav class="article-nav" aria-label="التنقل بين المقالات">
+    {% if page.previous %}
+    <a href="{{ page.previous.url | relative_url }}"><span>المقال السابق</span><strong>{{ page.previous.title }}</strong></a>
+    {% else %}<span></span>{% endif %}
+    {% if page.next %}
+    <a href="{{ page.next.url | relative_url }}"><span>المقال التالي</span><strong>{{ page.next.title }}</strong></a>
+    {% endif %}
+  </nav>
+  {% endif %}
+
+  {% assign current_category = page.categories | first %}
+  {% assign related_posts = site.categories[current_category] %}
+  {% if related_posts and related_posts.size > 1 %}
+  <section class="related-section">
+    <div class="section-title"><div><span class="eyebrow">RELATED</span><h2>مقالات ذات صلة</h2></div></div>
+    <div class="post-grid">
+      {% assign shown = 0 %}
+      {% for post in related_posts %}
+        {% if post.url != page.url and shown < 3 %}
+        <article class="post-card">
+          <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy">{% else %}<span>CS</span>{% endif %}</a>
+          <div class="card-body">
+            <span class="meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 100 }}</p>
+            <div class="card-foot"><span>{{ post.content | number_of_words | divided_by: 180 | plus: 1 }} دقائق</span><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
+          </div>
+        </article>
+        {% assign shown = shown | plus: 1 %}
+        {% endif %}
+      {% endfor %}
+    </div>
+  </section>
+  {% endif %}
 </article>
