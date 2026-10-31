@@ -123,3 +123,59 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   }
   .article-meta{justify-content:flex-start}
 }
+
+
+/* Homepage topic explorer */
+.hero-topics{
+  border:1px solid var(--line);
+  background:linear-gradient(180deg,var(--surface),color-mix(in srgb,var(--surface) 82%,var(--bg)));
+  border-radius:22px;
+  padding:24px;
+  box-shadow:var(--shadow);
+}
+.hero-topics-head{
+  display:flex;
+  flex-direction:column;
+  gap:8px;
+  margin-bottom:18px;
+}
+.hero-topics-head>strong{
+  font-size:18px;
+  line-height:1.55;
+}
+.hero-topic-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.hero-topic-grid a{
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+  min-width:0;
+  padding:16px;
+  border:1px solid var(--line);
+  background:var(--surface2);
+  border-radius:14px;
+  transition:border-color .2s ease,transform .2s ease;
+}
+.hero-topic-grid a:hover{
+  border-color:var(--accent);
+  transform:translateY(-2px);
+}
+.hero-topic-grid span{
+  font:700 11px 'JetBrains Mono',monospace;
+  color:var(--accent);
+}
+.hero-topic-grid strong{
+  font-size:15px;
+}
+.hero-topic-grid small{
+  color:var(--muted);
+  font-size:12px;
+  line-height:1.5;
+}
+@media(max-width:620px){
+  .hero-topics{padding:18px;border-radius:16px}
+  .hero-topic-grid{grid-template-columns:1fr}
+}
