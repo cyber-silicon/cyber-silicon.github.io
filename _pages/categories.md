@@ -1,12 +1,12 @@
 ---
 layout: page
 title: الأقسام
-description: تصفح محتوى Cyber Silicon حسب المجال.
+description: استكشف مقالات Cyber Silicon حسب المجال التقني.
 permalink: /categories/
 ---
 
 <div class="taxonomy-intro">
-  <p>اختر المجال الذي تريد استكشافه. يتم إنشاء هذه الصفحة تلقائيًا من تصنيفات المقالات.</p>
+  <p>المحتوى في Cyber Silicon يمتد من صيانة الإلكترونيات إلى Linux والأمن السيبراني والبرمجة. استخدم الأقسام للوصول مباشرة إلى المجال الذي تعمل عليه الآن، ثم انتقل بين المقالات المرتبطة داخل كل قسم.</p>
 </div>
 
 <div class="taxonomy-list">
@@ -24,7 +24,7 @@ permalink: /categories/
     {% for post in category[1] %}
     <article class="post-card">
       <a class="card-media" href="{{ post.url | relative_url }}">
-        {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}
+        {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}
       </a>
       <div class="card-body">
         <span class="meta">{{ post.date | date: "%Y-%m-%d" }}</span>
