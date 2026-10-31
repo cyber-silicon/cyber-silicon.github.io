@@ -57,3 +57,10 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visibl
   outline-offset:3px;
 }
 .search-dialog input:focus-visible{border-color:var(--accent)}
+
+/* Static content pages */
+.page-shell .prose>p:first-child{font-size:1.08em;color:var(--muted)}
+.page-shell .prose ul,.page-shell .prose ol{padding-right:1.35em}
+.page-shell .prose li+li{margin-top:6px}
+.page-shell .prose h2{padding-top:4px}
+.page-shell .prose strong{color:var(--text)}
