@@ -1,44 +1,21 @@
 <header class="site-header">
-  <div class="container header-inner">
-    <a href="{{ '/' | relative_url }}" class="logo">
-      <span class="logo-icon">⚡</span>
-      <span class="logo-text">
-        <strong>Cyber Silicon</strong>
-        <small>أمن سيبراني & إلكترونيات</small>
-      </span>
+  <div class="shell header-row">
+    <a class="brand" href="{{ '/' | relative_url }}" aria-label="Cyber Silicon">
+      <span class="brand-mark" aria-hidden="true">CS</span>
+      <span><strong>Cyber Silicon</strong><small>تقنية • أمن • برمجة</small></span>
     </a>
-
-    <nav class="main-nav" id="mainNav">
-      {% for item in site.nav %}
-      <a href="{{ item.url | relative_url }}" class="nav-link {% if page.url == item.url %}active{% endif %}">
-        <span class="nav-icon">{{ item.icon }}</span>
-        {{ item.title }}
-      </a>
-      {% endfor %}
+    <nav class="desktop-nav" aria-label="التنقل الرئيسي">
+      {% for item in site.nav %}<a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active"{% endif %}>{{ item.title }}</a>{% endfor %}
+      <a href="{{ '/bookmarks/' | relative_url }}"{% if page.url == '/bookmarks/' %} class="active"{% endif %}>المحفوظات</a>
     </nav>
-
     <div class="header-actions">
-      <button class="icon-btn search-btn" onclick="openSearch()" title="بحث">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
-      </button>
-      <button class="icon-btn theme-btn" onclick="toggleTheme()" title="الوضع الليلي">
-        <span class="theme-icon light">🌙</span>
-        <span class="theme-icon dark">☀️</span>
-      </button>
-      <button class="icon-btn menu-btn mobile-only" onclick="toggleMobileMenu()" title="القائمة">☰</button>
+      <button class="icon-button" data-search-open aria-label="بحث">⌕</button>
+      <button class="icon-button" data-theme-toggle aria-label="تبديل المظهر">◐</button>
+      <button class="icon-button mobile-trigger" data-menu-toggle aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobileNav">☰</button>
     </div>
   </div>
-
-  <div class="mobile-menu" id="mobileMenu">
-    <div class="mobile-menu-header">
-      <span>القائمة</span>
-      <button class="close-menu-btn" onclick="toggleMobileMenu()">✕</button>
-    </div>
-    <div class="mobile-menu-links">
-    {% for item in site.nav %}
-    <a href="{{ item.url | relative_url }}" class="mobile-nav-link">{{ item.icon }} {{ item.title }}</a>
-    {% endfor %}
-    </div>
-  </div>
-  <div class="mobile-overlay" id="mobileOverlay" onclick="toggleMobileMenu()"></div>
+  <nav class="mobile-nav" id="mobileNav" data-mobile-nav aria-label="قائمة الهاتف">
+    {% for item in site.nav %}<a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% endfor %}
+    <a href="{{ '/bookmarks/' | relative_url }}">المحفوظات</a>
+  </nav>
 </header>

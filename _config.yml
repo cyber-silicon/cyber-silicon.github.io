@@ -1,110 +1,52 @@
 title: Cyber Silicon
-description: منصة متخصصة في أمن الشبكات، اختبار الاختراق، صيانة الإلكترونيات والعتاد، والحلول البرمجية ونظام كالي لينكس.
+description: مدونة عربية عملية في الأمن السيبراني، Linux، البرمجة والإلكترونيات، تركز على الفهم والتطبيق خطوة بخطوة.
 url: "https://cyber-silicon.github.io"
 baseurl: ""
 lang: ar
 timezone: Africa/Khartoum
 direction: rtl
-
-# Theme Settings
-theme_mode: dual
-primary_color: "#2962ff"
-enable_rtl: true
-enable_search: true
-enable_dark_mode: true
-
-# Author
+logo: /assets/images/avatar.png
 author:
   name: Cyber Silicon
-  email: mylif2021@gmail.com
   url: https://cyber-silicon.github.io
   avatar: /assets/images/avatar.png
-
-# Comments
-comments:
-  provider: utterances
-  giscus:
-    repo: cyber-silicon/cyber-silicon.github.io
-    repo_id: "R_kgDOVXRHBA"
-    category: General
-    category_id: "DIC_kwDOVXRHBM4DJtF0"
-    mapping: pathname
-    theme: preferred_color_scheme
-    lang: ar
-  utterances:
-    repo: cyber-silicon/cyber-silicon.github.io
-    issue_term: pathname
-    theme: github-light
-  disqus:
-    shortname: ""
-
-# Navigation
 nav:
   - title: الرئيسية
     url: /
-    icon: 🏠
   - title: الأقسام
     url: /categories/
-    icon: 📚
   - title: الوسوم
     url: /tags/
-    icon: 🏷️
   - title: حول
     url: /about/
-    icon: ℹ️
-  - title: الخصوصية
-    url: /privacy/
-    icon: 🔒
-  - title: الشروط
-    url: /terms/
-    icon: 📜
-
-# Jekyll Settings
 markdown: kramdown
 highlighter: rouge
 kramdown:
   input: GFM
   syntax_highlighter: rouge
-  syntax_highlighter_opts:
-    block:
-      line_numbers: false
-
 plugins:
   - jekyll-feed
   - jekyll-sitemap
   - jekyll-seo-tag
   - jekyll-paginate
-  - jemoji
-
-paginate: 12
+paginate: 9
 paginate_path: "/page:num/"
-
-defaults:
-  - scope:
-      path: ""
-      type: "posts"
-    values:
-      layout: post
-      comments: true
-      toc: true
-      author: Cyber Silicon
-
 collections:
   pages:
     output: true
     permalink: /:name/
-
-sass:
-  style: compressed
-
+defaults:
+  - scope:
+      path: ""
+      type: posts
+    values:
+      layout: post
+      comments: false
 exclude:
-  - .sass-cache/
-  - .jekyll-cache/
-  - gemfiles/
   - Gemfile
   - Gemfile.lock
-  - node_modules/
-  - vendor/
   - README.md
-  - LICENSE
-  - tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
+  - vendor
+  - node_modules
+  - scripts
+  - .github

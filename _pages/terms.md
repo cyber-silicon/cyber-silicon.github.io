@@ -1,109 +1,61 @@
 ---
 layout: page
-title: Terms of Service
-description: Terms of Service for Cyber Silicon and TikTok API integration
+title: شروط الاستخدام
+description: قواعد استخدام محتوى Cyber Silicon والشروحات التقنية المنشورة في المدونة.
 permalink: /terms/
 ---
 
-## Terms of Service for Cyber Silicon
+آخر تحديث: 31 أكتوبر 2026
 
-**Last Updated: October 27, 2026**
+Cyber Silicon مدونة تقنية تعليمية. باستخدامك للموقع أو تطبيقك لأي شرح منشور فيه، فأنت تقرأ المحتوى على هذا الأساس.
 
-Welcome to Cyber Silicon (https://cyber-silicon.github.io). By accessing our website, you agree to these Terms.
+### المحتوى التقني
 
-### 1. Acceptance of Terms
+ننشر شروحات وملاحظات وتجارب في الأمن السيبراني، Linux، البرمجة، الإلكترونيات والصيانة.
 
-By using our site, you agree to these Terms, our Privacy Policy, and TikTok's Terms if you interact with TikTok embeds.
+نحاول أن تكون الخطوات دقيقة ومجربة، لكن الأدوات والأنظمة والأجهزة تتغير، وقد تختلف النتيجة حسب الإصدار أو الجهاز أو بيئة العمل.
 
-### 2. Description of Service
+### الاستخدام المسؤول
 
-Cyber Silicon is a technical blog providing:
+أي محتوى يتعلق بالأمن السيبراني أو فحص الشبكات أو اختبار الأنظمة يجب استخدامه فقط على:
+- أنظمة تملكها.
+- مختبرات وتجارب تعليمية.
+- أنظمة لديك تصريح واضح لاختبارها.
 
-- Electronics maintenance tutorials
-- Cybersecurity guides
-- Programming and AI content
-- Embedded TikTok tutorial videos (our own public videos)
+أنت مسؤول عن الالتزام بالقوانين وشروط الخدمات التي تستخدمها.
 
-Our GitHub Pages site uses Jekyll with Cyber Silicon Pro theme and integrates TikTok videos via automatic matching.
+### قبل تنفيذ أي تعديل
 
-### 3. TikTok Integration Terms
+بعض المقالات قد تتضمن أوامر نظام، تعديلات إعدادات، تعاملًا مع الأقراص، أو خطوات صيانة إلكترونية.
 
-**How it works:**
+قبل التنفيذ:
+- اقرأ الخطوات كاملة.
+- خذ نسخة احتياطية عندما يكون ذلك ممكنًا.
+- تأكد من توافق الخطوات مع جهازك أو إصدارك.
+- لا تطبق إجراءً لا تفهم تأثيره.
 
-- Each article file (e.g., `lesson-12-laptop.md`) contains lesson number
-- Our script `github_publisher.py` searches local file `data/my_tiktok_videos.json` (containing our public TikTok videos metadata)
-- If match found (title contains "Lesson 12"), embeds TikTok player iframe in article
-- Cover image from TikTok used as article thumbnail if no other image exists
+### حقوق المحتوى
 
-**User Obligations:**
+المقالات والصور والمحتوى الأصلي في Cyber Silicon تعود للمدونة ما لم يُذكر خلاف ذلك.
 
-- You may view embedded TikTok videos without TikTok account
-- If you interact with TikTok player (like, comment, share via TikTok), you are subject to TikTok Terms
-- You will not attempt to extract private TikTok data via our site
+يمكنك مشاركة روابط المقالات والاقتباس منها بشكل محدود مع ذكر المصدر، لكن لا يجوز نسخ المقال كاملًا أو إعادة نشره على أنه محتوى أصلي لك.
 
-**Our Obligations:**
+### الأكواد والأدوات
 
-- We only embed our own public TikTok videos, not private or other users' videos
-- We comply with TikTok API Rate Limits and Terms
-- We do not modify TikTok player to hide attribution
+قد تحتوي المقالات على أوامر أو مقتطفات برمجية أو روابط إلى مشروعات مفتوحة المصدر. عند استخدام مشروع أو مكتبة خارجية، تسري رخصتها وشروطها الخاصة.
 
-### 4. Intellectual Property
+### الروابط الخارجية
 
-- **Our Content:** Articles and tutorials written by us are copyright Cyber Silicon. You may share with attribution and link back.
-- **TikTok Videos:** Our TikTok videos are copyright us, embedded via official TikTok embed.
-- **Theme:** Cyber Silicon Pro theme, MIT licensed.
-- **User Comments:** By commenting via Giscus, you grant us license to display your comment.
+نستخدم روابط إلى مصادر وأدوات ومشروعات تقنية مختلفة. وجود الرابط لا يعني أننا نتحكم في الموقع الخارجي أو نضمن استمراره أو محتواه.
 
-### 5. User Conduct
+### حدود المسؤولية
 
-You agree not to:
+المحتوى مقدم للتعليم والمساعدة التقنية. أنت المسؤول عن أي تغيير تجريه على جهازك أو نظامك، بما في ذلك فقدان البيانات أو تعطل الإعدادات أو تلف المكونات نتيجة تطبيق غير مناسب.
 
-- Scrape our site excessively
-- Attempt to hack or inject code
-- Post spam, hate speech, or illegal content in comments
-- Misuse TikTok embeds to collect data
-- Impersonate us or others
+### تحديث الشروط
 
-### 6. Disclaimer - Technical Content
+قد تتغير هذه الشروط مع تطور المدونة أو إضافة مزايا جديدة. ستكون النسخة المنشورة في هذه الصفحة هي المرجع الأحدث.
 
-- Tutorials provided "as is" for educational purposes
-- Electronics repair involves risk (electric shock, damage). Follow safety precautions. We are not liable for damage or injury.
-- Always unplug devices, use ESD protection, seek professional help if unsure.
+### التواصل
 
-### 7. Third-Party Links
-
-Our site may link to GitHub, TikTok, YouTube, etc. We are not responsible for third-party content.
-
-### 8. Limitation of Liability
-
-- Our site is free, hosted on GitHub Pages
-- We do not guarantee uptime or accuracy
-- To maximum extent allowed by law, we are not liable for indirect damages
-
-### 9. Termination
-
-We may remove content, disable comments, or block access if you violate these Terms.
-
-### 10. Changes to Terms
-
-We may update Terms. Continued use after changes means acceptance.
-
-### 11. Governing Law
-
-These Terms are governed by applicable laws.
-
-### 12. Contact and DMCA
-
-For questions or takedown requests:
-
-- Email: legal@cyber-silicon.com
-- GitHub Issues: https://github.com/cyber-silicon/cyber-silicon.github.io/issues
-
-### 13. Information for TikTok API Review Team
-
-- **App Name:** Cyber Silicon
-- **Website:** https://cyber-silicon.github.io
-- **Use Case:** Display our own TikTok tutorial videos alongside matching blog posts
-- **Privacy Policy URL:** https://cyber-silicon.github.io/privacy/
-- **Terms URL:** https://cyber-silicon.github.io/terms/
-- **Demo:** Embedded TikTok videos visible on any post
+للاستفسارات المتعلقة بالمحتوى أو استخدامه، راجع صفحة [حول Cyber Silicon](/about/).

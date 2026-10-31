@@ -1,0 +1,33 @@
+---
+layout: page
+title: المحفوظات
+description: احتفظ بمقالات Cyber Silicon التي تريد الرجوع إليها لاحقًا على هذا الجهاز.
+permalink: /bookmarks/
+---
+
+<div class="bookmarks-note">
+  <p>هذه مساحتك السريعة داخل المدونة. احفظ أي مقال تريد الرجوع إليه لاحقًا، وسيبقى محفوظًا في هذا المتصفح على هذا الجهاز فقط.</p>
+</div>
+
+<div id="bookmarksEmpty" class="empty-state">
+  <span>☆</span>
+  <h2>لا توجد مقالات محفوظة بعد</h2>
+  <p>عندما تجد شرحًا أو مرجعًا تريد العودة إليه، افتح المقال واضغط «حفظ» وسيظهر هنا مباشرة.</p>
+  <a class="button primary" href="{{ '/' | relative_url }}">استكشف أحدث المقالات</a>
+</div>
+
+<div id="bookmarksGrid" class="post-grid bookmarks-grid" hidden>
+{% for post in site.posts %}
+  <article class="post-card bookmark-card" data-bookmark-url="{{ post.url | relative_url }}">
+    <a class="card-media" href="{{ post.url | relative_url }}">
+      {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>CS</span>{% endif %}
+    </a>
+    <div class="card-body">
+      <span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span>
+      <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+      <p>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</p>
+      <div class="card-foot"><button class="text-button" data-remove-bookmark="{{ post.url | relative_url }}">إزالة</button><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
+    </div>
+  </article>
+{% endfor %}
+</div>

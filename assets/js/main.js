@@ -1,216 +1,132 @@
+(() => {
+  const root=document.documentElement;
+  const q=(s,p=document)=>p.querySelector(s), qa=(s,p=document)=>[...p.querySelectorAll(s)];
+  const storage={
+    get:(k,fallback=null)=>{try{const v=localStorage.getItem(k);return v===null?fallback:v}catch{return fallback}},
+    set:(k,v)=>{try{localStorage.setItem(k,v);return true}catch{return false}}
+  };
+  const parseJSON=(s,fallback=[])=>{try{return JSON.parse(s)}catch{return fallback}};
+  const copyText=async text=>{
+    if(navigator.clipboard?.writeText){try{await navigator.clipboard.writeText(text);return true}catch{}}
+    try{
+      const area=document.createElement('textarea');
+      area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';
+      document.body.appendChild(area);area.select();
+      const ok=document.execCommand('copy');area.remove();return ok;
+    }catch{return false}
+  };
 
-/* Cyber Silicon - Main JS - Mobile Ultimate Fix */
-(function() {
-  'use strict';
-  const STORAGE_KEY = 'cyber-silicon-theme';
-  function getTheme() { try { return localStorage.getItem(STORAGE_KEY) || 'light'; } catch { return 'light'; } }
-  function setTheme(theme) {
-    try { localStorage.setItem(STORAGE_KEY, theme); } catch {}
-    document.documentElement.setAttribute('data-theme', theme);
-    document.documentElement.setAttribute('data-theme-mode', theme);
-  }
-  function initTheme() {
-    const saved = getTheme();
-    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-    const effective = saved === 'auto' ? (prefersDark ? 'dark' : 'light') : saved;
-    setTheme(effective === 'dark' ? 'dark' : 'light');
-  }
-  window.toggleTheme = function() {
-    const current = document.documentElement.getAttribute('data-theme') || 'light';
-    const next = current === 'dark' ? 'light' : 'dark';
-    setTheme(next);
+  const savedTheme=storage.get('cs-theme');
+  if(savedTheme)root.dataset.theme=savedTheme;
+  else root.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+
+  qa('[data-theme-toggle]').forEach(b=>b.addEventListener('click',()=>{
+    const next=root.dataset.theme==='dark'?'light':'dark';
+    root.dataset.theme=next;storage.set('cs-theme',next);
+  }));
+
+  const nav=q('[data-mobile-nav]');
+  const menuButtons=qa('[data-menu-toggle]');
+  const closeMenu=()=>{nav?.classList.remove('open');menuButtons.forEach(b=>b.setAttribute('aria-expanded','false'))};
+  menuButtons.forEach(b=>b.addEventListener('click',()=>{
+    const open=!nav?.classList.contains('open');
+    nav?.classList.toggle('open',open);
+    b.setAttribute('aria-expanded',String(open));
+  }));
+  qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',closeMenu));
+
+  const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount');
+  const searchItems=qa('.search-item');
+  let searchOpener=null;
+  const setSearch=open=>{
+    if(!dialog||!backdrop)return;
+    if(open)searchOpener=document.activeElement instanceof HTMLElement?document.activeElement:null;
+    dialog.hidden=!open;backdrop.hidden=!open;
+    document.body.classList.toggle('modal-open',open);
+    if(open)setTimeout(()=>input?.focus(),20);
+    else searchOpener?.focus();
   };
-  window.toggleMobileMenu = function() {
-    const menu = document.getElementById('mobileMenu');
-    const overlay = document.getElementById('mobileOverlay');
-    if (!menu) return;
-    const isActive = menu.classList.contains('active');
-    menu.classList.toggle('active', !isActive);
-    if (overlay) overlay.classList.toggle('active', !isActive);
-    document.body.style.overflow = !isActive ? 'hidden' : '';
-  };
-  window.openSearch = function() {
-    const modal = document.getElementById('searchModal');
-    const overlay = document.getElementById('searchOverlay');
-    if (!modal) return;
-    modal.classList.add('active');
-    if (overlay) overlay.classList.add('active');
-    document.body.style.overflow = 'hidden';
-    setTimeout(() => document.getElementById('searchInput')?.focus(), 100);
-  };
-  window.closeSearch = function() {
-    document.getElementById('searchModal')?.classList.remove('active');
-    document.getElementById('searchOverlay')?.classList.remove('active');
-    document.body.style.overflow = '';
-  };
-  window.sharePost = function() {
-    if (navigator.share) { navigator.share({ title: document.title, url: location.href }).catch(()=>{}); }
-    else { navigator.clipboard.writeText(location.href).then(() => { showToast('✅ تم نسخ رابط المقال'); }); }
-  };
-  window.toggleBookmark = function() {
-    try {
-      const bookmarks = JSON.parse(localStorage.getItem('bookmarks') || '[]');
-      const url = location.href;
-      const idx = bookmarks.indexOf(url);
-      if (idx > -1) { bookmarks.splice(idx,1); showToast('❌ تم إزالة المقال من المحفوظات'); }
-      else { bookmarks.push(url); showToast('🔖 تم حفظ المقال'); }
-      localStorage.setItem('bookmarks', JSON.stringify(bookmarks));
-    } catch { showToast('🔖 تم حفظ المقال'); }
-  };
-  window.subscribeNewsletter = function(e) {
-    e.preventDefault();
-    const email = e.target.querySelector('input[type="email"]')?.value || '';
-    showToast(`✅ شكراً! تم تسجيل ${email}`);
-    e.target.reset();
-  };
-  function showToast(msg) {
-    let t = document.getElementById('toast');
-    if (!t) {
-      t = document.createElement('div');
-      t.id = 'toast';
-      t.style.cssText = 'position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:#1e2128;color:white;padding:10px 16px;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.3);z-index:9999;font-size:12px;font-weight:600;transition:all 0.3s;opacity:0;pointer-events:none;max-width:90vw;word-break:break-word;text-align:center;';
-      document.body.appendChild(t);
+  qa('[data-search-open]').forEach(b=>b.addEventListener('click',()=>setSearch(true)));
+  qa('[data-search-close]').forEach(b=>b.addEventListener('click',()=>setSearch(false)));
+  backdrop?.addEventListener('click',()=>setSearch(false));
+  document.addEventListener('keydown',e=>{
+    if(e.key==='Escape'){setSearch(false);closeMenu()}
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setSearch(true)}
+    if(e.key==='Tab'&&dialog&&!dialog.hidden){
+      const focusable=qa('button,[href],input,[tabindex]:not([tabindex="-1"])',dialog).filter(el=>!el.hidden&&!el.hasAttribute('disabled'));
+      if(!focusable.length)return;
+      const first=focusable[0],last=focusable[focusable.length-1];
+      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
+      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
     }
-    t.textContent = msg;
-    t.style.opacity = '1';
-    t.style.transform = 'translateX(-50%) translateY(0)';
-    setTimeout(()=>{ t.style.opacity='0'; t.style.transform='translateX(-50%) translateY(10px)'; }, 3000);
-  }
-  function initProgressBar() {
-    const bar = document.getElementById('progress-bar');
-    if (!bar) return;
-    window.addEventListener('scroll', () => {
-      const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-      const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
-      bar.style.width = scrolled + '%';
-    }, { passive: true });
-  }
-
-  // ULTIMATE FIX for double headers and mobile overflow
-  function initCodeBlocks() {
-    // Select only outermost blocks - skip inner .highlight if inside .highlighter-rouge
-    const allBlocks = document.querySelectorAll('.post-content div.highlighter-rouge, .post-content figure.highlight');
-    const blocks = [];
-    allBlocks.forEach(block => {
-      // Skip if already processed
-      if (block.querySelector('.code-block-header')) return;
-      // If this is a figure.highlight, keep it
-      // If this is highlighter-rouge, keep it (it's outermost)
-      blocks.push(block);
-    });
-    // Also handle standalone .highlight not inside highlighter-rouge (rare)
-    document.querySelectorAll('.post-content .highlight').forEach(el => {
-      if (el.closest('div.highlighter-rouge')) return; // skip inner
-      if (el.closest('figure.highlight')) return; // skip if inside figure
-      if (el.querySelector('.code-block-header')) return;
-      // Check if already covered by highlighter-rouge parent
-      if (el.parentElement && el.parentElement.classList.contains('highlighter-rouge')) return;
-      // Standalone highlight
-      if (!blocks.includes(el)) blocks.push(el);
-    });
-
-    blocks.forEach((block) => {
-      if (block.querySelector('.code-block-header')) return;
-      
-      // Find pre and code inside
-      let pre = block.querySelector('pre');
-      if (!pre) return;
-      let code = pre.querySelector('code') || pre;
-      
-      // Detect language - look at classes
-      let lang = 'code';
-      const classStr = (block.className + ' ' + pre.className + ' ' + (code.className || '')).toLowerCase();
-      if (classStr.includes('bash') || classStr.includes('shell') || classStr.includes('sh')) lang = 'bash';
-      else if (classStr.includes('python') || /py/.test(classStr)) lang = 'python';
-      else if (classStr.includes('javascript') || /js/.test(classStr)) lang = 'javascript';
-      else if (classStr.includes('html')) lang = 'html';
-      else if (classStr.includes('css')) lang = 'css';
-      else if (classStr.includes('json')) lang = 'json';
-      else if (classStr.includes('yaml') || classStr.includes('yml')) lang = 'yaml';
-      else if (classStr.includes('ruby')) lang = 'ruby';
-      else if (classStr.includes('go')) lang = 'go';
-      else if (classStr.includes('sql')) lang = 'sql';
-      else if (classStr.includes('docker')) lang = 'dockerfile';
-      
-      const dataLang = block.getAttribute('data-lang') || pre.getAttribute('data-lang') || block.dataset.lang;
-      if (dataLang) lang = dataLang.toLowerCase().replace('plaintext','code');
-
-      // Create header only once
-      const header = document.createElement('div');
-      header.className = 'code-block-header';
-      header.innerHTML = `
-        <span class="code-lang ${lang}">${lang}</span>
-        <button class="copy-btn" aria-label="نسخ الكود">
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v3"/></svg>
-          <span>نسخ</span>
-        </button>
-      `;
-
-      const btn = header.querySelector('.copy-btn');
-      btn.addEventListener('click', async () => {
-        const text = code.innerText || code.textContent || '';
-        try {
-          await navigator.clipboard.writeText(text);
-          const span = btn.querySelector('span');
-          const original = span.textContent;
-          btn.classList.add('copied');
-          span.textContent = 'تم النسخ ✓';
-          setTimeout(() => { btn.classList.remove('copied'); span.textContent = original; }, 2000);
-        } catch {
-          const range = document.createRange();
-          range.selectNodeContents(code);
-          const sel = window.getSelection();
-          sel.removeAllRanges();
-          sel.addRange(range);
-          try { document.execCommand('copy'); } catch {}
-          sel.removeAllRanges();
-          const span = btn.querySelector('span');
-          span.textContent = 'تم النسخ ✓';
-          btn.classList.add('copied');
-          setTimeout(()=>{ btn.classList.remove('copied'); span.textContent='نسخ'; }, 2000);
-        }
-      });
-
-      // Insert header at top of block
-      block.insertBefore(header, block.firstChild);
-    });
-  }
-
-  function initShortcuts() {
-    document.addEventListener('keydown', (e) => {
-      if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === 'k') { e.preventDefault(); openSearch(); }
-      if (e.key === 'Escape') {
-        closeSearch();
-        const menu = document.getElementById('mobileMenu');
-        if (menu?.classList.contains('active')) toggleMobileMenu();
-      }
-    });
-  }
-  function initViewToggle() {
-    document.querySelectorAll('.toggle-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        document.querySelectorAll('.toggle-btn').forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const grid = document.getElementById('postsGrid');
-        if (!grid) return;
-        const view = btn.dataset.view;
-        grid.classList.remove('grid','list');
-        grid.classList.add(view);
-        try { localStorage.setItem('cyber-view', view); } catch {}
-      });
-    });
-    try {
-      const saved = localStorage.getItem('cyber-view');
-      if (saved) { const btn = document.querySelector(`.toggle-btn[data-view="${saved}"]`); if (btn) btn.click(); }
-    } catch {}
-  }
-
-  document.addEventListener('DOMContentLoaded', () => {
-    initTheme();
-    initProgressBar();
-    initCodeBlocks();
-    initShortcuts();
-    initViewToggle();
   });
+  input?.addEventListener('input',()=>{
+    const term=input.value.trim().toLowerCase();
+    let visible=0;
+    searchItems.forEach(a=>{const show=!term||a.dataset.searchText.includes(term);a.hidden=!show;if(show)visible++});
+    if(count)count.textContent=visible;
+  });
+
+  qa('[data-share]').forEach(b=>b.addEventListener('click',async()=>{
+    const original=b.textContent;
+    try{
+      if(navigator.share){await navigator.share({title:document.title,url:location.href});return}
+      const ok=await copyText(location.href);
+      b.textContent=ok?'تم النسخ':'تعذر النسخ';
+      setTimeout(()=>b.textContent=original,1600);
+    }catch{}
+  }));
+
+  const bookmarkKey='cs-bookmarks';
+  const readBookmarks=()=>parseJSON(storage.get(bookmarkKey,'[]'),[]);
+  const saveBookmarks=v=>storage.set(bookmarkKey,JSON.stringify(v));
+  qa('[data-bookmark]').forEach(b=>{
+    const url=b.dataset.url;
+    const paint=()=>{const on=readBookmarks().includes(url);b.classList.toggle('saved',on);b.textContent=on?'محفوظ':'حفظ'};
+    paint();
+    b.addEventListener('click',()=>{let x=readBookmarks();x=x.includes(url)?x.filter(v=>v!==url):[...x,url];saveBookmarks(x);paint()});
+  });
+  const bookmarkCards=qa('[data-bookmark-url]'),bookmarkGrid=q('#bookmarksGrid'),bookmarkEmpty=q('#bookmarksEmpty');
+  const renderBookmarks=()=>{
+    if(!bookmarkCards.length)return;
+    const saved=readBookmarks();let visible=0;
+    bookmarkCards.forEach(card=>{const show=saved.includes(card.dataset.bookmarkUrl);card.hidden=!show;if(show)visible++});
+    if(bookmarkGrid)bookmarkGrid.hidden=visible===0;
+    if(bookmarkEmpty)bookmarkEmpty.hidden=visible>0;
+  };
+  qa('[data-remove-bookmark]').forEach(b=>b.addEventListener('click',()=>{saveBookmarks(readBookmarks().filter(v=>v!==b.dataset.removeBookmark));renderBookmarks()}));
+  renderBookmarks();
+
+  qa('.prose pre').forEach(pre=>{
+    const wrap=document.createElement('div');wrap.className='code-wrap';
+    pre.parentNode.insertBefore(wrap,pre);wrap.appendChild(pre);
+    const btn=document.createElement('button');btn.className='copy-code';btn.type='button';btn.textContent='نسخ';wrap.appendChild(btn);
+    btn.addEventListener('click',async()=>{
+      const original=btn.textContent,ok=await copyText(pre.innerText);
+      btn.textContent=ok?'تم ✓':'تعذر النسخ';
+      setTimeout(()=>btn.textContent=original,1400);
+    });
+  });
+
+  const article=q('#articleContent'),toc=q('#articleToc');
+  if(article&&toc){
+    const headings=qa('h2,h3',article);
+    const slug=s=>s.trim().toLowerCase().replace(/[^\p{L}\p{N}]+/gu,'-').replace(/^-|-$/g,'');
+    const used=new Set();
+    headings.forEach((h,i)=>{
+      if(!h.id){let id=slug(h.textContent)||('section-'+(i+1)),base=id,n=2;while(used.has(id)||document.getElementById(id))id=base+'-'+n++;h.id=id}
+      used.add(h.id);
+      const a=document.createElement('a');a.href='#'+h.id;a.textContent=h.textContent;a.className=h.tagName==='H3'?'sub':'';
+      toc.appendChild(a);
+    });
+    if(!headings.length)toc.closest('.article-aside')?.remove();
+    else if('IntersectionObserver' in window){
+      const links=qa('a',toc);
+      const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
+      const io=new IntersectionObserver(entries=>entries.forEach(e=>{
+        if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));map.get(e.target.id)?.classList.add('active')}
+      }),{rootMargin:'-20% 0px -65% 0px'});
+      headings.forEach(h=>io.observe(h));
+    }
+  }
 })();

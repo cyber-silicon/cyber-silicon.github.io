@@ -1,108 +1,72 @@
 ---
 layout: default
 ---
-<article class="post-page">
-  <nav class="breadcrumb">
-    <a href="{{ '/' | relative_url }}">الرئيسية</a>
-    <span class="sep">/</span>
-    {% if page.categories %}<a href="{{ '/categories/' | relative_url }}">{{ page.categories | first }}</a><span class="sep">/</span>{% endif %}
-    <span class="current">{{ page.title | truncate: 35 }}</span>
-  </nav>
-
-  <header class="post-header">
-    <div class="post-meta-top">
-      {% if page.categories %}
-        <a href="{{ '/categories/' | relative_url }}#{{ page.categories | first | slugify }}" class="category-badge">{{ page.categories | first }}</a>
-      {% endif %}
-      <span class="read-time">⏱️ {{ content | number_of_words | divided_by: 200 | plus: 1 }} دقائق قراءة</span>
+<article class="shell article-shell">
+  <header class="article-header">
+    <a class="eyebrow" href="{{ '/categories/' | relative_url }}#{{ page.categories | first | slugify }}">{{ page.categories | first | default: "مقال" }}</a>
+    <h1>{{ page.title }}</h1>
+    <p class="article-deck">{{ page.description | default: page.excerpt | strip_html }}</p>
+    <div class="article-meta">
+      <span>{{ page.date | date: "%Y-%m-%d" }}</span>
+      <span>{{ content | number_of_words | divided_by: 180 | plus: 1 }} دقائق قراءة</span>
+      <button data-share>مشاركة</button>
+      <button data-bookmark data-url="{{ page.url | relative_url }}">حفظ</button>
     </div>
-    
-    <h1 class="post-title">{{ page.title }}</h1>
-    
-    <div class="post-meta-bottom">
-      <div class="author-info">
-        <img src="{{ site.author.avatar | default: '/assets/images/avatar.png' | relative_url }}" alt="{{ site.author.name }}" class="author-avatar">
-        <div>
-          <span class="author-name">{{ site.author.name }}</span>
-          <span class="post-date">{{ page.date | date: "%d %B %Y" }} • {{ page.date | date: "%H:%M" }}</span>
-        </div>
-      </div>
-      <div class="post-actions">
-        <button class="action-btn" onclick="sharePost()" title="مشاركة">📤</button>
-        <button class="action-btn" onclick="toggleBookmark()" title="حفظ">🔖</button>
-      </div>
-    </div>
-
-    {% if page.image %}
-    <div class="post-featured-image">
-      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" loading="lazy">
-    </div>
-    {% endif %}
   </header>
 
-  <div class="post-body">
-    {% if page.toc %}
-    <aside class="toc-container">
-      <div class="toc-header">
-        <h4>📑 محتويات المقال</h4>
-        <button class="toc-toggle" onclick="this.closest('.toc-container').classList.toggle('collapsed')">−</button>
-      </div>
-      <div class="toc-content">
-        {% include toc.html html=content %}
+  {% if page.image %}
+  <figure class="article-cover">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high" decoding="async">
+  </figure>
+  {% endif %}
+
+  <div class="article-layout">
+    <aside class="article-aside">
+      <div class="aside-box">
+        <span>في هذا المقال</span>
+        <nav id="articleToc" class="article-toc" aria-label="جدول المحتويات"></nav>
       </div>
     </aside>
+    <div class="prose article-content" id="articleContent">{{ content }}</div>
+  </div>
+
+  {% if page.tags %}
+  <div class="tag-row">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>{% endfor %}</div>
+  {% endif %}
+
+  {% if page.previous or page.next %}
+  <nav class="article-nav" aria-label="التنقل بين المقالات">
+    {% if page.previous %}
+    <a href="{{ page.previous.url | relative_url }}"><span>المقال السابق</span><strong>{{ page.previous.title }}</strong></a>
+    {% else %}<span></span>{% endif %}
+    {% if page.next %}
+    <a href="{{ page.next.url | relative_url }}"><span>المقال التالي</span><strong>{{ page.next.title }}</strong></a>
     {% endif %}
+  </nav>
+  {% endif %}
 
-    <div class="post-content">
-      {{ content }}
-      
-      {% if page.tags %}
-      <div class="post-tags">
-        <span class="tags-label">🏷️ الوسوم:</span>
-        {% for tag in page.tags %}
-          <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <div class="share-section">
-        <h4>شارك المقال:</h4>
-        <div class="share-buttons">
-          <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" class="share-btn facebook">Facebook</a>
-          <a href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ page.url | absolute_url }}" target="_blank" class="share-btn twitter">Twitter</a>
-          <a href="https://wa.me/?text={{ page.title | uri_escape }}%20{{ page.url | absolute_url }}" target="_blank" class="share-btn whatsapp">WhatsApp</a>
-          <a href="https://t.me/share/url?url={{ page.url | absolute_url }}&text={{ page.title | uri_escape }}" target="_blank" class="share-btn telegram">Telegram</a>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="author-box">
-    <img src="{{ site.author.avatar | default: '/assets/images/avatar.png' | relative_url }}" alt="{{ site.author.name }}">
-    <div class="author-details">
-      <h4>{{ site.author.name }}</h4>
-      <p>خبير في صيانة الإلكترونيات والأمن السيبراني. أشارك خبرتي عبر مدونة Cyber Silicon لمساعدة الجميع على التعلم.</p>
-      <div class="author-social">
-        <a href="https://github.com/cyber-silicon" target="_blank">GitHub</a>
-        <a href="#">YouTube</a>
-        <a href="#">Telegram</a>
-      </div>
-    </div>
-  </div>
-
-  {% assign related = site.posts | where_exp: "p", "p.categories == page.categories" | where_exp: "p", "p.id != page.id" | limit: 3 %}
-  {% if related.size > 0 %}
-  <section class="related-posts">
-    <h3>📚 مقالات ذات صلة</h3>
-    <div class="posts-grid mini">
-      {% for post in related %}
-        {% include post-card.html post=post %}
+  {% assign current_category = page.categories | first %}
+  {% assign related_posts = site.categories[current_category] %}
+  {% if related_posts and related_posts.size > 1 %}
+  <section class="related-section">
+    <div class="section-title"><div><span class="eyebrow">RELATED</span><h2>مقالات ذات صلة</h2></div></div>
+    <div class="post-grid">
+      {% assign shown = 0 %}
+      {% for post in related_posts %}
+        {% if post.url != page.url and shown < 3 %}
+        <article class="post-card">
+          <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>CS</span>{% endif %}</a>
+          <div class="card-body">
+            <span class="meta">{{ post.date | date: "%Y-%m-%d" }}</span>
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 100 }}</p>
+            <div class="card-foot"><span>{{ post.content | number_of_words | divided_by: 180 | plus: 1 }} دقائق</span><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
+          </div>
+        </article>
+        {% assign shown = shown | plus: 1 %}
+        {% endif %}
       {% endfor %}
     </div>
   </section>
-  {% endif %}
-
-  {% if page.comments %}
-    {% include comments.html %}
   {% endif %}
 </article>
