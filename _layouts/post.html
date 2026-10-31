@@ -1,108 +1,17 @@
 ---
 layout: default
 ---
-<article class="post-page">
-  <nav class="breadcrumb">
-    <a href="{{ '/' | relative_url }}">الرئيسية</a>
-    <span class="sep">/</span>
-    {% if page.categories %}<a href="{{ '/categories/' | relative_url }}">{{ page.categories | first }}</a><span class="sep">/</span>{% endif %}
-    <span class="current">{{ page.title | truncate: 35 }}</span>
-  </nav>
-
-  <header class="post-header">
-    <div class="post-meta-top">
-      {% if page.categories %}
-        <a href="{{ '/categories/' | relative_url }}#{{ page.categories | first | slugify }}" class="category-badge">{{ page.categories | first }}</a>
-      {% endif %}
-      <span class="read-time">⏱️ {{ content | number_of_words | divided_by: 200 | plus: 1 }} دقائق قراءة</span>
-    </div>
-    
-    <h1 class="post-title">{{ page.title }}</h1>
-    
-    <div class="post-meta-bottom">
-      <div class="author-info">
-        <img src="{{ site.author.avatar | default: '/assets/images/avatar.png' | relative_url }}" alt="{{ site.author.name }}" class="author-avatar">
-        <div>
-          <span class="author-name">{{ site.author.name }}</span>
-          <span class="post-date">{{ page.date | date: "%d %B %Y" }} • {{ page.date | date: "%H:%M" }}</span>
-        </div>
-      </div>
-      <div class="post-actions">
-        <button class="action-btn" onclick="sharePost()" title="مشاركة">📤</button>
-        <button class="action-btn" onclick="toggleBookmark()" title="حفظ">🔖</button>
-      </div>
-    </div>
-
-    {% if page.image %}
-    <div class="post-featured-image">
-      <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" loading="lazy">
-    </div>
-    {% endif %}
+<article class="shell article-shell">
+  <header class="article-header">
+    <a class="eyebrow" href="{{ '/categories/' | relative_url }}">{{ page.categories | first | default: "مقال" }}</a>
+    <h1>{{ page.title }}</h1>
+    <p class="article-deck">{{ page.description | default: page.excerpt | strip_html }}</p>
+    <div class="article-meta"><span>{{ page.date | date: "%Y-%m-%d" }}</span><span>{{ content | number_of_words | divided_by: 180 | plus: 1 }} دقائق قراءة</span><button data-share>مشاركة</button><button data-bookmark data-url="{{ page.url | relative_url }}">حفظ</button></div>
   </header>
-
-  <div class="post-body">
-    {% if page.toc %}
-    <aside class="toc-container">
-      <div class="toc-header">
-        <h4>📑 محتويات المقال</h4>
-        <button class="toc-toggle" onclick="this.closest('.toc-container').classList.toggle('collapsed')">−</button>
-      </div>
-      <div class="toc-content">
-        {% include toc.html html=content %}
-      </div>
-    </aside>
-    {% endif %}
-
-    <div class="post-content">
-      {{ content }}
-      
-      {% if page.tags %}
-      <div class="post-tags">
-        <span class="tags-label">🏷️ الوسوم:</span>
-        {% for tag in page.tags %}
-          <a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}" class="tag">{{ tag }}</a>
-        {% endfor %}
-      </div>
-      {% endif %}
-
-      <div class="share-section">
-        <h4>شارك المقال:</h4>
-        <div class="share-buttons">
-          <a href="https://www.facebook.com/sharer/sharer.php?u={{ page.url | absolute_url }}" target="_blank" class="share-btn facebook">Facebook</a>
-          <a href="https://twitter.com/intent/tweet?text={{ page.title | uri_escape }}&url={{ page.url | absolute_url }}" target="_blank" class="share-btn twitter">Twitter</a>
-          <a href="https://wa.me/?text={{ page.title | uri_escape }}%20{{ page.url | absolute_url }}" target="_blank" class="share-btn whatsapp">WhatsApp</a>
-          <a href="https://t.me/share/url?url={{ page.url | absolute_url }}&text={{ page.title | uri_escape }}" target="_blank" class="share-btn telegram">Telegram</a>
-        </div>
-      </div>
-    </div>
+  {% if page.image %}<figure class="article-cover"><img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high"></figure>{% endif %}
+  <div class="article-layout">
+    <aside class="article-aside"><div class="aside-box"><span>في هذا المقال</span><p>استخدم العناوين للتنقل السريع أثناء القراءة.</p></div></aside>
+    <div class="prose article-content">{{ content }}</div>
   </div>
-
-  <div class="author-box">
-    <img src="{{ site.author.avatar | default: '/assets/images/avatar.png' | relative_url }}" alt="{{ site.author.name }}">
-    <div class="author-details">
-      <h4>{{ site.author.name }}</h4>
-      <p>خبير في صيانة الإلكترونيات والأمن السيبراني. أشارك خبرتي عبر مدونة Cyber Silicon لمساعدة الجميع على التعلم.</p>
-      <div class="author-social">
-        <a href="https://github.com/cyber-silicon" target="_blank">GitHub</a>
-        <a href="#">YouTube</a>
-        <a href="#">Telegram</a>
-      </div>
-    </div>
-  </div>
-
-  {% assign related = site.posts | where_exp: "p", "p.categories == page.categories" | where_exp: "p", "p.id != page.id" | limit: 3 %}
-  {% if related.size > 0 %}
-  <section class="related-posts">
-    <h3>📚 مقالات ذات صلة</h3>
-    <div class="posts-grid mini">
-      {% for post in related %}
-        {% include post-card.html post=post %}
-      {% endfor %}
-    </div>
-  </section>
-  {% endif %}
-
-  {% if page.comments %}
-    {% include comments.html %}
-  {% endif %}
+  {% if page.tags %}<div class="tag-row">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>{% endfor %}</div>{% endif %}
 </article>

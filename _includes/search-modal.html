@@ -1,80 +1,8 @@
-<div class="search-modal" id="searchModal">
-  <div class="search-modal-content">
-    <div class="search-header">
-      <div class="search-input-wrapper">
-        <span class="search-icon">🔍</span>
-        <input type="text" id="searchInput" placeholder="ابحث عن مقال، موضوع، كلمة مفتاحية..." autocomplete="off">
-        <button class="search-close" onclick="closeSearch()">✕</button>
-      </div>
-    </div>
-    <div class="search-body">
-      <div class="search-suggestions">
-        <h5>🔥 شائع:</h5>
-        <div class="suggestion-tags">
-          {% assign tags = site.tags | sort %}
-          {% for tag in tags limit:10 %}
-          <button onclick="searchFor('{{ tag[0] }}')">#{{ tag[0] }}</button>
-          {% endfor %}
-        </div>
-      </div>
-      <div class="search-results" id="searchResults">
-        <p class="search-hint">ابدأ الكتابة للبحث...</p>
-      </div>
-    </div>
+<div class="search-backdrop" data-search-backdrop hidden></div>
+<section class="search-dialog" data-search-dialog hidden role="dialog" aria-modal="true" aria-labelledby="search-title">
+  <div class="search-head"><h2 id="search-title">ابحث في المدونة</h2><button class="icon-button" data-search-close aria-label="إغلاق">×</button></div>
+  <input id="searchInput" type="search" placeholder="اكتب عنواناً أو كلمة..." autocomplete="off">
+  <div id="searchResults" class="search-results">
+    {% for post in site.posts %}<a class="search-item" data-search-text="{{ post.title | downcase }} {{ post.tags | join: ' ' | downcase }}" href="{{ post.url | relative_url }}"><strong>{{ post.title }}</strong><small>{{ post.date | date: "%Y-%m-%d" }}</small></a>{% endfor %}
   </div>
-</div>
-<div class="search-overlay" id="searchOverlay" onclick="closeSearch()"></div>
-
-<script>
-// Simple client-side search (for GitHub Pages without plugin)
-let searchIndex = [];
-{% for post in site.posts %}
-searchIndex.push({
-  title: "{{ post.title | escape }}",
-  url: "{{ post.url | relative_url }}",
-  excerpt: "{{ post.description | default: post.excerpt | strip_html | strip_newlines | escape | truncate: 100 }}",
-  categories: "{{ post.categories | join: ',' }}",
-  tags: "{{ post.tags | join: ',' }}"
-});
-{% endfor %}
-
-function performSearch(query){
-  const resultsDiv = document.getElementById('searchResults');
-  if(!query.trim()){
-    resultsDiv.innerHTML = '<p class="search-hint">ابدأ الكتابة للبحث...</p>';
-    return;
-  }
-  const q = query.toLowerCase();
-  const results = searchIndex.filter(p => 
-    p.title.toLowerCase().includes(q) || 
-    p.excerpt.toLowerCase().includes(q) ||
-    p.tags.toLowerCase().includes(q) ||
-    p.categories.toLowerCase().includes(q)
-  ).slice(0, 10);
-  
-  if(results.length === 0){
-    resultsDiv.innerHTML = `<p class="no-results">لا توجد نتائج لـ "${query}" 😕</p>`;
-    return;
-  }
-  
-  resultsDiv.innerHTML = results.map(p => `
-    <a href="${p.url}" class="search-result-item">
-      <h4>${p.title}</h4>
-      <p>${p.excerpt}</p>
-      <small>${p.categories}</small>
-    </a>
-  `).join('');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  const input = document.getElementById('searchInput');
-  if(input){
-    input.addEventListener('input', (e) => performSearch(e.target.value));
-  }
-});
-
-function searchFor(term){
-  document.getElementById('searchInput').value = term;
-  performSearch(term);
-}
-</script>
+</section>
