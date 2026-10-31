@@ -47,3 +47,5 @@ exclude:
   - README.md
   - vendor
   - node_modules
+  - scripts
+  - .github
