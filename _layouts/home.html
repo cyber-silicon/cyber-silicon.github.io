@@ -30,7 +30,7 @@ electronics
 <section class="shell section featured-wrap">
   <div class="section-title"><div><span class="eyebrow">مختار</span><h2>مقال مميز</h2></div></div>
   <a class="featured-card" href="{{ featured.url | relative_url }}">
-    <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="" fetchpriority="high" decoding="async">{% else %}<span>01</span>{% endif %}</div>
+    <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>01</span>{% endif %}</div>
     <div class="featured-copy"><span class="meta">{{ featured.categories | first }} • {{ featured.date | date: "%Y-%m-%d" }}</span><h3>{{ featured.title }}</h3><p>{{ featured.description | default: featured.excerpt | strip_html | truncate: 170 }}</p><b>اقرأ المقال ←</b></div>
   </a>
 </section>
