@@ -1,9 +1,13 @@
 ---
 layout: page
 title: الوسوم
-description: تصفح المقالات حسب الوسوم والكلمات المفتاحية.
+description: ابحث في Cyber Silicon حسب الموضوع أو الأداة أو التقنية.
 permalink: /tags/
 ---
+
+<div class="taxonomy-intro">
+  <p>الوسوم تساعدك عندما تبحث عن موضوع أدق من القسم: أداة معينة، نظام تشغيل، لغة برمجة، نوع عطل أو تقنية محددة. اختر وسمًا للوصول إلى كل المقالات المرتبطة به.</p>
+</div>
 
 <div class="tag-cloud-pro">
 {% assign tags = site.tags | sort %}
