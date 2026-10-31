@@ -11,10 +11,10 @@
     <div class="header-actions">
       <button class="icon-button" data-search-open aria-label="بحث">⌕</button>
       <button class="icon-button" data-theme-toggle aria-label="تبديل المظهر">◐</button>
-      <button class="icon-button mobile-trigger" data-menu-toggle aria-label="فتح القائمة">☰</button>
+      <button class="icon-button mobile-trigger" data-menu-toggle aria-label="فتح القائمة" aria-expanded="false" aria-controls="mobileNav">☰</button>
     </div>
   </div>
-  <nav class="mobile-nav" data-mobile-nav aria-label="قائمة الهاتف">
+  <nav class="mobile-nav" id="mobileNav" data-mobile-nav aria-label="قائمة الهاتف">
     {% for item in site.nav %}<a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% endfor %}
     <a href="{{ '/bookmarks/' | relative_url }}">المحفوظات</a>
   </nav>
