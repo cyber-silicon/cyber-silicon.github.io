@@ -8,7 +8,15 @@
 
   qa('[data-theme-toggle]').forEach(b=>b.addEventListener('click',()=>{const n=root.dataset.theme==='dark'?'light':'dark';root.dataset.theme=n;localStorage.setItem('cs-theme',n)}));
   const nav=q('[data-mobile-nav]');
-  qa('[data-menu-toggle]').forEach(b=>b.addEventListener('click',()=>nav?.classList.toggle('open')));
+  qa('[data-menu-toggle]').forEach(b=>b.addEventListener('click',()=>{
+    const open=!nav?.classList.contains('open');
+    nav?.classList.toggle('open',open);
+    b.setAttribute('aria-expanded',String(open));
+  }));
+  qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',()=>{
+    nav?.classList.remove('open');
+    qa('[data-menu-toggle]').forEach(b=>b.setAttribute('aria-expanded','false'));
+  }));
 
   const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount');
   const searchItems=qa('.search-item');
