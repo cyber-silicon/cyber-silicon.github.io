@@ -37,5 +37,10 @@ jobs:
       - name: Validate generated site structure and SEO
         run: python3 scripts/validate_generated_site.py
 
-      - name: Verify protected TikTok file exists
-        run: test -f tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
+      - name: Verify protected TikTok file is published unchanged
+        run: |
+          test -f tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
+          test -f _site/tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
+          cmp --silent \
+            tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt \
+            _site/tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
