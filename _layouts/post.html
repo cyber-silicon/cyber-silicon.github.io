@@ -31,7 +31,7 @@ layout: default
 
   {% if page.image %}
   <figure class="article-cover">
-    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high">
+    <img src="{{ page.image | relative_url }}" alt="{{ page.title }}" fetchpriority="high" decoding="async">
   </figure>
   {% endif %}
 
