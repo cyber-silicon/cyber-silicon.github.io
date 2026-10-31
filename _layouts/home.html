@@ -9,19 +9,17 @@ layout: default
     <div class="hero-actions"><a class="button primary" href="#latest">ابدأ القراءة</a><button class="button ghost" data-search-open>ابحث في المدونة</button></div>
     <div class="hero-stats"><span><strong>{{ site.posts | size }}</strong> مقال</span><span><strong>{{ site.categories | size }}</strong> قسم</span><span><strong>عملي</strong> شرح وتطبيق</span></div>
   </div>
-  <div class="terminal-card" aria-label="بطاقة تعريف">
-    <div class="terminal-top"><i></i><i></i><i></i><span>cyber-silicon</span></div>
-    <pre><code><b>$</b> whoami
-Cyber Silicon
-
-<b>$</b> topics
-security
-linux
-programming
-electronics
-
-<b>$</b> status
-<span>online_</span></code></pre>
+  <div class="hero-topics" aria-label="مجالات المدونة">
+    <div class="hero-topics-head">
+      <span class="eyebrow">استكشف حسب المجال</span>
+      <strong>محتوى عملي يبدأ من الفكرة وينتهي بالتطبيق</strong>
+    </div>
+    <div class="hero-topic-grid">
+      <a href="{{ '/categories/' | relative_url }}"><span>01</span><strong>الأمن السيبراني</strong><small>أدوات، حماية، واختبارات عملية</small></a>
+      <a href="{{ '/categories/' | relative_url }}"><span>02</span><strong>Linux والأنظمة</strong><small>إعداد، إدارة، وحل المشكلات</small></a>
+      <a href="{{ '/categories/' | relative_url }}"><span>03</span><strong>البرمجة</strong><small>Python، Bash وأتمتة المهام</small></a>
+      <a href="{{ '/categories/' | relative_url }}"><span>04</span><strong>الإلكترونيات</strong><small>تشخيص، قياس، وصيانة عملية</small></a>
+    </div>
   </div>
 </section>
 
