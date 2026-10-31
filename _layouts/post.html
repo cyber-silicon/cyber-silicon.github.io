@@ -21,14 +21,19 @@ layout: default
   {% endif %}
 
   <div class="article-layout">
+    <div class="prose article-content" id="articleContent">{{ content }}</div>
     <aside class="article-aside">
       <div class="aside-box">
         <span>في هذا المقال</span>
         <nav id="articleToc" class="article-toc" aria-label="جدول المحتويات"></nav>
       </div>
     </aside>
-    <div class="prose article-content" id="articleContent">{{ content }}</div>
   </div>
+
+  <details class="mobile-toc" id="mobileToc">
+    <summary>جدول المحتويات</summary>
+    <nav id="mobileArticleToc" class="article-toc" aria-label="جدول محتويات المقال"></nav>
+  </details>
 
   {% if page.tags %}
   <div class="tag-row">{% for tag in page.tags %}<a href="{{ '/tags/' | relative_url }}#{{ tag | slugify }}">#{{ tag }}</a>{% endfor %}</div>
