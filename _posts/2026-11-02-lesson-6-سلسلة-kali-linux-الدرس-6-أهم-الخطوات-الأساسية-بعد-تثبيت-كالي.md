@@ -232,7 +232,7 @@ tar -xzvf backup.tar.gz
 
 ---
 ### 🔗 التنقل بين دروس السلسلة
-* **الدرس السابق 👈:** [[سلسلة Kali Linux - الدرس 1] الشرح الشامل لاختيار وتحميل نسخة Kali Linux المناسبة](https://cyber-silicon.github.io/2026/11/02/lesson-1-سلسلة-kali-linux-الدرس-1-الشرح-الشامل-لاختيار-وتحميل-نسخة-ka.html)
+* **الدرس السابق 👈:** [[سلسلة Kali Linux - الدرس 2] تحميل برنامج VirtualBox و حزمة Extension Pack](https://cyber-silicon.github.io/2026/11/02/lesson-2-سلسلة-kali-linux-الدرس-2-تحميل-برنامج-virtualbox-و-حزمة-exte.html)
 * **الدرس التالي 👈:** جاري إعداد الدرس...
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
