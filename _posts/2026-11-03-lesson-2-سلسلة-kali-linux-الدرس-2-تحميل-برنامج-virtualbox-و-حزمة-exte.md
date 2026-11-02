@@ -84,7 +84,7 @@ tiktok_url: "https://www.tiktok.com/@cyber_silicon/video/7666519245269847313?utm
 
 ### 🔗 التنقل بين دروس السلسلة
 
-* **الدرس السابق 👈:** [الدرس 1](https://cyber-silicon.github.io/Kali%20Linux/VirtualBox/Cyber%20Silicon/2026/11/03/lesson-1-سلسلة-kali-linux-الدرس-1-الشرح-الشامل-لاختيار-وتحميل-نسخة-ka.html)
+* **الدرس السابق 👈:** [الدرس 1](https://cyber-silicon.github.io/Kali%20Linux/Cyber%20Silicon/%D8%AF%D8%B1%D9%88%D8%B3%20%D9%88%D8%AA%D9%82%D9%86%D9%8A%D8%A7%D8%AA/2026/11/03/lesson-1-سلسلة-kali-linux-الدرس-1-الشرح-الشامل-لاختيار-وتحميل-نسخة-ka.html)
 * **الدرس التالي 👈:** سيُضاف عند نشر الدرس التالي
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
