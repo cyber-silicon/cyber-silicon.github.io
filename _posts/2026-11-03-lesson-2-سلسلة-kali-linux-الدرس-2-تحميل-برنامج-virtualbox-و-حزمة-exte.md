@@ -10,6 +10,7 @@ lang: ar
 direction: rtl
 comments: true
 toc: true
+permalink: "/kali linux/virtualbox/cyber silicon/2026/11/03/lesson-2-سلسلة-kali-linux-الدرس-2-تحميل-برنامج-virtualbox-و-حزمة-exte.html"
 ---
 
 # [سلسلة Kali Linux - الدرس 2] كيفية تحميل برنامج VirtualBox وحزمة Extension Pack
@@ -80,5 +81,5 @@ toc: true
 
 ### 🔗 التنقل بين دروس السلسلة
 
-* **الدرس السابق 👈:** [الدرس 1](https://cyber-silicon.github.io/Kali%20Linux/Cyber%20Silicon/%D8%AF%D8%B1%D9%88%D8%B3%20%D9%88%D8%AA%D9%82%D9%86%D9%8A%D8%A7%D8%AA/2026/11/03/lesson-1-سلسلة-kali-linux-الدرس-1-الشرح-الشامل-لاختيار-وتحميل-نسخة-ka.html)
+* **الدرس السابق 👈:** [الدرس 1](https://cyber-silicon.github.io/kali%20linux/cyber%20silicon/%D8%AF%D8%B1%D9%88%D8%B3%20%D9%88%D8%AA%D9%82%D9%86%D9%8A%D8%A7%D8%AA/2026/11/03/lesson-1-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-1-%D8%A7%D9%84%D8%B4%D8%B1%D8%AD-%D8%A7%D9%84%D8%B4%D8%A7%D9%85%D9%84-%D9%84%D8%A7%D8%AE%D8%AA%D9%8A%D8%A7%D8%B1-%D9%88%D8%AA%D8%AD%D9%85%D9%8A%D9%84-%D9%86%D8%B3%D8%AE%D8%A9-ka.html)
 * **الدرس التالي 👈:** سيُضاف عند نشر الدرس التالي
