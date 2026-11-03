@@ -111,7 +111,7 @@ permalink: "/kali linux/cyber silicon/دروس وتقنيات/2026/11/03/lesson-
 ### 🔗 التنقل بين دروس السلسلة
 
 * **الدرس السابق 👈:** لا يوجد (هذا هو الدرس الأول في السلسلة).
-* **الدرس التالي 👈:** جاري إعداد الدرس الثاني...
+* **الدرس التالي 👈:** [[سلسلة Kali Linux - الدرس 2] تحميل برنامج VirtualBox و حزمة Extension Pack](https://cyber-silicon.github.io/kali%20linux/virtualbox/cyber%20silicon/2026/11/03/lesson-2-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-2-%D8%AA%D8%AD%D9%85%D9%8A%D9%84-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-virtualbox-%D9%88-%D8%AD%D8%B2%D9%85%D8%A9-exte.html)
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
 <iframe src="https://www.tiktok.com/player/v1/7666492918395391250?autoplay=0" style="width:100%;max-width:340px;height:580px;border:none;border-radius:12px;" allow="fullscreen" loading="lazy"></iframe>
