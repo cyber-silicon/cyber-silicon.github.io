@@ -9,6 +9,7 @@ lang: ar
 direction: rtl
 comments: true
 toc: true
+permalink: "/kali linux/cyber silicon/دروس وتقنيات/2026/11/03/lesson-1-سلسلة-kali-linux-الدرس-1-الشرح-الشامل-لاختيار-وتحميل-نسخة-ka.html"
 ---
 
 # [سلسلة Kali Linux - الدرس 1] الشرح الشامل لاختيار وتحميل النسخة المناسبة لجهازك
@@ -106,4 +107,4 @@ toc: true
 ### 🔗 التنقل بين دروس السلسلة
 
 * **الدرس السابق 👈:** لا يوجد درس منشور
-* **الدرس التالي 👈:** [الدرس 2](https://cyber-silicon.github.io/Kali%20Linux/VirtualBox/Cyber%20Silicon/2026/11/03/lesson-2-سلسلة-kali-linux-الدرس-2-تحميل-برنامج-virtualbox-و-حزمة-exte.html)
+* **الدرس التالي 👈:** [الدرس 2](https://cyber-silicon.github.io/kali%20linux/virtualbox/cyber%20silicon/2026/11/03/lesson-2-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-2-%D8%AA%D8%AD%D9%85%D9%8A%D9%84-%D8%A8%D8%B1%D9%86%D8%A7%D9%85%D8%AC-virtualbox-%D9%88-%D8%AD%D8%B2%D9%85%D8%A9-exte.html)
