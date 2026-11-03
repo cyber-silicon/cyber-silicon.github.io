@@ -105,5 +105,5 @@ toc: true
 
 ### 🔗 التنقل بين دروس السلسلة
 
-* **الدرس السابق 👈:** لا يوجد (هذا هو الدرس الأول في السلسلة).
-* **الدرس التالي 👈:** [[سلسلة Kali Linux - الدرس 2] تحميل برنامج VirtualBox و حزمة Extension Pack](https://cyber-silicon.github.io/Kali%20Linux/VirtualBox/Cyber%20Silicon/2026/11/03/lesson-2-سلسلة-kali-linux-الدرس-2-تحميل-برنامج-virtualbox-و-حزمة-exte.html)
+* **الدرس السابق 👈:** لا يوجد درس منشور
+* **الدرس التالي 👈:** [الدرس 2](https://cyber-silicon.github.io/Kali%20Linux/VirtualBox/Cyber%20Silicon/2026/11/03/lesson-2-سلسلة-kali-linux-الدرس-2-تحميل-برنامج-virtualbox-و-حزمة-exte.html)
