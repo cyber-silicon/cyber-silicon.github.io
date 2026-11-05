@@ -1,0 +1,14 @@
+[
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "com.cybersilicon.pro",
+      "sha256_cert_fingerprints": [
+        "99:2a:73:25:35:34:9d:fc:c3:36:5d:5f:99:34:fb:6b:43:a2:ff:87:d9:97:bb:55:0e:54:c0:64:e7:24:26:fd"
+      ]
+    }
+  }
+]

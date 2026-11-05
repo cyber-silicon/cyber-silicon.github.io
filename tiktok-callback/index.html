@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="referrer" content="no-referrer">
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="canonical" href="https://cyber-silicon.github.io/tiktok-callback/">
+  <title>العودة إلى Cyber Silicon Pro</title>
+  <style>
+    :root { color-scheme: light dark; font-family: system-ui, sans-serif; }
+    body { margin: 0; min-height: 100vh; display: grid; place-items: center; padding: 24px; box-sizing: border-box; background: Canvas; color: CanvasText; }
+    main { width: min(100%, 460px); text-align: center; }
+    h1 { font-size: 1.35rem; }
+    p { line-height: 1.8; }
+    a { display: inline-block; margin-top: 16px; padding: 13px 22px; border-radius: 12px; background: #6750a4; color: white; text-decoration: none; }
+    .muted { opacity: .75; font-size: .9rem; }
+    [hidden] { display: none !important; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>العودة إلى Cyber Silicon Pro</h1>
+    <p id="status">تم استلام رد TikTok. اضغط الزر للعودة إلى التطبيق وإكمال تسجيل الدخول.</p>
+    <a id="open-app" href="#" hidden>العودة إلى التطبيق</a>
+    <p id="error" class="muted" hidden></p>
+    <p id="help" class="muted">إذا لم يكن التطبيق مثبتًا، افتح Cyber Silicon Pro ثم أعد محاولة تسجيل الدخول.</p>
+  </main>
+  <script>
+    (function () {
+      "use strict";
+      const params = new URLSearchParams(window.location.search);
+      const status = document.getElementById("status");
+      const error = document.getElementById("error");
+      const help = document.getElementById("help");
+      const button = document.getElementById("open-app");
+
+      const errorCode = params.get("error");
+      if (errorCode) {
+        status.textContent = "لم تكتمل موافقة TikTok.";
+        error.textContent = params.get("error_description") || errorCode;
+        error.hidden = false;
+        return;
+      }
+
+      const code = params.get("code");
+      const state = params.get("state");
+      if (!code || !state) {
+        status.textContent = "لم يصل كود التفويض أو state من TikTok.";
+        return;
+      }
+
+      const handoff = new URLSearchParams();
+      handoff.set("code", code);
+      handoff.set("state", state);
+      const scopes = params.get("scopes");
+      if (scopes) handoff.set("scopes", scopes);
+
+      button.href =
+        "intent://tiktok-callback/?" + handoff.toString() +
+        "#Intent;scheme=cybersiliconpro;package=com.cybersilicon.pro;end";
+      button.hidden = false;
+      help.hidden = true;
+    }());
+  </script>
+</body>
+</html>

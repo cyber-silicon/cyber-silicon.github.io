@@ -2,6 +2,8 @@ title: Cyber Silicon
 description: مدونة عربية عملية في الأمن السيبراني، Linux، البرمجة والإلكترونيات، تركز على الفهم والتطبيق خطوة بخطوة.
 url: "https://cyber-silicon.github.io"
 baseurl: ""
+include:
+  - .well-known
 lang: ar
 timezone: Africa/Khartoum
 direction: rtl
