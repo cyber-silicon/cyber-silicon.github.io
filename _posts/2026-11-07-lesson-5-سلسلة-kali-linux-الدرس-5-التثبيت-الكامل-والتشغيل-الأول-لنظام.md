@@ -93,7 +93,7 @@ permalink: "/2026/11/07/lesson-5-سلسلة-kali-linux-الدرس-5-التثبي
 ### 🔗 التنقل بين دروس السلسلة
 
 - **الدرس السابق 👈:** جاري إعداد الدرس...
-- **الدرس التالي 👈:** جاري إعداد الدرس السادس...
+- **الدرس التالي 👈:** [[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس](https://cyber-silicon.github.io/2026/11/07/lesson-6-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-6-%D8%A3%D9%87%D9%85-%D8%A7%D9%84%D8%AE%D8%B7%D9%88%D8%A7%D8%AA-%D8%A7%D9%84%D8%A3%D8%B3%D8%A7%D8%B3%D9%8A%D8%A9-%D8%A8%D8%B9%D8%AF-%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D9%83%D8%A7%D9%84%D9%8A.html)
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
 <iframe src="https://www.tiktok.com/player/v1/7667125195303357716?autoplay=0" style="width:100%;max-width:340px;height:580px;border:none;border-radius:12px;" allow="fullscreen" loading="lazy"></iframe>
