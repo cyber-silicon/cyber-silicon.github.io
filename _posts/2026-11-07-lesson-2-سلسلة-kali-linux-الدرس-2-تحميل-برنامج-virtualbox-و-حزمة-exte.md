@@ -85,8 +85,8 @@ permalink: "/kali linux/virtualbox/cyber silicon/2026/11/07/lesson-2-سلسلة-
 
 ### 🔗 التنقل بين دروس السلسلة
 
-* **الدرس السابق 👈:** تلقائي
-* **الدرس التالي 👈:** [[سلسلة Kali Linux - الدرس 5] التثبيت الكامل والتشغيل الأول لنظام Kali Linux](https://cyber-silicon.github.io/2026/11/07/lesson-5-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-5-%D8%A7%D9%84%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84-%D9%88%D8%A7%D9%84%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A7%D9%84%D8%A3%D9%88%D9%84-%D9%84%D9%86%D8%B8%D8%A7%D9%85.html)
+* **الدرس السابق 👈:** لا يوجد درس منشور
+* **الدرس التالي 👈:** [الدرس 5](https://cyber-silicon.github.io/2026/11/07/lesson-5-%D8%B3%D9%84%D8%B3%D9%84%D8%A9-kali-linux-%D8%A7%D9%84%D8%AF%D8%B1%D8%B3-5-%D8%A7%D9%84%D8%AA%D8%AB%D8%A8%D9%8A%D8%AA-%D8%A7%D9%84%D9%83%D8%A7%D9%85%D9%84-%D9%88%D8%A7%D9%84%D8%AA%D8%B4%D8%BA%D9%8A%D9%84-%D8%A7%D9%84%D8%A3%D9%88%D9%84-%D9%84%D9%86%D8%B8%D8%A7%D9%85.html)
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
 <iframe src="https://www.tiktok.com/player/v1/7666519245269847313?autoplay=0" style="width:100%;max-width:340px;height:580px;border:none;border-radius:12px;" allow="fullscreen" loading="lazy"></iframe>
