@@ -11,6 +11,8 @@ permalink: /privacy/
 
 نحن نحاول تقليل البيانات التي نحتاج إليها، ونوضح متى تبقى البيانات على جهازك ومتى تُرسل إلى خدمة اخترت ربطها. تنطبق هذه السياسة على الإصدارات الحالية من الموقع والبرنامج، وقد تُحدّث إذا تغيرت الوظائف أو طرق معالجة البيانات.
 
+**زوار الموقع:** الموقع صفحات ثابتة مستضافة عبر GitHub Pages ولا يتطلب حساباً لقراءة المحتوى. تحفظ بعض وظائف المتصفح تفضيلات مثل اختيار المظهر والمقالات المحفوظة في التخزين المحلي للمتصفح على جهازك. قد تعالج بنية استضافة GitHub بيانات تقنية لازمة لتقديم الصفحات وحمايتها، مثل عنوان IP وبيانات المتصفح والصفحة المطلوبة ووقت الطلب، وفق سياسة GitHub. وعند تحميل الخطوط من Google Fonts، يتصل المتصفح بخوادم Google وقد تتلقى Google بيانات الاتصال التقنية المعتادة لذلك الطلب. لا ننشئ حالياً قاعدة حسابات للزوار على الموقع.
+
 ## 1. من يدير الخدمة وكيف تعمل؟
 
 Cyber Silicon موقع تقني، وCyber Silicon Pro برنامج مكتبي يعمل محلياً على جهاز المستخدم. البرنامج ليس خدمة حسابات سحابية مركزية؛ لا يحتاج استخدامه المعتاد إلى إنشاء حساب لدى خادم تديره Cyber Silicon، ولا توجد قاعدة بيانات مركزية لدى Cyber Silicon تُزامن إليها ملفات المستخدم ومفاتيح API تلقائياً.
@@ -131,6 +133,8 @@ Cyber Silicon موقع تقني، وCyber Silicon Pro برنامج مكتبي ي
 **Last updated: 12 November 2026**
 
 This policy covers the Cyber Silicon website and the Cyber Silicon Pro desktop application.
+
+**Website visitors:** The website is a static GitHub Pages site and does not require an account to read. Some browser features store preferences such as theme selection and saved articles in local browser storage on your device. GitHub's hosting infrastructure may process technical request data needed to serve and protect the site, such as IP address, browser information, requested page, and request time, under GitHub's policies. Loading fonts through Google Fonts causes the browser to connect to Google, which may receive the technical connection data normally associated with that request. The site does not currently operate a visitor account database.
 
 ## Product and storage model
 
