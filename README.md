@@ -1,73 +1,45 @@
-# Cyber Silicon - Jekyll Theme
+# Cyber Silicon — Arabic Technology Blog
 
-قالب احترافي لمنصة Cyber Silicon مبني بـ Jekyll ويعمل على GitHub Pages.
+موقع Cyber Silicon مبني باستخدام Jekyll ويُنشر عبر GitHub Pages. تركيز المحتوى: **البرمجة، Linux، والأمن السيبراني**.
 
-## ✨ المميزات بعد الإصلاح
+## واجهة الموقع
+- واجهة عربية RTL مستوحاة من بنية مدونة Blogger: رأس تنقل ثابت، مساحة محتوى رئيسية، شريط جانبي، بطاقات المقالات، ومعلومات المقال.
+- ألوان وهوية Cyber Silicon باللون الكحلي والسماوي.
+- وضع فاتح وداكن مع حفظ اختيار الزائر.
+- بحث فوري مع اختصار Ctrl+K.
+- فهرس عناوين تلقائي داخل المقالات.
+- أزرار نسخ الأكواد ومشاركة المقال وحفظه.
+- وضع قراءة ومؤشر تقدم القراءة.
+- تصميم متجاوب للهاتف واللوحي والحاسوب.
 
-- ✅ القائمة الجانبية تظهر في الصفحة الرئيسية وجميع الصفحات
-- ✅ تخطيط كامل العرض (Full Width) بدون انحياز لليمين
-- ✅ مربعات أكواد جميلة مع زر نسخ يعمل
-- ✅ لا يوجد أي ذكر لـ Cyber Silicon - علامة تجارية نظيفة Cyber Silicon فقط
-- ✅ دعم كامل للغة العربية RTL
-- ✅ وضع ليلي / نهاري
-- ✅ بحث فوري (Ctrl+K)
-- ✅ متجاوب مع الجوال
-- ✅ تحسين SEO وسرعة التحميل
-
-## 🚀 التشغيل المحلي
-
-```bash
-# تثبيت Jekyll (مرة واحدة)
+## التشغيل المحلي
+\`\`\`bash
 gem install bundler jekyll
-
-# تثبيت الاعتماديات
 bundle install
-
-# تشغيل الموقع
 bundle exec jekyll serve
-```
-
+\`\`\`
 ثم افتح http://localhost:4000
 
-## 📦 الرفع على GitHub Pages
-
-1. Fork هذا الريبو باسم USERNAME.github.io
-2. عدل `_config.yml` (title, url, author)
-3. فعل GitHub Pages: Settings > Pages > Branch: main
-4. الموقع سيعمل تلقائياً على https://USERNAME.github.io
-
-## 🎨 التخصيص
-
-- الألوان في `_config.yml` -> `primary_color`
-- الشعار في `_includes/header.html`
-- القائمة الجانبية في `_includes/sidebar.html`
-- الأكواد: تلقائياً يتم إضافة زر النسخ لكل كود
-
-## 📝 إضافة مقال جديد
-
-أنشئ ملف في `_posts/YYYY-MM-DD-title.md`:
-
-```markdown
+## إضافة مقال
+أنشئ ملفاً داخل \`_posts/YYYY-MM-DD-title.md\`:
+\`\`\`yaml
 ---
 title: "عنوان المقال"
-date: 2026-10-30
+date: 2026-11-12
 categories: [Kali Linux]
-tags: [أمن سيبراني, كالي]
-image: /assets/images/your-image.webp
-description: "وصف قصير"
+tags: [Linux, أمن سيبراني]
+image: /assets/images/cover.webp
+description: "وصف مختصر للمقال"
 ---
+\`\`\`
 
-محتوى المقال هنا...
-```
+## إعدادات الهوية
+- العنوان والوصف والروابط في \`_config.yml\`.
+- الرأس في \`_includes/header.html\`.
+- الشريط الجانبي في \`_includes/sidebar.html\`.
+- التذييل في \`_includes/footer.html\`.
+- الألوان وتخطيط الشاشات في \`assets/css/cyber-silicon.css\`.
+- البحث والوضع الداكن والقراءة والنسخ في \`assets/js/main.js\`.
 
-## 🔧 ما تم إصلاحه
-
-- تم حل مشكلة `main-wrapper .container` التي كانت تسبب انحياز الصفحة
-- تم إصلاح `default.html` ليعرض الـ Sidebar دائماً
-- تمت إزالة كل مراجع `Cyber Silicon Pro` من Header/Footer/Config
-- تم بناء نظام أكواد جديد `code.css` + `main.js` مع زر نسخ احترافي
-- تم تحسين CSS ليكون Full Width و responsive
-
-## 📄 الرخصة
-
-مفتوح المصدر - Cyber Silicon 2026
+## النشر
+يُبنى الموقع بواسطة GitHub Actions ثم يُنشر عبر GitHub Pages. لا تضع رموز OAuth أو مفاتيح API أو كلمات مرور داخل المستودع.
