@@ -1,0 +1,46 @@
+<aside class="site-sidebar" aria-label="الشريط الجانبي">
+  <section class="sidebar-card sidebar-intro">
+    <div class="sidebar-brand-mark">CS</div>
+    <span class="eyebrow">CYBER SILICON</span>
+    <h2>مجتمع المعرفة التقنية</h2>
+    <p>تعلم البرمجة، استكشف Linux، وافهم الأمن السيبراني خطوة بخطوة.</p>
+    <a class="sidebar-link" href="{{ '/about/' | relative_url }}">تعرف على المدونة ←</a>
+  </section>
+
+  <section class="sidebar-card">
+    <div class="sidebar-heading"><h2>أحدث المقالات</h2><span>NEW</span></div>
+    <ol class="sidebar-post-list">
+      {% for post in site.posts limit:5 %}
+      <li>
+        <a href="{{ post.url | relative_url }}">
+          {% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span class="sidebar-post-number">{{ forloop.index | prepend: '0' }}</span>{% endif %}
+          <span><strong>{{ post.title }}</strong><small>{{ post.date | date: "%Y-%m-%d" }}</small></span>
+        </a>
+      </li>
+      {% endfor %}
+    </ol>
+  </section>
+
+  <section class="sidebar-card">
+    <div class="sidebar-heading"><h2>مسارات التعلّم</h2><span>PATHS</span></div>
+    <a class="learning-path" href="{{ '/categories/' | relative_url }}#kali-linux"><span class="path-icon">⌘</span><span><strong>Kali Linux</strong><small>الأنظمة والأدوات العملية</small></span><b>←</b></a>
+    <a class="learning-path" href="{{ '/categories/' | relative_url }}#programming"><span class="path-icon">Py</span><span><strong>البرمجة وPython</strong><small>الشيفرة وبناء المشاريع</small></span><b>←</b></a>
+    <a class="learning-path" href="{{ '/categories/' | relative_url }}#cybersecurity"><span class="path-icon">⌬</span><span><strong>الأمن السيبراني</strong><small>المفاهيم والتحليل والحماية</small></span><b>←</b></a>
+  </section>
+
+  {% if site.categories.size > 0 %}
+  <section class="sidebar-card">
+    <div class="sidebar-heading"><h2>الأقسام</h2><span>{{ site.categories.size }}</span></div>
+    <div class="sidebar-categories">
+      {% for category in site.categories limit:8 %}
+      <a href="{{ '/categories/' | relative_url }}#{{ category[0] | slugify }}"><span>{{ category[0] }}</span><b>{{ category[1].size }}</b></a>
+      {% endfor %}
+    </div>
+    <a class="sidebar-link" href="{{ '/categories/' | relative_url }}">كل الأقسام ←</a>
+  </section>
+  {% endif %}
+  <section class="sidebar-card sidebar-note">
+    <span class="eyebrow">BUILD · LEARN · SECURE</span>
+    <p>المعرفة تبدأ بسؤال، والخبرة تبدأ بالتجربة.</p>
+  </section>
+</aside>
