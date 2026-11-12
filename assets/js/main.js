@@ -130,3 +130,40 @@
     }
   }
 })();
+
+
+/* Cyber Silicon reading experience */
+(() => {
+  const q=(s,p=document)=>p.querySelector(s);
+  const progress=q('[data-reading-progress]');
+  const article=q('#articleContent');
+  let ticking=false;
+  const paintProgress=()=>{
+    if(!progress||!article)return;
+    const rect=article.getBoundingClientRect();
+    const start=window.scrollY+rect.top;
+    const total=Math.max(1,article.scrollHeight-window.innerHeight);
+    const done=Math.min(total,Math.max(0,window.scrollY-start+window.innerHeight*.18));
+    progress.style.width=(done/total*100).toFixed(2)+'%';
+  };
+  if(progress&&article){
+    paintProgress();
+    window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{paintProgress();ticking=false});ticking=true}},{passive:true});
+    window.addEventListener('resize',paintProgress,{passive:true});
+  }
+  document.querySelectorAll('[data-reading-toggle]').forEach(button=>{
+    button.addEventListener('click',()=>{
+      const active=document.body.classList.toggle('reading-mode');
+      button.setAttribute('aria-pressed',String(active));
+      button.textContent=active?'إنهاء وضع القراءة':'وضع القراءة';
+      window.scrollTo({top:0,behavior:'smooth'});
+    });
+  });
+  const topButton=q('[data-back-to-top]');
+  if(topButton){
+    const show=()=>topButton.classList.toggle('visible',window.scrollY>420);
+    show();
+    window.addEventListener('scroll',show,{passive:true});
+    topButton.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+  }
+})();
