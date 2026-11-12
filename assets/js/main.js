@@ -132,21 +132,22 @@
 })();
 
 
+
 /* Cyber Silicon reading experience */
 (() => {
   const q=(s,p=document)=>p.querySelector(s);
-  const progress=q('[data-reading-progress]');
+  const progressFill=q('[data-reading-progress] span');
   const article=q('#articleContent');
   let ticking=false;
   const paintProgress=()=>{
-    if(!progress||!article)return;
+    if(!progressFill||!article)return;
     const rect=article.getBoundingClientRect();
     const start=window.scrollY+rect.top;
     const total=Math.max(1,article.scrollHeight-window.innerHeight);
     const done=Math.min(total,Math.max(0,window.scrollY-start+window.innerHeight*.18));
-    progress.style.width=(done/total*100).toFixed(2)+'%';
+    progressFill.style.width=(done/total*100).toFixed(2)+'%';
   };
-  if(progress&&article){
+  if(progressFill&&article){
     paintProgress();
     window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{paintProgress();ticking=false});ticking=true}},{passive:true});
     window.addEventListener('resize',paintProgress,{passive:true});
