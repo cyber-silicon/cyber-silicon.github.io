@@ -1,0 +1,66 @@
+name: Sync Blogger posts
+
+on:
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "Preview only, or import posts into this branch"
+        required: true
+        type: choice
+        default: preview
+        options:
+          - preview
+          - apply
+
+permissions:
+  contents: write
+
+concurrency:
+  group: blogger-sync-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    env:
+      BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Blogger API key
+        run: |
+          if [ -z "$BLOGGER_API_KEY" ]; then
+            echo "::error::Add BLOGGER_API_KEY as a repository secret before running this workflow."
+            exit 1
+          fi
+
+      - name: Preview Blogger import
+        if: inputs.mode == 'preview'
+        run: python3 scripts/sync_blogger_posts.py
+
+      - name: Apply Blogger import
+        if: inputs.mode == 'apply'
+        run: python3 scripts/sync_blogger_posts.py --apply
+
+      - name: Commit imported posts
+        if: inputs.mode == 'apply'
+        run: |
+          git add _posts/
+          if git diff --cached --quiet; then
+            echo "No new or updated Blogger posts."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Sync published Blogger posts"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
