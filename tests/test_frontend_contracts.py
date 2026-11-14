@@ -10,6 +10,8 @@ class FrontendContracts(unittest.TestCase):
         cls.js = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
         cls.css = (ROOT / "assets/css/cyber-silicon.css").read_text(encoding="utf-8")
         cls.header = (ROOT / "_includes/header.html").read_text(encoding="utf-8")
+        cls.post = (ROOT / "_layouts/post.html").read_text(encoding="utf-8")
+        cls.bookmarks = (ROOT / "_pages/bookmarks.html").read_text(encoding="utf-8")
         cls.head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")
         cls.home = (ROOT / "_layouts/home.html").read_text(encoding="utf-8")
         cls.search = (ROOT / "_includes/search-modal.html").read_text(encoding="utf-8")
@@ -73,6 +75,16 @@ class FrontendContracts(unittest.TestCase):
     def test_reading_progress_tracks_dynamic_content_height(self):
         self.assertIn("new ResizeObserver(paintProgress)", self.js)
         self.assertIn("articleResizeObserver.observe(article)", self.js)
+
+    def test_current_navigation_and_toc_location_are_accessible(self):
+        self.assertIn('class="active" aria-current="page"', self.header)
+        self.assertIn("active?.setAttribute('aria-current','location')", self.js)
+        self.assertIn("active?.removeAttribute('aria-current')", self.js)
+        self.assertIn("scroll-margin-top:88px", self.css)
+
+    def test_bookmark_removal_buttons_include_the_article_title(self):
+        self.assertIn('type="button" data-remove-bookmark=', self.bookmarks)
+        self.assertIn('aria-label="إزالة {{ post.title | escape }} من المحفوظات"', self.bookmarks)
 
     def test_ci_checks_frontend_javascript_syntax(self):
         self.assertIn("node --check assets/js/main.js", self.workflow)
