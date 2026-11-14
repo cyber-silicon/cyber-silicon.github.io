@@ -26,7 +26,7 @@ DEFAULT_BLOG_URL = "https://cyber-silicon.blogspot.com/"
 PERMALINK_RE = re.compile(r"^/\d{4}/\d{2}/[A-Za-z0-9._~!$&'()*+,;=:@%-]+\.html$")
 BLOGGER_MARKER_RE = re.compile(r'^blogger_id:\s*["\']?([0-9]+)', re.MULTILINE)
 BLOGGER_MANUAL_RE = re.compile(r"^blogger_sync:\s*manual\s*$", re.MULTILINE)
-BLOGGER_ALIAS_IDS_RE = re.compile(r"^blogger_alias_ids:\s*\\[([^]]*)\\]\\s*$", re.MULTILINE)
+BLOGGER_ALIAS_IDS_RE = re.compile(r"^blogger_alias_ids:\s*\[(.*)\]\s*$", re.MULTILINE)
 BLOCKED_TAGS = {"script", "style", "object", "embed", "form", "input", "button",
                 "textarea", "select", "option", "meta", "link", "base"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
