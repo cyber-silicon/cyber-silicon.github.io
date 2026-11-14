@@ -579,3 +579,20 @@ html[data-theme="dark"] .prose blockquote{
 .read-progress{width:100%;height:3px;right:0;left:0}
 .read-progress span{width:0;transition:width .06s linear}
 body.reading-mode .read-progress{display:none}
+
+
+/* Discussion area (Giscus) */
+.comments-section{
+  width:100%;margin:30px 0 0;padding:24px 26px;
+  border:1px solid var(--line);border-radius:18px;
+  background:var(--surface);box-shadow:0 8px 25px rgba(18,43,62,.035);
+}
+.comments-heading{margin:0 0 18px}
+.comments-heading h2{margin:5px 0;font-size:25px;color:var(--text)}
+.comments-heading p{margin:0;color:var(--muted);font-size:13px}
+.comments-section .giscus{width:100%;min-width:0}
+.comments-section .giscus-frame{width:100%;border:0!important}
+@media(max-width:620px){
+  .comments-section{padding:18px 13px;border-radius:14px;margin-top:22px}
+  .comments-heading h2{font-size:21px}
+}
