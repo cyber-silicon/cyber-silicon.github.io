@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - ".github/workflows/sync-blogger-import.yml"
+      - "scripts/sync_blogger_posts.py"
 
 permissions:
   contents: write
