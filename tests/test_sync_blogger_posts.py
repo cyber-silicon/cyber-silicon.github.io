@@ -169,6 +169,29 @@ class BloggerSyncTests(unittest.TestCase):
             self.assertEqual([manual], list(root.glob("*.md")))
             self.assertFalse(list(root.glob("*blogger-666777888.html")))
 
+    def test_manual_canonical_alias_blogger_id_is_not_duplicated(self):
+        post = {
+            "id": "888999000",
+            "title": "Republished lesson",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/republished-lesson.html",
+            "labels": ["Kali Linux"],
+            "content": "<p>Second source copy</p>",
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            manual = root / "2026-10-08-canonical.md"
+            manual.write_text(
+                '---\ntitle: "Canonical lesson"\nblogger_id: "123456789"\n'
+                'blogger_alias_ids: ["888999000"]\nblogger_sync: manual\n---\n',
+                encoding="utf-8",
+            )
+            summary = SYNC.apply_posts([post], root, apply=True)
+            self.assertEqual(0, len(summary["create"]))
+            self.assertEqual(1, len(summary["unchanged"]))
+            self.assertIn("888999000", summary["unchanged"][0])
+            self.assertFalse(list(root.glob("*blogger-888999000.html")))
+
     def test_duplicate_blogger_id_without_manual_lock_is_a_conflict(self):
         post = {
             "id": "777888999",
