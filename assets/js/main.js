@@ -20,6 +20,17 @@
   if(savedTheme)root.dataset.theme=savedTheme;
   else root.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
 
+  const syncThemeUI=()=>{
+    const light=root.dataset.theme==='light';
+    q('meta[name="theme-color"]')?.setAttribute('content',light?'#edf2f7':'#071827');
+    qa('[data-theme-toggle]').forEach(b=>{
+      b.setAttribute('aria-pressed',String(light));
+      b.setAttribute('aria-label',light?'المظهر: فاتح':'المظهر: داكن');
+      b.setAttribute('title',light?'المظهر الفاتح':'المظهر الداكن');
+    });
+  };
+  syncThemeUI();
+
   const syncGiscusTheme=()=>{
     const frame=q('.giscus-frame');
     if(!frame?.contentWindow)return;
@@ -40,7 +51,7 @@
   }
   qa('[data-theme-toggle]').forEach(b=>b.addEventListener('click',()=>{
     const next=root.dataset.theme==='dark'?'light':'dark';
-    root.dataset.theme=next;storage.set('cs-theme',next);syncGiscusTheme();
+    root.dataset.theme=next;storage.set('cs-theme',next);syncThemeUI();syncGiscusTheme();
   }));
 
   const nav=q('[data-mobile-nav]');
