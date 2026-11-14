@@ -30,7 +30,7 @@ Giscus مضبوط حالياً في `_config.yml` على المستودع `cyber
 - يحاول الحفاظ على مسار Blogger الأصلي (/YYYY/MM/post.html) كـ permalink.
 - يزيل عناصر script وسمات أحداث HTML، ويسمح بإطارات الفيديو من YouTube وVimeo فقط.
 
-بعد دمج الإعدادات إلى الفرع الافتراضي، يمكن تشغيل GitHub Actions من تبويب Actions ثم Sync Blogger posts. وضع preview قراءة فقط ويعمل على الفرع المحدد. وضع apply مقيّد تقنياً بفرع التطوير `feature/blogger-parity-20261112`، كما أن صلاحية الكتابة ممنوحة لخطوة التطبيق فقط؛ لا يستطيع سير العمل تطبيق الاستيراد على `main`. يلزم إضافة BLOGGER_API_KEY كـ Repository Secret، ويمكن ضبط BLOGGER_URL كـ Repository Variable. لا توجد جدولة تلقائية.
+بعد دمج الإعدادات إلى الفرع الافتراضي، استخدم `Sync Blogger preview` من تبويب Actions للمعاينة فقط، واختر فرع التطوير عند التشغيل. بعد مراجعة النتيجة، استخدم `Import Blogger posts to development branch` لتطبيق الاستيراد؛ هذا التشغيل يقبل التنفيذ من `main` لكنه يكتب حصراً إلى `feature/blogger-parity-20261112`، وصلاحية `contents: write` محصورة بمهمة الاستيراد. لا توجد جدولة تلقائية.
 
 مثال تشغيل محلي:
 ```bash
