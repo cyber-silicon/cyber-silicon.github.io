@@ -6,9 +6,10 @@ permalink: /categories/
 ---
 
 <div class="taxonomy-intro">
-  <p>إذا كنت تبحث عن مسار واضح داخل المدونة، ابدأ من هنا. تجمع هذه الصفحة المقالات حسب المجال: أمن سيبراني، Linux، برمجة، إلكترونيات وغيرها من الموضوعات التقنية التي ننشرها.</p>
+  <p>إذا كنت تبحث عن مسار واضح داخل المدونة، ابدأ من هنا. تجمع هذه الصفحة المقالات حسب المجال: الأمن السيبراني وLinux والبرمجة.</p>
 </div>
 
+{% if site.categories.size > 0 %}
 <div class="taxonomy-list">
 {% assign categories = site.categories | sort %}
 {% for category in categories %}
@@ -38,3 +39,11 @@ permalink: /categories/
 </section>
 {% endfor %}
 </div>
+{% else %}
+<div class="empty-state library-empty-state">
+  <span aria-hidden="true">⌘</span>
+  <h2>مسارات التعلّم قيد التجهيز</h2>
+  <p>ستظهر هنا الأقسام المعتمدة بمجرد إضافة المحتوى النهائي.</p>
+  <a class="button primary" href="{{ '/' | relative_url }}">العودة إلى الرئيسية</a>
+</div>
+{% endif %}
