@@ -13,13 +13,12 @@
 - تصميم متجاوب للهاتف واللوحي والحاسوب.
 
 ## التعليقات عبر Giscus
-التعليقات اختيارية ومعطلة افتراضياً. لتفعيلها:
-1. فعّل Discussions في إعدادات مستودع GitHub العام.
-2. ثبّت تطبيق Giscus على المستودع واختر تصنيف Discussions مناسباً.
-3. استخدم مولّد الإعدادات في https://giscus.app/ للحصول على معرّفي المستودع والتصنيف.
-4. أدخل القيم في إعدادات comments داخل _config.yml ثم غيّر enabled إلى true.
+Giscus مضبوط حالياً في `_config.yml` على المستودع `cyber-silicon/cyber-silicon.github.io` وتصنيف `General`، مع ربط المناقشات بمسار المقال (`pathname`) واللغة العربية. إعدادات المستودع تؤكد أن Discussions مفعّلة، وتطبيق Giscus مثبت على المستودع.
 
-لا تضع رموز وصول أو أسراراً في القالب. يتطلب Giscus حساب GitHub للمشاركة. التعليقات القديمة في Blogger لا تُنقل تلقائياً إلى Discussions؛ هذه مساحة تعليقات جديدة مرتبطة بمسار المقال.
+- تفعيل/تعطيل العرض يتم من `comments.enabled` في `_config.yml`.
+- إعدادات المعرفات العامة والتصنيف ليست أسراراً؛ لا تضع رموز وصول أو مفاتيح خاصة في القالب.
+- يحتاج الزائر إلى حساب GitHub للمشاركة.
+- تعليقات Blogger القديمة لا تُنقل تلقائياً؛ Giscus ينشئ مناقشة جديدة لكل مسار مقال.
 
 ## مزامنة Blogger إلى Jekyll
 يوجد مستورد آمن في scripts/sync_blogger_posts.py يستخدم Blogger API v3:
@@ -31,7 +30,7 @@
 - يحاول الحفاظ على مسار Blogger الأصلي (/YYYY/MM/post.html) كـ permalink.
 - يزيل عناصر script وسمات أحداث HTML، ويسمح بإطارات الفيديو من YouTube وVimeo فقط.
 
-بعد دمج الإعدادات إلى الفرع الافتراضي، يمكن تشغيل GitHub Actions من تبويب Actions ثم Sync Blogger posts. اختر preview أولاً؛ اختر apply فقط بعد مراجعة الملخص. يلزم إضافة BLOGGER_API_KEY كـ Repository Secret، ويمكن ضبط BLOGGER_URL كـ Repository Variable. لا توجد جدولة تلقائية.
+بعد دمج الإعدادات إلى الفرع الافتراضي، يمكن تشغيل GitHub Actions من تبويب Actions ثم Sync Blogger posts. وضع preview قراءة فقط ويعمل على الفرع المحدد. وضع apply مقيّد تقنياً بفرع التطوير `feature/blogger-parity-20261112`، كما أن صلاحية الكتابة ممنوحة لخطوة التطبيق فقط؛ لا يستطيع سير العمل تطبيق الاستيراد على `main`. يلزم إضافة BLOGGER_API_KEY كـ Repository Secret، ويمكن ضبط BLOGGER_URL كـ Repository Variable. لا توجد جدولة تلقائية.
 
 مثال تشغيل محلي:
 ```bash
