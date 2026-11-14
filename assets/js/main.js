@@ -28,8 +28,8 @@
     q('meta[name="theme-color"]')?.setAttribute('content',light?'#edf2f7':'#071827');
     qa('[data-theme-toggle]').forEach(b=>{
       b.setAttribute('aria-pressed',String(light));
-      b.setAttribute('aria-label',light?'المظهر: فاتح':'المظهر: داكن');
-      b.setAttribute('title',light?'المظهر الفاتح':'المظهر الداكن');
+      b.setAttribute('aria-label','تبديل المظهر');
+      b.setAttribute('title',light?'المظهر الحالي: فاتح':'المظهر الحالي: داكن');
     });
   };
   syncThemeUI();
@@ -78,10 +78,17 @@
   const nav=q('[data-mobile-nav]');
   const menuButtons=qa('[data-menu-toggle]');
   let menuOpener=null;
+  const paintMenuState=open=>{
+    menuButtons.forEach(b=>{
+      b.setAttribute('aria-expanded',String(open));
+      b.setAttribute('aria-label',open?'إغلاق القائمة':'فتح القائمة');
+      b.setAttribute('title',open?'إغلاق القائمة':'فتح القائمة');
+    });
+  };
   const closeMenu=(restoreFocus=false)=>{
     const wasOpen=!!nav?.classList.contains('open');
     nav?.classList.remove('open');
-    menuButtons.forEach(b=>b.setAttribute('aria-expanded','false'));
+    paintMenuState(false);
     if(wasOpen&&restoreFocus)menuOpener?.focus();
     if(wasOpen)menuOpener=null;
   };
@@ -90,9 +97,18 @@
     if(open)menuOpener=b;
     else menuOpener=null;
     nav?.classList.toggle('open',open);
-    b.setAttribute('aria-expanded',String(open));
+    paintMenuState(open);
   }));
   qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',()=>closeMenu()));
+  document.addEventListener('click',event=>{
+    if(!nav?.classList.contains('open'))return;
+    if(nav.contains(event.target)||menuButtons.some(b=>b.contains(event.target)))return;
+    closeMenu();
+  });
+  const desktopNavigation=window.matchMedia?.('(min-width: 901px)');
+  const closeMenuOnDesktop=event=>{if(event.matches)closeMenu(true)};
+  if(desktopNavigation?.addEventListener)desktopNavigation.addEventListener('change',closeMenuOnDesktop);
+  else desktopNavigation?.addListener?.(closeMenuOnDesktop);
 
   const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults'),searchEmptyState=q('.search-empty-state');
   const searchItems=qa('.search-item');
