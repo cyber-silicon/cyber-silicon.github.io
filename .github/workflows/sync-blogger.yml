@@ -27,10 +27,18 @@ jobs:
       BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
       BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
     steps:
-      - name: Checkout selected branch
+      - name: Restrict sync to the development branch
+        shell: bash
+        run: |
+          if [[ "$GITHUB_REF" != "refs/heads/feature/blogger-parity-20261112" ]]; then
+            echo "::error::This write-capable sync workflow is restricted to feature/blogger-parity-20261112. Use Sync Blogger preview for read-only checks on other branches."
+            exit 1
+          fi
+
+      - name: Checkout development branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.ref_name }}
+          ref: feature/blogger-parity-20261112
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -63,4 +71,4 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Sync published Blogger posts"
-          git push origin "HEAD:${GITHUB_REF_NAME}"
+          git push origin "HEAD:refs/heads/feature/blogger-parity-20261112"
