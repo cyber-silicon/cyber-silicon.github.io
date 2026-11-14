@@ -58,6 +58,23 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("b.setAttribute('aria-label','تبديل المظهر')", self.js)
         self.assertIn("b.setAttribute('aria-pressed',String(light))", self.js)
 
+    def test_arabic_search_normalizes_diacritics_and_common_alif_forms(self):
+        self.assertIn(".normalize('NFKC').toLowerCase()", self.js)
+        self.assertIn(r".replace(/[\\u064B-\\u065F\\u0670\\u0640]/g,'')", self.js)
+        self.assertIn("replace(/[أإآٱ]/g,'ا')", self.js)
+        self.assertIn("replace(/ى/g,'ي')", self.js)
+        self.assertIn("const term=normalizeSearchText(input.value)", self.js)
+
+    def test_bookmark_buttons_expose_state_and_handle_storage_failure(self):
+        self.assertIn("b.setAttribute('aria-pressed',String(on))", self.js)
+        self.assertIn("تعذر حفظ المقال في هذا المتصفح", self.js)
+        self.assertIn("if(!saveBookmarks(next))", self.js)
+        self.assertIn("if(!saveBookmarks(next))", self.js)
+
+    def test_reading_progress_tracks_dynamic_content_height(self):
+        self.assertIn("new ResizeObserver(paintProgress)", self.js)
+        self.assertIn("articleResizeObserver.observe(article)", self.js)
+
     def test_ci_checks_frontend_javascript_syntax(self):
         self.assertIn("node --check assets/js/main.js", self.workflow)
 
