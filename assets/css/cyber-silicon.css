@@ -628,3 +628,25 @@ body.reading-mode .read-progress{display:none}
 html[data-theme="light"] .button.primary{
   color:#ffffff;
 }
+
+
+/* Search feedback states */
+.search-empty-state,
+.search-no-results{
+  margin:14px 0;
+  padding:18px;
+  border:1px dashed var(--line);
+  border-radius:13px;
+  background:var(--surface2);
+  color:var(--text);
+  text-align:center;
+}
+.search-empty-state p{
+  margin:6px 0 0;
+  color:var(--muted);
+  font-size:13px;
+}
+.search-no-results{
+  color:var(--muted);
+  font-size:13px;
+}
