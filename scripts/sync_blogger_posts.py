@@ -92,11 +92,14 @@ class SafeHTML(HTMLParser):
     def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         if self.skip_depth:
-            if tag in BLOCKED_TAGS:
+            # Void elements (input, embed, meta, etc.) have no closing tag;
+            # do not increase skip_depth or all following article content may be lost.
+            if tag in BLOCKED_TAGS and tag not in VOID_TAGS:
                 self.skip_depth += 1
             return
         if tag in BLOCKED_TAGS:
-            self.skip_depth = 1
+            if tag not in VOID_TAGS:
+                self.skip_depth = 1
             return
         if tag == "iframe":
             src = next((v for k, v in attrs if k.lower() == "src" and v), "")
@@ -109,7 +112,7 @@ class SafeHTML(HTMLParser):
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         self.handle_starttag(tag, attrs)
-        if tag in BLOCKED_TAGS:
+        if tag in BLOCKED_TAGS and tag not in VOID_TAGS:
             self.skip_depth = max(0, self.skip_depth - 1)
         elif tag not in VOID_TAGS and self.skip_depth == 0:
             self.handle_endtag(tag)
