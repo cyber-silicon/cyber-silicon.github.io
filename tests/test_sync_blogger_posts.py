@@ -76,6 +76,44 @@ class BloggerSyncTests(unittest.TestCase):
         self.assertIn('comments: true', content)
         self.assertNotIn("bad()", content)
 
+    def test_render_removes_only_a_duplicate_leading_h1(self):
+        post = {
+            "id": "222333444",
+            "title": "عنوان المقال",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/heading.html",
+            "labels": ["Kali Linux"],
+            "content": "<h1>عنوان المقال</h1><p>يبقى المحتوى</p>",
+        }
+        _, content = SYNC.render_post(post)
+        self.assertNotIn("<h1>عنوان المقال</h1>", content)
+        self.assertIn("<p>يبقى المحتوى</p>", content)
+
+    def test_render_keeps_non_duplicate_leading_h1(self):
+        post = {
+            "id": "222333445",
+            "title": "عنوان الصفحة",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/another-heading.html",
+            "labels": [],
+            "content": "<h1>عنوان فرعي مختلف</h1><p>المحتوى</p>",
+        }
+        _, content = SYNC.render_post(post)
+        self.assertIn("<h1>عنوان فرعي مختلف</h1>", content)
+        self.assertIn('categories: ["General"]', content)
+
+    def test_unlabeled_kali_posts_get_kali_category(self):
+        post = {
+            "id": "222333446",
+            "title": "دليل Kali Linux للمبتدئين",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/kali.html",
+            "labels": [],
+            "content": "<p>محتوى الدليل</p>",
+        }
+        _, content = SYNC.render_post(post)
+        self.assertIn('categories: ["Kali Linux"]', content)
+
     def test_dry_run_does_not_write(self):
         post = {
             "id": "987654321",
