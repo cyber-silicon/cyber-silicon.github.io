@@ -7,6 +7,7 @@
     <a class="sidebar-link" href="{{ '/about/' | relative_url }}">تعرف على المدونة ←</a>
   </section>
 
+  {% if site.posts.size > 0 %}
   <section class="sidebar-card">
     <div class="sidebar-heading"><h2>أحدث المقالات</h2><span>NEW</span></div>
     <ol class="sidebar-post-list">
@@ -20,6 +21,12 @@
       {% endfor %}
     </ol>
   </section>
+  {% else %}
+  <section class="sidebar-card sidebar-empty-posts">
+    <div class="sidebar-heading"><h2>مكتبة المقالات</h2><span>SOON</span></div>
+    <p>المساحة جاهزة لاستقبال الأدلة والدروس الجديدة.</p>
+  </section>
+  {% endif %}
 
   <section class="sidebar-card">
     <div class="sidebar-heading"><h2>مسارات التعلّم</h2><span>PATHS</span></div>
