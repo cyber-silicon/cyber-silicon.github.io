@@ -5,8 +5,8 @@
       <span><strong>Cyber Silicon</strong><small>تقنية • أمن • برمجة</small></span>
     </a>
     <nav class="desktop-nav" aria-label="التنقل الرئيسي">
-      {% for item in site.nav %}<a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active"{% endif %}>{{ item.title }}</a>{% endfor %}
-      <a href="{{ '/bookmarks/' | relative_url }}"{% if page.url == '/bookmarks/' %} class="active"{% endif %}>المحفوظات</a>
+      {% for item in site.nav %}<a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a>{% endfor %}
+      <a href="{{ '/bookmarks/' | relative_url }}"{% if page.url == '/bookmarks/' %} class="active" aria-current="page"{% endif %}>المحفوظات</a>
     </nav>
     <div class="header-actions">
       <button class="icon-button" data-search-open aria-label="بحث" title="بحث" aria-haspopup="dialog" aria-controls="searchDialog" aria-expanded="false">⌕</button>
@@ -15,7 +15,7 @@
     </div>
   </div>
   <nav class="mobile-nav" id="mobileNav" data-mobile-nav aria-label="قائمة الهاتف">
-    {% for item in site.nav %}<a href="{{ item.url | relative_url }}">{{ item.title }}</a>{% endfor %}
-    <a href="{{ '/bookmarks/' | relative_url }}">المحفوظات</a>
+    {% for item in site.nav %}<a href="{{ item.url | relative_url }}"{% if page.url == item.url %} class="active" aria-current="page"{% endif %}>{{ item.title }}</a>{% endfor %}
+    <a href="{{ '/bookmarks/' | relative_url }}"{% if page.url == '/bookmarks/' %} class="active" aria-current="page"{% endif %}>المحفوظات</a>
   </nav>
 </header>
