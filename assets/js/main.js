@@ -53,7 +53,7 @@
   }));
   qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',closeMenu));
 
-  const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults');
+  const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults'),searchEmptyState=q('.search-empty-state');
   const searchItems=qa('.search-item');
   let searchOpener=null;
   const setSearch=open=>{
@@ -84,6 +84,7 @@
     searchItems.forEach(a=>{const show=!term||a.dataset.searchText.includes(term);a.hidden=!show;if(show)visible++});
     if(count)count.textContent=visible;
     if(noSearchResults)noSearchResults.hidden=!term||visible>0;
+    if(searchEmptyState)searchEmptyState.hidden=!!term;
   });
 
   qa('[data-share]').forEach(b=>b.addEventListener('click',async()=>{
