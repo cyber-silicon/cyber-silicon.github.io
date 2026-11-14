@@ -31,6 +31,8 @@
 - يحاول الحفاظ على مسار Blogger الأصلي (/YYYY/MM/post.html) كـ permalink.
 - يزيل عناصر script وسمات أحداث HTML، ويسمح بإطارات الفيديو من YouTube وVimeo فقط.
 
+بعد دمج الإعدادات إلى الفرع الافتراضي، يمكن تشغيل GitHub Actions من تبويب Actions ثم Sync Blogger posts. اختر preview أولاً؛ اختر apply فقط بعد مراجعة الملخص. يلزم إضافة BLOGGER_API_KEY كـ Repository Secret، ويمكن ضبط BLOGGER_URL كـ Repository Variable. لا توجد جدولة تلقائية.
+
 مثال تشغيل محلي:
 ```bash
 export BLOGGER_API_KEY="YOUR_RESTRICTED_API_KEY"
