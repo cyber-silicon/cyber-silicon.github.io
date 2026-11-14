@@ -668,3 +668,20 @@ html[data-theme="light"] .button.primary{
     transition-duration:.01ms!important;
   }
 }
+
+/* Keep anchored article headings visible below the sticky site header. */
+.prose h2,
+.prose h3,
+.prose h4{
+  scroll-margin-top:88px;
+}
+.mobile-nav a[aria-current="page"],
+.desktop-nav a[aria-current="page"]{
+  color:var(--accent);
+  font-weight:800;
+}
+.article-toc a[aria-current="location"]{
+  color:var(--accent);
+  background:var(--surface2);
+  font-weight:800;
+}
