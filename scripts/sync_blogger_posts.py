@@ -263,6 +263,14 @@ def yaml_string(value: str) -> str:
     return json.dumps(value, ensure_ascii=False)
 
 
+def strip_duplicate_leading_title(body: str, title: str) -> str:
+    """Remove a leading H1 only when it exactly duplicates the page title."""
+    match = re.match(r"^\s*<h1\b[^>]*>(.*?)</h1\s*>", body, re.IGNORECASE | re.DOTALL)
+    if match and html_text(match.group(1)).strip().casefold() == title.strip().casefold():
+        return body[match.end():].lstrip()
+    return body
+
+
 def render_post(post: dict) -> tuple[str, str]:
     post_id = str(post.get("id", "")).strip()
     title = html_text(str(post.get("title", "")))
@@ -278,8 +286,15 @@ def render_post(post: dict) -> tuple[str, str]:
     labels = post.get("labels", [])
     labels = [html_text(str(label)) for label in labels if str(label).strip()] if isinstance(labels, list) else []
     labels = list(dict.fromkeys(label for label in labels if label))
-    categories = labels[:1] or ["Blogger"]
-    safe_body = sanitize_html(content)
+    if labels:
+        categories = labels[:1]
+    elif "kali linux" in title.casefold():
+        categories = ["Kali Linux"]
+    elif any(word in title.casefold() for word in ("python", "programming", "برمجة")):
+        categories = ["Programming"]
+    else:
+        categories = ["General"]
+    safe_body = strip_duplicate_leading_title(sanitize_html(content), title)
     description = html_text(safe_body)[:180]
     if len(html_text(safe_body)) > 180:
         description = description.rstrip() + "…"
