@@ -251,7 +251,7 @@
   }));
   renderBookmarks();
   window.addEventListener('storage',event=>{
-    if(event.key!==bookmarkKey)return;
+    if(event.key!==bookmarkKey&&event.key!==null)return;
     qa('[data-bookmark]').forEach(b=>{
       const on=readBookmarks().includes(b.dataset.url);
       b.classList.toggle('saved',on);
