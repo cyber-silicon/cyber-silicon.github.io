@@ -8,8 +8,14 @@
     <input id="searchInput" type="search" placeholder="اكتب عنوانًا، أداة، قسمًا أو وسمًا..." autocomplete="off" enterkeyhint="search" aria-label="البحث في المقالات">
     <kbd>Ctrl K</kbd>
   </div>
-  <div class="search-meta"><span id="searchCount">{{ site.posts | size }}</span> نتيجة</div>
+  <div class="search-meta"><span id="searchCount" aria-live="polite">{{ site.posts | size }}</span> نتيجة</div>
   <div id="searchResults" class="search-results">
+    {% if site.posts.size == 0 %}
+    <div class="search-empty-state">
+      <strong>المكتبة قيد الإعداد</strong>
+      <p>ستظهر نتائج البحث عند إضافة المحتوى المعتمد.</p>
+    </div>
+    {% endif %}
     {% for post in site.posts %}
     <a class="search-item"
        data-search-text="{{ post.title | downcase | escape }} {{ post.description | default: post.excerpt | strip_html | downcase | escape }} {{ post.tags | join: ' ' | downcase | escape }} {{ post.categories | join: ' ' | downcase | escape }}"
@@ -18,5 +24,6 @@
       <span>{{ post.categories | first | default: "تقنية" }}</span>
     </a>
     {% endfor %}
+    <p id="searchNoResults" class="search-no-results" role="status" hidden>لا توجد نتائج مطابقة لعبارة البحث.</p>
   </div>
 </section>
