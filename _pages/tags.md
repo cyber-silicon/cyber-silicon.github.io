@@ -10,6 +10,7 @@ permalink: /tags/
 </div>
 
 <div class="tag-cloud-pro">
+{% if site.tags.size > 0 %}
 {% assign tags = site.tags | sort %}
 {% for tag in tags %}
   <a href="#{{ tag[0] | slugify }}">#{{ tag[0] }} <span>{{ tag[1].size }}</span></a>
@@ -33,4 +34,12 @@ permalink: /tags/
   </div>
 </section>
 {% endfor %}
+{% else %}
+<div class="empty-state library-empty-state">
+  <span aria-hidden="true">#</span>
+  <h2>الوسوم ستظهر هنا</h2>
+  <p>سيتم تنظيم المحتوى بالوسوم عند نشر الدروس والمقالات المعتمدة.</p>
+  <a class="button primary" href="{{ '/' | relative_url }}">العودة إلى الرئيسية</a>
+</div>
+{% endif %}
 </div>
