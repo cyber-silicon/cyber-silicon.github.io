@@ -99,5 +99,9 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("finally{area?.remove()}", self.js)
         self.assertIn(".visually-hidden{", self.css)
 
+    def test_skip_link_target_can_receive_keyboard_focus(self):
+        self.assertIn('href="#content"', self.layout)
+        self.assertIn('<main id="content" tabindex="-1">', self.layout)
+
 if __name__ == "__main__":
     unittest.main()
