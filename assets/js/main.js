@@ -117,10 +117,10 @@
   const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults'),searchEmptyState=q('.search-empty-state');
   const searchItems=qa('.search-item');
   const normalizeSearchText=value=>String(value??'').normalize('NFKC').toLowerCase()
-    .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g,'')
+    .replace(/[\u064B-\u065F\u0670\u0640]/g,'')
     .replace(/[أإآٱ]/g,'ا')
     .replace(/ى/g,'ي')
-    .replace(/\\s+/g,' ').trim();
+    .replace(/\s+/g,' ').trim();
   const searchRecords=searchItems.map(element=>({
     element,
     text:normalizeSearchText(element.dataset.searchText)
