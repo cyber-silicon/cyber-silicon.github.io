@@ -6,12 +6,13 @@
 <meta name="color-scheme" content="dark light">
 <meta name="robots" content="index,follow,max-image-preview:large">
 <script>
+const prefersLight=window.matchMedia?.('(prefers-color-scheme: light)')?.matches===true;
 try{
   const t=localStorage.getItem('cs-theme');
   const validTheme=t==='light'||t==='dark';
-  document.documentElement.dataset.theme=validTheme?t:(matchMedia('(prefers-color-scheme: light)').matches?'light':'dark');
+  document.documentElement.dataset.theme=validTheme?t:(prefersLight?'light':'dark');
 }catch(e){
-  document.documentElement.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  document.documentElement.dataset.theme=prefersLight?'light':'dark';
 }
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
