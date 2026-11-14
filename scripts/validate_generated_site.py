@@ -41,7 +41,7 @@ for path in REQUIRED:
         ERRORS.append(f"Missing generated file: {path}")
 
 # The canonical Blogger-backed Kali lesson must render exactly one Arabic Giscus instance.
-COMMENTED_POST = ROOT / "2026" / "11" / "kali-linux-3-virtualbox-virtual-machine.html"
+COMMENTED_POST = ROOT / "2026" / "10" / "kali-linux-3-virtualbox-virtual-machine.html"
 if not COMMENTED_POST.exists():
     ERRORS.append(f"Missing canonical Blogger-backed article: {COMMENTED_POST}")
 else:
@@ -63,6 +63,19 @@ else:
             ERRORS.append(f"{COMMENTED_POST}: expected exactly one Giscus script")
     except OSError as exc:
         ERRORS.append(f"Could not inspect Giscus article output: {exc}")
+
+LEGACY_LESSON_REDIRECT = ROOT / "2026" / "11" / "kali-linux-3-virtualbox-virtual-machine.html"
+if not LEGACY_LESSON_REDIRECT.exists():
+    ERRORS.append(f"Missing legacy lesson redirect: {LEGACY_LESSON_REDIRECT}")
+else:
+    try:
+        redirect_html = LEGACY_LESSON_REDIRECT.read_text(encoding="utf-8")
+        if 'content="0; url=/2026/10/kali-linux-3-virtualbox-virtual-machine.html"' not in redirect_html:
+            ERRORS.append(f"{LEGACY_LESSON_REDIRECT}: missing immediate redirect to canonical article")
+        if 'rel="canonical"' not in redirect_html or "noindex,follow" not in redirect_html:
+            ERRORS.append(f"{LEGACY_LESSON_REDIRECT}: missing canonical/noindex safeguards")
+    except OSError as exc:
+        ERRORS.append(f"Could not inspect legacy lesson redirect: {exc}")
 
 for html in ROOT.rglob("*.html"):
     parser = MetaParser()
