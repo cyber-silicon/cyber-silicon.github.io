@@ -242,7 +242,8 @@
       if(!saveBookmarks(next)){
         b.textContent='تعذر الحفظ';
         b.setAttribute('aria-label','تعذر حفظ المقال في هذا المتصفح');
-        window.setTimeout(paint,1800);
+        announceAction(b,'تعذر حفظ المقال في هذا المتصفح.');
+        window.setTimeout(()=>{paint();announceAction(b,'')},1800);
         return;
       }
       paint();
@@ -257,13 +258,20 @@
     if(bookmarkEmpty)bookmarkEmpty.hidden=visible>0;
   };
   qa('[data-remove-bookmark]').forEach(b=>b.addEventListener('click',()=>{
+    const removeButtons=qa('[data-remove-bookmark]');
+    const currentIndex=removeButtons.indexOf(b);
     const next=readBookmarks().filter(v=>v!==b.dataset.removeBookmark);
     if(!saveBookmarks(next)){
       b.textContent='تعذرت الإزالة';
-      window.setTimeout(()=>{b.textContent='إزالة'},1800);
+      announceAction(b,'تعذرت إزالة المقال من المحفوظات.');
+      window.setTimeout(()=>{b.textContent='إزالة';announceAction(b,'')},1800);
       return;
     }
     renderBookmarks();
+    const isVisible=button=>button.closest('[data-bookmark-url]')?.hidden===false;
+    const nextFocus=removeButtons.slice(currentIndex+1).find(isVisible)
+      ||removeButtons.slice(0,currentIndex).reverse().find(isVisible);
+    (nextFocus||q('#bookmarksEmpty h2'))?.focus();
   }));
   renderBookmarks();
   window.addEventListener('storage',event=>{
