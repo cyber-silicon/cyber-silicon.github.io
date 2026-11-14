@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       mode:
-        description: "Preview only, or import posts into this branch"
+        description: "Preview only, or import posts into the development branch"
         required: true
         type: choice
         default: preview
@@ -12,26 +12,60 @@ on:
           - preview
           - apply
 
+# Default to read-only. The apply job grants write access only to itself.
 permissions:
-  contents: write
+  contents: read
 
 concurrency:
   group: blogger-sync-${{ github.ref }}
   cancel-in-progress: false
 
+env:
+  BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
+  BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+  BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
+
 jobs:
-  sync:
+  preview:
+    if: inputs.mode == 'preview'
     runs-on: ubuntu-latest
-    env:
-      BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
-      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
-      BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
+    timeout-minutes: 5
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Blogger API key
+        shell: bash
+        run: |
+          if [[ -z "$BLOGGER_API_KEY" ]]; then
+            echo "::error::Add BLOGGER_API_KEY as a repository secret before running this workflow."
+            exit 1
+          fi
+
+      - name: Preview published Blogger posts
+        run: python3 scripts/sync_blogger_posts.py
+
+  apply:
+    if: inputs.mode == 'apply'
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    permissions:
+      contents: write
     steps:
       - name: Restrict sync to the development branch
         shell: bash
         run: |
           if [[ "$GITHUB_REF" != "refs/heads/feature/blogger-parity-20261112" ]]; then
-            echo "::error::This write-capable sync workflow is restricted to feature/blogger-parity-20261112. Use Sync Blogger preview for read-only checks on other branches."
+            echo "::error::Apply is restricted to feature/blogger-parity-20261112. Choose Preview to inspect another branch."
             exit 1
           fi
 
@@ -46,22 +80,18 @@ jobs:
           python-version: "3.12"
 
       - name: Validate Blogger API key
+        shell: bash
         run: |
-          if [ -z "$BLOGGER_API_KEY" ]; then
+          if [[ -z "$BLOGGER_API_KEY" ]]; then
             echo "::error::Add BLOGGER_API_KEY as a repository secret before running this workflow."
             exit 1
           fi
 
-      - name: Preview Blogger import
-        if: inputs.mode == 'preview'
-        run: python3 scripts/sync_blogger_posts.py
-
       - name: Apply Blogger import
-        if: inputs.mode == 'apply'
         run: python3 scripts/sync_blogger_posts.py --apply
 
       - name: Commit imported posts
-        if: inputs.mode == 'apply'
+        shell: bash
         run: |
           git add _posts/
           if git diff --cached --quiet; then
