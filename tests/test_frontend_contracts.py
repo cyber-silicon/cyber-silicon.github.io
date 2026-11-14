@@ -104,5 +104,13 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn('href="#content"', self.layout)
         self.assertIn('<main id="content" tabindex="-1">', self.layout)
 
+    def test_bookmark_removal_preserves_focus_and_announces_storage_errors(self):
+        self.assertIn("const removeButtons=qa('[data-remove-bookmark]')", self.js)
+        self.assertIn("const nextFocus=removeButtons.slice(currentIndex+1).find(isVisible)", self.js)
+        self.assertIn("(nextFocus||q('#bookmarksEmpty h2'))?.focus()", self.js)
+        self.assertIn('<h2 tabindex="-1">لا توجد مقالات محفوظة بعد</h2>', self.bookmarks)
+        self.assertIn("announceAction(b,'تعذر حفظ المقال في هذا المتصفح.')", self.js)
+        self.assertIn("announceAction(b,'تعذرت إزالة المقال من المحفوظات.')", self.js)
+
 if __name__ == "__main__":
     unittest.main()
