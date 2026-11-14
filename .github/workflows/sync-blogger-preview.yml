@@ -1,0 +1,40 @@
+name: Sync Blogger preview
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blogger-preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
+    steps:
+      - name: Checkout selected branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Blogger API key secret
+        run: |
+          if [ -z "$BLOGGER_API_KEY" ]; then
+            echo "::error::Repository secret BLOGGER_API_KEY is missing or empty."
+            exit 1
+          fi
+
+      - name: Preview published Blogger posts
+        run: python3 scripts/sync_blogger_posts.py
