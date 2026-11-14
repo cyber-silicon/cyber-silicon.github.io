@@ -1,4 +1,3 @@
-from html.parser import HTMLParser
 from pathlib import Path
 import unittest
 
@@ -45,6 +44,16 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("prefers-reduced-motion: reduce", self.js)
         self.assertIn("behavior});", self.js)
         self.assertIn("dialog.contains(document.activeElement)", self.js)
+
+    def test_mobile_navigation_state_is_synchronized_and_dismissible(self):
+        self.assertIn("paintMenuState(open)", self.js)
+        self.assertIn("b.setAttribute('aria-label',open?'إغلاق القائمة':'فتح القائمة')", self.js)
+        self.assertIn("nav.contains(event.target)", self.js)
+        self.assertIn("closeMenuOnDesktop", self.js)
+
+    def test_theme_toggle_keeps_a_stable_accessible_name(self):
+        self.assertIn("b.setAttribute('aria-label','تبديل المظهر')", self.js)
+        self.assertIn("b.setAttribute('aria-pressed',String(light))", self.js)
 
     def test_ci_checks_frontend_javascript_syntax(self):
         self.assertIn("node --check assets/js/main.js", self.workflow)
