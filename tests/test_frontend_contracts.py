@@ -11,6 +11,7 @@ class FrontendContracts(unittest.TestCase):
         cls.css = (ROOT / "assets/css/cyber-silicon.css").read_text(encoding="utf-8")
         cls.header = (ROOT / "_includes/header.html").read_text(encoding="utf-8")
         cls.post = (ROOT / "_layouts/post.html").read_text(encoding="utf-8")
+        cls.layout = (ROOT / "_layouts/default.html").read_text(encoding="utf-8")
         cls.bookmarks = (ROOT / "_pages/bookmarks.html").read_text(encoding="utf-8")
         cls.head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")
         cls.home = (ROOT / "_layouts/home.html").read_text(encoding="utf-8")
