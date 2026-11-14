@@ -1,0 +1,136 @@
+---
+title: "[سلسلة Kali Linux - الدرس 5] التثبيت الكامل والتشغيل الأول لنظام Kali Linux"
+date: 2026-10-14T23:43:25+02:00
+categories: ["Blogger"]
+tags: []
+blogger_id: "735181877965248024"
+blogger_url: "https://cyber-silicon.blogspot.com/2026/10/kali-linux-5-kali-linux_0482471160.html"
+comments: true
+description: "مرحباً بكم في الدرس الخامس من سلسلة تعلم واحتراف نظام Kali Linux من الصفر المقدمة من قناة Cyber Silicon ! 💻🐉 نصل اليوم للخطوة المرتقبة التي نحصد فيها ثمرة الدروس السابقة، حيث نتعلم…"
+permalink: "/2026/10/kali-linux-5-kali-linux_0482471160.html"
+---
+
+<!-- Imported from Blogger; source post ID: 735181877965248024 -->
+<p>مرحباً بكم في الدرس الخامس من <strong>سلسلة تعلم واحتراف نظام Kali Linux من الصفر</strong> المقدمة من قناة <strong>Cyber Silicon</strong>! 💻🐉</p>
+<p>نصل اليوم للخطوة المرتقبة التي نحصد فيها ثمرة الدروس السابقة، حيث نتعلم خطوة بخطوة كيفية بدء عملية التثبيت الرسومي الكامل لنظام Kali Linux داخل البيئة الوهمية VirtualBox والوصول لسطح المكتب بنجاح.</p>
+<hr>
+<h3>🚀 الخطوة 1: بدء التثبيت الرسومي (Graphical Install)</h3>
+<ol>
+<li>افتح برنامج <strong>VirtualBox</strong> وحدد الآلة الوهمية التي قمنا بإنشائها سابقاً (<code>Kali</code>).</li>
+<li>اضغط على زر <strong>Start</strong> لتشغيل الآلة.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1rq_D27SdNrMrS8lvtkblehoRQyazkZ4V" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>من قائمة الإقلاع الخاصة بنظام Kali Linux، اختر <strong>Graphical Install</strong> واضغط على <code>Enter</code>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1P9u0m6n-6thte3TxORBNQc32gqrQrYz8" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>🌍 الخطوة 2: ضبط اللغة والمنطقة وتوزيع الكيبورد</h3>
+<ol>
+<li><strong>Select a language:</strong> اختر لغة تثبيت النظام (يُفضل اختيار <strong>English</strong> لضمان استقرار الأسماء والمجلدات).</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1Rido4FfMv25UUV-vfh1YbipJEbJrFev3" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li><strong>Select your location:</strong> حدد منطقتك الجغرافية (مثل <code>United States</code> أو منطقتك المحلية).</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1zq20veNBczbnsdpHvl9QJlNaDK7GP8AH" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li><strong>Configure the keyboard:</strong> اختر توزيع لوحة المفاتيح الافتراضي (<strong>American English</strong>).</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1WQqhnCjPn12_9lmqEn-SVqhX-rcigr0n" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>👤 الخطوة 3: إعداد اسم المستخدم وكلمة المرور (User &amp; Password)</h3>
+<ol>
+<li><strong>Configure the network:</strong> في خانة <strong>Hostname</strong> اكتب اسم الجهاز على الشبكة (مثلاً: <code>kali</code>)، وقم بتخطي خانة <strong>Domain name</strong> بالنقر على <code>Continue</code>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1bXxE8y_3JsSOSbNK5-_klEGUBGKHXHjc" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li><strong>Set up users and passwords:</strong> </li>
+<li>اكتب اسمك الكامل أو اسم الحساب (<strong>Full name for the new user</strong>).</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1xTgsqn7_DTKIgmMmAnAJpjzfPv7hEb2x" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ul>
+<li>اكتب اسم المستخدم الحركي (<strong>Username for your account</strong>) الذي ستستخدمه لتسجيل الدخول (مثلاً: <code>yusuf</code>).</li>
+<li>أدخل كلمة المرور الخاصة بك وأعد كتابتها للتأكيد، ثم اضغط <strong>Continue</strong>.</li>
+</ul>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1rKGtyTlG9QpG4BL8esSXycaiggZ9z3gS" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>💾 الخطوة 4: تقسيم الهارد الوهمي (Partition Disks)</h3>
+<ol>
+<li>في شاشة <strong>Partition disks</strong>، اختر <strong>Guided - use entire disk</strong> لتقسيم القرص الوهمي تلقائياً.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1JcGq0biLFOJjYbCVqPEbPmPTz3pJV7EE" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>حدد الهارد الوهمي المتاح واضغط <strong>Continue</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1sk0y_FTZu7YPjjV0CZkv_uhqOKffcQmg" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>اختر الخيار الموصى به للمبتدئين: <strong>All files in one partition (recommended for new users)</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1xE_kZevf-zbGt5eGuLOV-yvVwuaJ94TD" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>اضغط على <strong>Finish partitioning and write changes to disk</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1mD0uEel1VeopfKsjM5xQiQHucA5nJva4" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>تأكد من تحديد <strong>Yes</strong> للموافقة على كتابة التغييرات على القرص والشروع في تثبيت ملفات النظام.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/17Hay_arFY9vWZJOfSYO8mn-jLC6Fl6kr" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>🖥️ الخطوة 5: اختيار الواجهة وتثبيت محمل الإقلاع (GRUB Boot Loader)</h3>
+<ol>
+<li><strong>Software selection:</strong> اترُك خيارات الواجهة الرسومية الافتراضية كما هي (XFCE مع الأدوات الأساسية)، واضغط <strong>Continue</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1EK6AUhmLzX25RQADoQFhjQK5bkkk6Jj-" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li><strong>Install the GRUB boot loader:</strong> عند الوصول لشاشة تثبيت محمل الإقلاع GRUB، اختر <strong>Yes</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1gd4MdDkMcaYDLkpnNHAGZtcqu6AcXcix" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>حدد القرص الوهمي الرئيسي (مثل <code>/dev/sda</code>) ليتم تثبيت GRUB عليه بنجاح.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1h1S7Z-PXiMquRqgBF-P63LDQWmcrT3ZB" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>عند ظهور رسالة <strong>Installation complete</strong>، اضغط على <strong>Continue</strong> ليتم إعادة تشغيل الآلة الوهمية تلقائياً.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1dt2QftA7O3S_RCdi9fHSQI7oohfsAdnt" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>🎉 الخطوة 6: تسجيل الدخول والتشغيل الأول</h3>
+<ol>
+<li>بعد إعادة التشغيل، ستظهر لك واجهة الدخول الخاصة بـ Kali Linux.</li>
+<li>أدخل اسم المستخدم وكلمة المرور اللذين قمت بإنشائهما في الخطوة 3.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/12U5iObzNEVC1IwZ4nwc514Geoq-BeCEZ" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>اضغط على <strong>Log In</strong>، ومبروك عليك! هكذا أصبحت بيئة المختبر الخاصة بك جاهزة تماماً للعمل والاستكشاف. 🚀✨</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1ofPJKlLAnRzzlgLB0wucgJvb4OjpTvew" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<p>🔔 <strong>في الدرس القادم:</strong> سنقوم باستكشاف أدوات النظام الأساسية، والتعرف على أهم الأوامر الأولى لتحديث وتجهيز بيئة العمل!</p>
+<hr>
+<h3>🔗 التنقل بين دروس السلسلة</h3>
+<ul>
+<li><strong>الدرس السابق 👈:</strong> <a href="https://cyber-silicon.blogspot.com/2026/10/kali-linux-4.html">[سلسلة Kali Linux - الدرس 4] تهيئة الفلاشة وتقسيم الهارد للتثبيت</a></li>
+<li><strong>الدرس التالي 👈:</strong> <a href="https://cyber-silicon.blogspot.com/2026/11/kali-linux-6_0454500856.html">[سلسلة Kali Linux - الدرس 6] أهم الخطوات الأساسية بعد تثبيت كالي لينكس</a></li>
+</ul>
+<hr>
+            <div style="display: flex; justify-content: center; margin: 25px 0; width: 100%;">
