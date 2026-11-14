@@ -26,6 +26,24 @@ class BloggerSyncTests(unittest.TestCase):
         self.assertIn("before", result)
         self.assertIn("after", result)
 
+    def test_non_self_closing_void_input_does_not_hide_following_content(self):
+        source = '<p>before</p><input type="text"><p>after</p>'
+        result = SYNC.sanitize_html(source)
+        self.assertIn("before", result)
+        self.assertIn("after", result)
+
+    def test_void_embed_does_not_hide_following_content(self):
+        source = '<p>before</p><embed src="movie.swf"><p>after</p>'
+        result = SYNC.sanitize_html(source)
+        self.assertIn("before", result)
+        self.assertIn("after", result)
+
+    def test_void_tag_inside_blocked_script_does_not_break_skip_depth(self):
+        source = '<script><input></script><p>after</p>'
+        result = SYNC.sanitize_html(source)
+        self.assertNotIn("<script", result)
+        self.assertIn("after", result)
+
     def test_sanitizer_keeps_safe_video_embed(self):
         source = '<iframe src="https://www.youtube-nocookie.com/embed/abc" title="Video"></iframe>'
         self.assertIn("youtube-nocookie.com/embed/abc", SYNC.sanitize_html(source))
