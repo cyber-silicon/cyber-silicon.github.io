@@ -1,5 +1,5 @@
 {% assign comment_config = site.comments %}
-{% if page.comments and comment_config.enabled and comment_config.provider == "giscus" and comment_config.repo_id and comment_config.category_id %}
+{% if page.comments and comment_config.enabled and comment_config.provider == "giscus" and comment_config.repo_id != "" and comment_config.category_id != "" %}
 <section class="comments-section" id="comments" aria-labelledby="comments-title">
   <div class="comments-heading">
     <span class="eyebrow">COMMUNITY DISCUSSION</span>
