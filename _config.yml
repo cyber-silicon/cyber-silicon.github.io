@@ -38,14 +38,14 @@ collections:
     output: true
     permalink: /:name/
 comments:
-  enabled: false
+  enabled: true
   provider: giscus
   repo: "cyber-silicon/cyber-silicon.github.io"
-  repo_id: ""
+  repo_id: "R_kgDOVXRHBA"
   category: "General"
-  category_id: ""
+  category_id: "DIC_kwDOVXRHBM4DJtF0"
   mapping: "pathname"
-  strict: "0"
+  strict: "1"
   reactions_enabled: "1"
   input_position: "bottom"
   lang: "ar"
