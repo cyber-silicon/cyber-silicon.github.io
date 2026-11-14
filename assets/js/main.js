@@ -116,6 +116,15 @@
 
   const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults'),searchEmptyState=q('.search-empty-state');
   const searchItems=qa('.search-item');
+  const normalizeSearchText=value=>String(value??'').normalize('NFKC').toLowerCase()
+    .replace(/[\\u064B-\\u065F\\u0670\\u0640]/g,'')
+    .replace(/[أإآٱ]/g,'ا')
+    .replace(/ى/g,'ي')
+    .replace(/\\s+/g,' ').trim();
+  const searchRecords=searchItems.map(element=>({
+    element,
+    text:normalizeSearchText(element.dataset.searchText)
+  }));
   const searchOpeners=qa('[data-search-open]');
   let searchOpener=null;
   const setSearch=open=>{
@@ -173,9 +182,13 @@
     }
   });
   input?.addEventListener('input',()=>{
-    const term=input.value.trim().toLowerCase();
+    const term=normalizeSearchText(input.value);
     let visible=0;
-    searchItems.forEach(a=>{const show=!term||a.dataset.searchText.includes(term);a.hidden=!show;if(show)visible++});
+    searchRecords.forEach(({element,text})=>{
+      const show=!term||text.includes(term);
+      element.hidden=!show;
+      if(show)visible++;
+    });
     if(count)count.textContent=visible;
     if(noSearchResults)noSearchResults.hidden=!term||visible>0;
     if(searchEmptyState)searchEmptyState.hidden=!!term;
@@ -199,9 +212,25 @@
   const saveBookmarks=v=>storage.set(bookmarkKey,JSON.stringify(v));
   qa('[data-bookmark]').forEach(b=>{
     const url=b.dataset.url;
-    const paint=()=>{const on=readBookmarks().includes(url);b.classList.toggle('saved',on);b.textContent=on?'محفوظ':'حفظ'};
+    const paint=()=>{
+      const on=readBookmarks().includes(url);
+      b.classList.toggle('saved',on);
+      b.setAttribute('aria-pressed',String(on));
+      b.setAttribute('aria-label',on?'إزالة المقال من المحفوظات':'حفظ المقال في المحفوظات');
+      b.textContent=on?'محفوظ':'حفظ';
+    };
     paint();
-    b.addEventListener('click',()=>{let x=readBookmarks();x=x.includes(url)?x.filter(v=>v!==url):[...x,url];saveBookmarks(x);paint()});
+    b.addEventListener('click',()=>{
+      const current=readBookmarks();
+      const next=current.includes(url)?current.filter(v=>v!==url):[...current,url];
+      if(!saveBookmarks(next)){
+        b.textContent='تعذر الحفظ';
+        b.setAttribute('aria-label','تعذر حفظ المقال في هذا المتصفح');
+        window.setTimeout(paint,1800);
+        return;
+      }
+      paint();
+    });
   });
   const bookmarkCards=qa('[data-bookmark-url]'),bookmarkGrid=q('#bookmarksGrid'),bookmarkEmpty=q('#bookmarksEmpty');
   const renderBookmarks=()=>{
@@ -211,13 +240,23 @@
     if(bookmarkGrid)bookmarkGrid.hidden=visible===0;
     if(bookmarkEmpty)bookmarkEmpty.hidden=visible>0;
   };
-  qa('[data-remove-bookmark]').forEach(b=>b.addEventListener('click',()=>{saveBookmarks(readBookmarks().filter(v=>v!==b.dataset.removeBookmark));renderBookmarks()}));
+  qa('[data-remove-bookmark]').forEach(b=>b.addEventListener('click',()=>{
+    const next=readBookmarks().filter(v=>v!==b.dataset.removeBookmark);
+    if(!saveBookmarks(next)){
+      b.textContent='تعذرت الإزالة';
+      window.setTimeout(()=>{b.textContent='إزالة'},1800);
+      return;
+    }
+    renderBookmarks();
+  }));
   renderBookmarks();
   window.addEventListener('storage',event=>{
     if(event.key!==bookmarkKey)return;
     qa('[data-bookmark]').forEach(b=>{
       const on=readBookmarks().includes(b.dataset.url);
       b.classList.toggle('saved',on);
+      b.setAttribute('aria-pressed',String(on));
+      b.setAttribute('aria-label',on?'إزالة المقال من المحفوظات':'حفظ المقال في المحفوظات');
       b.textContent=on?'محفوظ':'حفظ';
     });
     renderBookmarks();
@@ -277,6 +316,10 @@
     paintProgress();
     window.addEventListener('scroll',()=>{if(!ticking){requestAnimationFrame(()=>{paintProgress();ticking=false});ticking=true}},{passive:true});
     window.addEventListener('resize',paintProgress,{passive:true});
+    if('ResizeObserver' in window){
+      const articleResizeObserver=new ResizeObserver(paintProgress);
+      articleResizeObserver.observe(article);
+    }
   }
   document.querySelectorAll('[data-reading-toggle]').forEach(button=>{
     button.addEventListener('click',()=>{
