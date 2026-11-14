@@ -29,7 +29,7 @@ class FrontendContracts(unittest.TestCase):
     def test_bookmark_storage_is_validated_and_shared_between_tabs(self):
         self.assertIn("Array.isArray(stored)", self.js)
         self.assertIn("typeof value==='string'", self.js)
-        self.assertIn("event.key!==bookmarkKey", self.js)
+        self.assertIn("event.key!==bookmarkKey&&event.key!==null", self.js)
         self.assertIn("renderBookmarks()", self.js)
 
     def test_search_dialog_has_consistent_accessible_references(self):
