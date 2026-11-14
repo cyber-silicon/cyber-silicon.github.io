@@ -290,16 +290,16 @@ a:focus-visible,button:focus-visible,input:focus-visible,[tabindex]:focus-visibl
 
 /* === Cyber Silicon / Blogger visual parity layer === */
 html[data-theme="dark"]{
-  --bg:#edf2f7;
-  --surface:#ffffff;
-  --surface2:#f3f7fa;
-  --text:#17283a;
-  --muted:#607487;
-  --line:#dbe5ed;
-  --accent:#079bb5;
-  --accent2:#42b9dc;
-  --shadow:0 18px 48px rgba(17,39,59,.09);
-  color-scheme:light;
+  --bg:#071827;
+  --surface:#0d2235;
+  --surface2:#132d43;
+  --text:#f1f7fc;
+  --muted:#b0c4d4;
+  --line:#28445a;
+  --accent:#4bd5e4;
+  --accent2:#65b9ff;
+  --shadow:0 18px 48px rgba(0,0,0,.32);
+  color-scheme:dark;
 }
 html[data-theme="light"]{
   --bg:#edf2f7;
@@ -312,12 +312,6 @@ html[data-theme="light"]{
   --accent2:#299ec5;
   --shadow:0 18px 48px rgba(17,39,59,.08);
   color-scheme:light;
-}
-html[data-theme="dark"].force-dark,
-html[data-theme="dark"] body.dark-preview{
-  --bg:#071827;--surface:#0d2235;--surface2:#132d43;--text:#f1f7fc;
-  --muted:#b0c4d4;--line:#28445a;--accent:#4bd5e4;--accent2:#65b9ff;
-  color-scheme:dark;
 }
 body{background:var(--bg);color:var(--text);font-family:Tajawal,system-ui,sans-serif}
 .shell{width:min(1480px,calc(100% - 40px))}
