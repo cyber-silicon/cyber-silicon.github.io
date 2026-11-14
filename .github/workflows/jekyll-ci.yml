@@ -4,7 +4,7 @@ on:
   pull_request:
     branches: [main]
   push:
-    branches: [main, redesign-v2]
+    branches: [main, redesign-v2, feature/blogger-parity-20261112]
 
 permissions:
   contents: read
