@@ -16,9 +16,12 @@
     }catch{return false}
   };
 
+  const colorScheme=window.matchMedia?.('(prefers-color-scheme: light)')??null;
   const savedTheme=storage.get('cs-theme');
-  if(savedTheme)root.dataset.theme=savedTheme;
-  else root.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
+  const isValidTheme=value=>value==='light'||value==='dark';
+  let followsSystem=!isValidTheme(savedTheme);
+  const systemTheme=()=>colorScheme?.matches?'light':'dark';
+  root.dataset.theme=isValidTheme(savedTheme)?savedTheme:systemTheme();
 
   const syncThemeUI=()=>{
     const light=root.dataset.theme==='light';
@@ -37,6 +40,11 @@
     const theme=root.dataset.theme==='dark'?'dark_dimmed':'light';
     frame.contentWindow.postMessage({giscus:{setConfig:{theme}}},'https://giscus.app');
   };
+  const applyTheme=theme=>{
+    root.dataset.theme=theme;
+    syncThemeUI();
+    syncGiscusTheme();
+  };
   const bindGiscusTheme=()=>{
     const frame=q('.giscus-frame');
     if(!frame||frame.dataset.csThemeBound)return;
@@ -49,9 +57,22 @@
     new MutationObserver(bindGiscusTheme).observe(giscusRoot,{childList:true,subtree:true});
     bindGiscusTheme();
   }
+  const handleSystemThemeChange=event=>{
+    if(followsSystem)applyTheme(event.matches?'light':'dark');
+  };
+  if(colorScheme?.addEventListener)colorScheme.addEventListener('change',handleSystemThemeChange);
+  else colorScheme?.addListener?.(handleSystemThemeChange);
+  window.addEventListener('storage',event=>{
+    if(event.key!=='cs-theme'&&event.key!==null)return;
+    const next=isValidTheme(event.newValue)?event.newValue:systemTheme();
+    followsSystem=!isValidTheme(event.newValue);
+    applyTheme(next);
+  });
   qa('[data-theme-toggle]').forEach(b=>b.addEventListener('click',()=>{
     const next=root.dataset.theme==='dark'?'light':'dark';
-    root.dataset.theme=next;storage.set('cs-theme',next);syncThemeUI();syncGiscusTheme();
+    followsSystem=false;
+    storage.set('cs-theme',next);
+    applyTheme(next);
   }));
 
   const nav=q('[data-mobile-nav]');
@@ -151,7 +172,10 @@
   }));
 
   const bookmarkKey='cs-bookmarks';
-  const readBookmarks=()=>parseJSON(storage.get(bookmarkKey,'[]'),[]);
+  const readBookmarks=()=>{
+    const stored=parseJSON(storage.get(bookmarkKey,'[]'),[]);
+    return Array.isArray(stored)?stored.filter(value=>typeof value==='string'):[];
+  };
   const saveBookmarks=v=>storage.set(bookmarkKey,JSON.stringify(v));
   qa('[data-bookmark]').forEach(b=>{
     const url=b.dataset.url;
@@ -169,6 +193,15 @@
   };
   qa('[data-remove-bookmark]').forEach(b=>b.addEventListener('click',()=>{saveBookmarks(readBookmarks().filter(v=>v!==b.dataset.removeBookmark));renderBookmarks()}));
   renderBookmarks();
+  window.addEventListener('storage',event=>{
+    if(event.key!==bookmarkKey)return;
+    qa('[data-bookmark]').forEach(b=>{
+      const on=readBookmarks().includes(b.dataset.url);
+      b.classList.toggle('saved',on);
+      b.textContent=on?'محفوظ':'حفظ';
+    });
+    renderBookmarks();
+  });
 
   qa('.prose pre').forEach(pre=>{
     const wrap=document.createElement('div');wrap.className='code-wrap';
@@ -230,7 +263,8 @@
       const active=document.body.classList.toggle('reading-mode');
       button.setAttribute('aria-pressed',String(active));
       button.textContent=active?'إنهاء وضع القراءة':'وضع القراءة';
-      window.scrollTo({top:0,behavior:'smooth'});
+      const behavior=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'auto':'smooth';
+      window.scrollTo({top:0,behavior});
     });
   });
   const topButton=q('[data-back-to-top]');
@@ -238,6 +272,9 @@
     const show=()=>topButton.classList.toggle('visible',window.scrollY>420);
     show();
     window.addEventListener('scroll',show,{passive:true});
-    topButton.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+    topButton.addEventListener('click',()=>{
+      const behavior=window.matchMedia?.('(prefers-reduced-motion: reduce)')?.matches?'auto':'smooth';
+      window.scrollTo({top:0,behavior});
+    });
   }
 })();
