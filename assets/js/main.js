@@ -106,7 +106,11 @@
     closeMenu();
   });
   const desktopNavigation=window.matchMedia?.('(min-width: 901px)');
-  const closeMenuOnDesktop=event=>{if(event.matches)closeMenu(true)};
+  const closeMenuOnDesktop=event=>{
+    if(!event.matches||!nav?.classList.contains('open'))return;
+    closeMenu();
+    (q('.desktop-nav a.active')||q('.desktop-nav a'))?.focus();
+  };
   if(desktopNavigation?.addEventListener)desktopNavigation.addEventListener('change',closeMenuOnDesktop);
   else desktopNavigation?.addListener?.(closeMenuOnDesktop);
 
