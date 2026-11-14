@@ -26,7 +26,7 @@ permalink: /bookmarks/
       <span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span>
       <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
       <p>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</p>
-      <div class="card-foot"><button class="text-button" data-remove-bookmark="{{ post.url | relative_url }}">إزالة</button><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
+      <div class="card-foot"><button class="text-button" type="button" data-remove-bookmark="{{ post.url | relative_url }}" aria-label="إزالة {{ post.title | escape }} من المحفوظات">إزالة</button><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
     </div>
   </article>
 {% endfor %}
