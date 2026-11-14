@@ -107,8 +107,11 @@ class SafeHTML(HTMLParser):
         self.parts.append(f"<{tag}{self._attrs(tag, attrs)}>")
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        tag = tag.lower()
         self.handle_starttag(tag, attrs)
-        if tag.lower() not in VOID_TAGS and self.skip_depth == 0:
+        if tag in BLOCKED_TAGS:
+            self.skip_depth = max(0, self.skip_depth - 1)
+        elif tag not in VOID_TAGS and self.skip_depth == 0:
             self.handle_endtag(tag)
 
     def handle_endtag(self, tag: str) -> None:
