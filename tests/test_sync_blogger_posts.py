@@ -20,6 +20,12 @@ class BloggerSyncTests(unittest.TestCase):
         self.assertNotIn("javascript:", result)
         self.assertNotIn("alert(2)", result)
 
+    def test_self_closing_blocked_tag_does_not_hide_following_content(self):
+        source = '<p>before</p><input /><p>after</p>'
+        result = SYNC.sanitize_html(source)
+        self.assertIn("before", result)
+        self.assertIn("after", result)
+
     def test_sanitizer_keeps_safe_video_embed(self):
         source = '<iframe src="https://www.youtube-nocookie.com/embed/abc" title="Video"></iframe>'
         self.assertIn("youtube-nocookie.com/embed/abc", SYNC.sanitize_html(source))
