@@ -20,9 +20,27 @@
   if(savedTheme)root.dataset.theme=savedTheme;
   else root.dataset.theme=matchMedia('(prefers-color-scheme: light)').matches?'light':'dark';
 
+  const syncGiscusTheme=()=>{
+    const frame=q('.giscus-frame');
+    if(!frame?.contentWindow)return;
+    const theme=root.dataset.theme==='dark'?'dark_dimmed':'light';
+    frame.contentWindow.postMessage({giscus:{setConfig:{theme}}},'https://giscus.app');
+  };
+  const bindGiscusTheme=()=>{
+    const frame=q('.giscus-frame');
+    if(!frame||frame.dataset.csThemeBound)return;
+    frame.dataset.csThemeBound='true';
+    frame.addEventListener('load',syncGiscusTheme);
+    syncGiscusTheme();
+  };
+  const giscusRoot=q('.giscus');
+  if(giscusRoot&&'MutationObserver' in window){
+    new MutationObserver(bindGiscusTheme).observe(giscusRoot,{childList:true,subtree:true});
+    bindGiscusTheme();
+  }
   qa('[data-theme-toggle]').forEach(b=>b.addEventListener('click',()=>{
     const next=root.dataset.theme==='dark'?'light':'dark';
-    root.dataset.theme=next;storage.set('cs-theme',next);
+    root.dataset.theme=next;storage.set('cs-theme',next);syncGiscusTheme();
   }));
 
   const nav=q('[data-mobile-nav]');
