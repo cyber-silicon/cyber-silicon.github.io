@@ -5,7 +5,7 @@
     <button class="icon-button" data-search-close aria-label="إغلاق">×</button>
   </div>
   <div class="search-input-wrap">
-    <input id="searchInput" type="search" placeholder="اكتب عنوانًا، أداة، قسمًا أو وسمًا..." autocomplete="off" enterkeyhint="search" aria-label="البحث في المقالات">
+    <input id="searchInput" type="search" placeholder="اكتب عنوانًا، أداة، قسمًا أو وسمًا..." autocomplete="off" enterkeyhint="search" aria-label="البحث في المقالات" aria-controls="searchResults" aria-describedby="searchCount">
     <kbd>Ctrl K</kbd>
   </div>
   <div class="search-meta"><span id="searchCount" aria-live="polite">{{ site.posts | size }}</span> نتيجة</div>
