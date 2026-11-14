@@ -25,6 +25,7 @@ API_ROOT = "https://www.googleapis.com/blogger/v3"
 DEFAULT_BLOG_URL = "https://cyber-silicon.blogspot.com/"
 PERMALINK_RE = re.compile(r"^/\d{4}/\d{2}/[A-Za-z0-9._~!$&'()*+,;=:@%-]+\.html$")
 BLOGGER_MARKER_RE = re.compile(r'^blogger_id:\s*["\']?([0-9]+)', re.MULTILINE)
+BLOGGER_MANUAL_RE = re.compile(r"^blogger_sync:\s*manual\s*$", re.MULTILINE)
 BLOCKED_TAGS = {"script", "style", "object", "embed", "form", "input", "button",
                 "textarea", "select", "option", "meta", "link", "base"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
@@ -338,9 +339,35 @@ def existing_permalink_map(output_dir: Path) -> dict[str, Path]:
     return result
 
 
+def existing_blogger_id_map(output_dir: Path) -> dict[str, list[tuple[Path, bool]]]:
+    """Find Blogger IDs already represented in Jekyll posts.
+
+    A file marked blogger_sync: manual is the canonical editorial copy for
+    that Blogger ID and must not be duplicated by the importer.
+    """
+    result: dict[str, list[tuple[Path, bool]]] = {}
+    if not output_dir.exists():
+        return result
+    for path in output_dir.iterdir():
+        if path.suffix.lower() not in {".md", ".markdown", ".html"} or not path.is_file():
+            continue
+        try:
+            text = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        front_matter = text[:12000]
+        match = BLOGGER_MARKER_RE.search(front_matter)
+        if match:
+            result.setdefault(match.group(1), []).append(
+                (path, bool(BLOGGER_MANUAL_RE.search(front_matter)))
+            )
+    return result
+
+
 def apply_posts(posts: list[dict], output_dir: Path, apply: bool) -> dict[str, list[str]]:
     summary = {"create": [], "update": [], "unchanged": [], "conflict": [], "invalid": []}
     permalink_map = existing_permalink_map(output_dir)
+    blogger_id_map = existing_blogger_id_map(output_dir)
     planned: dict[str, str] = {}
     for post in posts:
         try:
@@ -350,6 +377,19 @@ def apply_posts(posts: list[dict], output_dir: Path, apply: bool) -> dict[str, l
             continue
         target = output_dir / filename
         post_id = str(post.get("id"))
+        other_id_matches = [entry for entry in blogger_id_map.get(post_id, []) if entry[0] != target]
+        if other_id_matches:
+            if len(other_id_matches) == 1 and other_id_matches[0][1]:
+                canonical = other_id_matches[0][0]
+                summary["unchanged"].append(
+                    f"{canonical.name}: preserved as manually maintained canonical for Blogger ID {post_id}"
+                )
+            else:
+                names = ", ".join(entry[0].name for entry in other_id_matches)
+                summary["conflict"].append(
+                    f"{filename}: Blogger ID {post_id} is already represented by {names}; refusing duplicate creation"
+                )
+            continue
         existing = target.read_text(encoding="utf-8") if target.exists() else None
         if existing is not None:
             marker = BLOGGER_MARKER_RE.search(existing[:4000])
@@ -382,6 +422,8 @@ def apply_posts(posts: list[dict], output_dir: Path, apply: bool) -> dict[str, l
             perm_match = re.search(r'^permalink:\s*["\']?([^"\']+)["\']?', content, re.MULTILINE)
             if perm_match:
                 permalink_map[perm_match.group(1).strip()] = target
+            if not any(entry[0] == target for entry in blogger_id_map.get(post_id, [])):
+                blogger_id_map.setdefault(post_id, []).append((target, False))
     return summary
 
 
