@@ -34,6 +34,9 @@ jobs:
       - name: Test Blogger sync importer
         run: python3 -m unittest discover -s tests -p 'test_*.py' -v
 
+      - name: Check frontend JavaScript syntax
+        run: node --check assets/js/main.js
+
       - name: Check internal links and assets
         run: python3 scripts/check_internal_links.py
 

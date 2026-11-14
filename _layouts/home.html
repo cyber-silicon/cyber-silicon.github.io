@@ -1,50 +1,105 @@
 ---
 layout: default
 ---
-<section class="hero shell">
-  <div class="hero-copy">
-    <span class="eyebrow">CYBER SILICON</span>
-    <h1>افهم التقنية.<br><span>طبّقها بثقة.</span></h1>
-    <p>مدونة عربية عملية تجمع الأمن السيبراني، الأنظمة، البرمجة والإلكترونيات في مكان واحد.</p>
-    <div class="hero-actions"><a class="button primary" href="#latest">ابدأ القراءة</a><button class="button ghost" data-search-open>ابحث في المدونة</button></div>
-    <div class="hero-stats"><span><strong>{{ site.posts | size }}</strong> مقال</span><span><strong>{{ site.categories | size }}</strong> قسم</span><span><strong>عملي</strong> شرح وتطبيق</span></div>
-  </div>
-  <div class="terminal-card" aria-label="بطاقة تعريف">
-    <div class="terminal-top"><i></i><i></i><i></i><span>cyber-silicon</span></div>
-    <pre><code><b>$</b> whoami
-Cyber Silicon
+<div class="home-layout shell">
+  <div class="home-main">
+    <section class="hero">
+      <div class="hero-copy">
+        <span class="eyebrow">CYBER SILICON / KNOWLEDGE HUB</span>
+        <h1>افهم التقنية.<br><span>اختبرها. أتقنها.</span></h1>
+        <p>مساحة عربية عملية للبرمجة والأمن السيبراني وLinux — من المفاهيم الأساسية إلى الأدوات والتطبيقات الواقعية.</p>
+        <div class="hero-actions">
+          <a class="button primary" href="#latest">استكشف المقالات</a>
+          <button class="button ghost" data-search-open aria-haspopup="dialog" aria-controls="searchDialog" aria-expanded="false">ابحث في المكتبة</button>
+        </div>
+        <div class="hero-tags">
+          <a href="{{ '/categories/' | relative_url }}#kali-linux">Kali Linux</a>
+          <a href="{{ '/categories/' | relative_url }}#programming">Programming</a>
+          <a href="{{ '/categories/' | relative_url }}#cybersecurity">Cybersecurity</a>
+        </div>
+        <div class="hero-stats">
+          <span><strong>{{ site.posts | size }}</strong> مقال ودليل</span>
+          <span><strong>3</strong> مسارات تعلّم</span>
+          <span><strong>عملي</strong> تعلّم بالتطبيق</span>
+        </div>
+      </div>
+      <div class="terminal-card" aria-label="محطة Cyber Silicon">
+        <div class="terminal-top"><i></i><i></i><i></i><span>user@cyber-silicon:~</span></div>
+        <pre><code><b>$</b> whoami
+user@cyber-silicon
 
-<b>$</b> topics
-security
-linux
-programming
-electronics
+<b>$</b> ls learning-paths/
+programming/
+linux/
+cybersecurity/
+
+<b>$</b> python learn.py
+<span>[+] knowledge loaded</span>
+<span>[+] practice mode enabled</span>
 
 <b>$</b> status
-<span>online_</span></code></pre>
-  </div>
-</section>
+<span>system_online_</span></code></pre>
+        <div class="terminal-foot"><span>● SYSTEM ONLINE</span><span>BUILD · LEARN · SECURE</span></div>
+      </div>
+      <div class="hero-bottom"><span>من المعرفة إلى التطبيق</span><span>CODE · LINUX · CYBER SECURITY</span></div>
+    </section>
 
-{% assign featured = site.posts | first %}
-{% if featured %}
-<section class="shell section featured-wrap">
-  <div class="section-title"><div><span class="eyebrow">مختار</span><h2>مقال مميز</h2></div></div>
-  <a class="featured-card" href="{{ featured.url | relative_url }}">
-    <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>01</span>{% endif %}</div>
-    <div class="featured-copy"><span class="meta">{{ featured.categories | first }} • {{ featured.date | date: "%Y-%m-%d" }}</span><h3>{{ featured.title }}</h3><p>{{ featured.description | default: featured.excerpt | strip_html | truncate: 170 }}</p><b>اقرأ المقال ←</b></div>
-  </a>
-</section>
-{% endif %}
+    {% assign featured = site.posts | first %}
+    {% if featured %}
+    <section class="section featured-wrap">
+      <div class="section-title"><div><span class="eyebrow">اختيار المحرر</span><h2>المقال المميز</h2></div></div>
+      <a class="featured-card" href="{{ featured.url | relative_url }}">
+        <div class="featured-visual">{% if featured.image %}<img src="{{ featured.image | relative_url }}" alt="{{ featured.title | escape }}" loading="lazy" decoding="async">{% else %}<span>CS / 01</span>{% endif %}</div>
+        <div class="featured-copy">
+          <span class="meta">{{ featured.categories | first | default: "Cyber Silicon" }} • {{ featured.date | date: "%Y-%m-%d" }}</span>
+          <h3>{{ featured.title }}</h3>
+          <p>{{ featured.description | default: featured.excerpt | strip_html | truncate: 170 }}</p>
+          <b>اقرأ الدليل <span aria-hidden="true">←</span></b>
+        </div>
+      </a>
+    </section>
+    {% else %}
+    <section class="section featured-wrap">
+      <div class="empty-state library-empty-state">
+        <span aria-hidden="true">⌘</span>
+        <h2>مساحة المعرفة جاهزة</h2>
+        <p>نعمل على تجهيز المحتوى المعتمد. ستظهر الأدلة والدروس هنا عند إضافتها.</p>
+        <a class="button primary" href="{{ '/categories/' | relative_url }}">استكشف مسارات التعلّم</a>
+      </div>
+    </section>
+    {% endif %}
 
-<section class="shell section" id="latest">
-  <div class="section-title"><div><span class="eyebrow">الأحدث</span><h2>آخر المقالات</h2></div><a href="{{ '/categories/' | relative_url }}">كل الأقسام ←</a></div>
-  <div class="post-grid{% if paginator.posts.size == 1 %} single-post-grid{% endif %}">
-    {% for post in paginator.posts %}
-    <article class="post-card">
-      <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="" loading="lazy" decoding="async">{% else %}<span>{{ forloop.index | prepend: '0' }}</span>{% endif %}</a>
-      <div class="card-body"><span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span><h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3><p>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</p><div class="card-foot"><span>{{ post.content | number_of_words | divided_by: 180 | plus: 1 }} دقائق</span><a href="{{ post.url | relative_url }}">اقرأ ←</a></div></div>
-    </article>
-    {% endfor %}
+    <section class="section latest-section" id="latest">
+      <div class="section-title"><div><span class="eyebrow">مكتبة المعرفة</span><h2>أحدث المقالات</h2><p>شروحات جديدة في البرمجة والأنظمة والأمن السيبراني.</p></div><a href="{{ '/categories/' | relative_url }}">تصفح الأقسام ←</a></div>
+      {% if paginator.posts and paginator.posts.size > 0 %}
+      <div class="post-grid{% if paginator.posts.size == 1 %} single-post-grid{% endif %}">
+        {% for post in paginator.posts %}
+        <article class="post-card">
+          <a class="card-media" href="{{ post.url | relative_url }}">{% if post.image %}<img src="{{ post.image | relative_url }}" alt="{{ post.title | escape }}" loading="lazy" decoding="async">{% else %}<span>CS / {{ forloop.index | prepend: '0' }}</span>{% endif %}</a>
+          <div class="card-body">
+            <span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span>
+            <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
+            <p>{{ post.description | default: post.excerpt | strip_html | truncate: 112 }}</p>
+            <div class="card-foot"><span>{{ post.content | number_of_words | divided_by: 180 | plus: 1 }} دقائق قراءة</span><a href="{{ post.url | relative_url }}">اقرأ المقال ←</a></div>
+          </div>
+        </article>
+        {% endfor %}
+      </div>
+      {% if paginator.total_pages > 1 %}
+      <nav class="pagination" aria-label="صفحات المقالات">
+        {% if paginator.previous_page %}<a href="{{ paginator.previous_page_path | relative_url }}">السابق</a>{% endif %}
+        <span>{{ paginator.page }} / {{ paginator.total_pages }}</span>
+        {% if paginator.next_page %}<a href="{{ paginator.next_page_path | relative_url }}">التالي</a>{% endif %}
+      </nav>
+      {% endif %}
+      {% else %}
+      <div class="empty-state library-empty-state">
+        <span aria-hidden="true">⌘</span>
+        <h2>لا توجد مقالات منشورة بعد</h2>
+        <p>هذه المساحة ستعرض أحدث الشروحات عند إضافة المحتوى النهائي.</p>
+      </div>
+      {% endif %}
+    </section>
   </div>
-  {% if paginator.total_pages > 1 %}<nav class="pagination">{% if paginator.previous_page %}<a href="{{ paginator.previous_page_path | relative_url }}">السابق</a>{% endif %}<span>{{ paginator.page }} / {{ paginator.total_pages }}</span>{% if paginator.next_page %}<a href="{{ paginator.next_page_path | relative_url }}">التالي</a>{% endif %}</nav>{% endif %}
-</section>
+  {% include sidebar.html %}
+</div>
