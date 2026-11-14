@@ -79,7 +79,7 @@ class FrontendContracts(unittest.TestCase):
     def test_current_navigation_and_toc_location_are_accessible(self):
         self.assertIn('class="active" aria-current="page"', self.header)
         self.assertIn("active?.setAttribute('aria-current','location')", self.js)
-        self.assertIn("active?.removeAttribute('aria-current')", self.js)
+        self.assertIn("a.removeAttribute('aria-current')", self.js)
         self.assertIn("scroll-margin-top:88px", self.css)
 
     def test_bookmark_removal_buttons_include_the_article_title(self):
