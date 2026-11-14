@@ -1,0 +1,58 @@
+name: Import Blogger posts to development branch
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: blogger-import-feature-branch
+  cancel-in-progress: false
+
+jobs:
+  import:
+    if: github.ref == 'refs/heads/main'
+    permissions:
+      contents: write
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
+      TARGET_BRANCH: feature/blogger-parity-20261112
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+        with:
+          ref: feature/blogger-parity-20261112
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate Blogger API key secret
+        run: |
+          if [ -z "$BLOGGER_API_KEY" ]; then
+            echo "::error::Repository secret BLOGGER_API_KEY is missing or empty."
+            exit 1
+          fi
+
+      - name: Import published Blogger posts
+        run: python3 scripts/sync_blogger_posts.py --apply
+
+      - name: Commit imported posts to development branch
+        run: |
+          git add _posts/
+          if git diff --cached --quiet; then
+            echo "No Blogger post changes to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "Import published Blogger posts into development branch"
+          test "$TARGET_BRANCH" = "feature/blogger-parity-20261112"
+          git push origin "HEAD:refs/heads/feature/blogger-parity-20261112"
