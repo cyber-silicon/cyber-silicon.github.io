@@ -90,5 +90,14 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("node --check assets/js/main.js", self.workflow)
 
 
+    def test_copy_and_share_feedback_is_announced_accessibly(self):
+        self.assertIn("const announceAction=(element,message)=>", self.js)
+        self.assertIn("status.setAttribute('role','status')", self.js)
+        self.assertIn("status.setAttribute('aria-live','polite')", self.js)
+        self.assertIn("announceAction(b,ok?'تم نسخ رابط الصفحة.':'تعذر نسخ رابط الصفحة.')", self.js)
+        self.assertIn("announceAction(btn,ok?'تم نسخ الشيفرة.':'تعذر نسخ الشيفرة.')", self.js)
+        self.assertIn("finally{area?.remove()}", self.js)
+        self.assertIn(".visually-hidden{", self.css)
+
 if __name__ == "__main__":
     unittest.main()
