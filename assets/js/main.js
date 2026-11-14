@@ -289,7 +289,15 @@
       const links=qa('a',toc);
       const map=new Map(links.map(a=>[a.getAttribute('href').slice(1),a]));
       const io=new IntersectionObserver(entries=>entries.forEach(e=>{
-        if(e.isIntersecting){links.forEach(a=>a.classList.remove('active'));map.get(e.target.id)?.classList.add('active')}
+        if(e.isIntersecting){
+          links.forEach(a=>{
+            a.classList.remove('active');
+            a.removeAttribute('aria-current');
+          });
+          const active=map.get(e.target.id);
+          active?.classList.add('active');
+          active?.setAttribute('aria-current','location');
+        }
       }),{rootMargin:'-20% 0px -65% 0px'});
       headings.forEach(h=>io.observe(h));
     }
