@@ -78,9 +78,8 @@ description: "وصف مختصر للمقال"
 
 ## Blogger import status
 
-- Retrieved 7 published source posts from `https://cyber-silicon.blogspot.com/`; consolidated the duplicated VirtualBox lesson into 1 canonical article, leaving 6 unique article pages in `_posts/`.
-- All 7 Blogger source IDs and URLs are retained: the canonical lesson stores its primary ID plus the duplicate source ID in `blogger_alias_ids`.
-- Original Blogger permalink paths are preserved; the November duplicate URL redirects to the canonical October article URL.
-- The importer is idempotent and recognizes both primary and alias Blogger IDs; hand-maintained canonical posts are protected from overwrite and duplicate creation.
-- Imported article HTML is sanitized; JavaScript, event-handler attributes, forms, and untrusted embeds are removed.
-- The content consolidation and import remain on this development branch only. The default branch and public site have not been changed.
+- The repository includes the Blogger v3 importer and controlled GitHub Actions workflows.
+- Any sample articles currently under `_posts/` are temporary test fixtures, not approved production content; they may be removed without changing the theme or importer.
+- The importer supports stable Blogger IDs, source aliases, permalink preservation, HTML sanitization, and protection for hand-maintained posts.
+- Preview is read-only. The separate import workflow is manual-only and is restricted to the development branch.
+- The importer is one-way (Blogger → Jekyll); it never writes to Blogger.
