@@ -76,3 +76,12 @@ description: "وصف مختصر للمقال"
 
 ## النشر
 يُبنى الموقع بواسطة GitHub Actions ثم يُنشر عبر GitHub Pages. لا تضع رموز OAuth أو مفاتيح API أو كلمات مرور داخل المستودع.
+
+## Blogger import status
+
+- Imported 7 published posts from `https://cyber-silicon.blogspot.com/` into `_posts/` on 2026-11-14.
+- Blogger post IDs are retained in `blogger_id`; source URLs are retained in `blogger_url`.
+- Original Blogger permalink paths are preserved for the imported posts where the path passed validation.
+- The importer is idempotent and will update only files carrying the matching `blogger_id`; hand-authored posts are protected from overwrite.
+- Imported article HTML is sanitized; JavaScript, event-handler attributes, forms, and untrusted embeds are removed.
+- The import was performed on this development branch only. The default branch and the public site do not contain these seven imported posts yet.
