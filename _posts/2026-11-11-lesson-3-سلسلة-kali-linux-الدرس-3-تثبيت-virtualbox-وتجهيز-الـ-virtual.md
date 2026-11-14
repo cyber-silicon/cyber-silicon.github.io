@@ -5,13 +5,16 @@ categories: ["Kali Linux", "VirtualBox", "Cyber Silicon"]
 tags: ["Kali Linux", "VirtualBox", "Cyber Silicon", "دروس وتقنيات"]
 labels: ["Kali Linux", "VirtualBox", "Cyber Silicon", "دروس وتقنيات"]
 image: /assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg
-summary: ""
+description: "شرح عملي لتثبيت VirtualBox وتجهيز آلة افتراضية لتشغيل Kali Linux، مع ضبط الذاكرة والمعالج والقرص وإعدادات الشبكة."
 lang: ar
 direction: rtl
 comments: true
+blogger_id: "1061904667240081919"
+blogger_url: "https://cyber-silicon.blogspot.com/2026/11/kali-linux-3-virtualbox-virtual-machine.html"
+blogger_sync: manual
 toc: true
 tiktok_url: "https://www.tiktok.com/@cyber_silicon/video/7667112940985715989?utm_campaign=tt4d_open_api&utm_source=sbawotogm6mg76anhw"
-permalink: "/kali linux/virtualbox/cyber silicon/2026/11/11/lesson-3-سلسلة-kali-linux-الدرس-3-تثبيت-virtualbox-وتجهيز-الـ-virtual.html"
+permalink: "/2026/11/kali-linux-3-virtualbox-virtual-machine.html"
 ---
 
 ![[سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine](/assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg){: .center-image }
