@@ -650,3 +650,21 @@ html[data-theme="light"] .button.primary{
   color:var(--muted);
   font-size:13px;
 }
+
+/* Visible keyboard focus and reduced-motion support. */
+:focus-visible{
+  outline:3px solid var(--accent2);
+  outline-offset:3px;
+}
+.search-dialog :focus-visible{
+  outline-offset:2px;
+}
+@media(prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{
+    scroll-behavior:auto!important;
+    animation-duration:.01ms!important;
+    animation-iteration-count:1!important;
+    transition-duration:.01ms!important;
+  }
+}
