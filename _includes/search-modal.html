@@ -9,7 +9,7 @@
     <kbd>Ctrl K</kbd>
   </div>
   <div class="search-meta"><span id="searchCount" aria-live="polite">{{ site.posts | size }}</span> نتيجة</div>
-  <div id="searchResults" class="search-results">
+  <div id="searchResults" class="search-results" aria-live="polite" aria-relevant="additions removals">
     {% if site.posts.size == 0 %}
     <div class="search-empty-state">
       <strong>المكتبة قيد الإعداد</strong>
