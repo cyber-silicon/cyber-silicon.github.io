@@ -45,37 +45,79 @@
 
   const nav=q('[data-mobile-nav]');
   const menuButtons=qa('[data-menu-toggle]');
-  const closeMenu=()=>{nav?.classList.remove('open');menuButtons.forEach(b=>b.setAttribute('aria-expanded','false'))};
+  let menuOpener=null;
+  const closeMenu=(restoreFocus=false)=>{
+    const wasOpen=!!nav?.classList.contains('open');
+    nav?.classList.remove('open');
+    menuButtons.forEach(b=>b.setAttribute('aria-expanded','false'));
+    if(wasOpen&&restoreFocus)menuOpener?.focus();
+    if(wasOpen)menuOpener=null;
+  };
   menuButtons.forEach(b=>b.addEventListener('click',()=>{
     const open=!nav?.classList.contains('open');
+    if(open)menuOpener=b;
+    else menuOpener=null;
     nav?.classList.toggle('open',open);
     b.setAttribute('aria-expanded',String(open));
   }));
-  qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',closeMenu));
+  qa('[data-mobile-nav] a').forEach(a=>a.addEventListener('click',()=>closeMenu()));
 
   const dialog=q('[data-search-dialog]'),backdrop=q('[data-search-backdrop]'),input=q('#searchInput'),count=q('#searchCount'),noSearchResults=q('#searchNoResults'),searchEmptyState=q('.search-empty-state');
   const searchItems=qa('.search-item');
+  const searchOpeners=qa('[data-search-open]');
   let searchOpener=null;
   const setSearch=open=>{
     if(!dialog||!backdrop)return;
-    if(open)searchOpener=document.activeElement instanceof HTMLElement?document.activeElement:null;
-    dialog.hidden=!open;backdrop.hidden=!open;
-    document.body.classList.toggle('modal-open',open);
-    if(open)setTimeout(()=>input?.focus(),20);
-    else searchOpener?.focus();
+    const isOpen=!dialog.hidden;
+    if(open===isOpen)return;
+    if(open){
+      const active=document.activeElement;
+      searchOpener=active instanceof HTMLElement&&active!==document.body?active:null;
+      dialog.hidden=false;
+      backdrop.hidden=false;
+      document.body.classList.add('modal-open');
+      searchOpeners.forEach(b=>b.setAttribute('aria-expanded','true'));
+      requestAnimationFrame(()=>input?.focus());
+    }else{
+      dialog.hidden=true;
+      backdrop.hidden=true;
+      document.body.classList.remove('modal-open');
+      searchOpeners.forEach(b=>b.setAttribute('aria-expanded','false'));
+      const opener=searchOpener;
+      searchOpener=null;
+      if(opener?.isConnected)opener.focus();
+    }
   };
-  qa('[data-search-open]').forEach(b=>b.addEventListener('click',()=>setSearch(true)));
+  searchOpeners.forEach(b=>{
+    b.setAttribute('aria-expanded','false');
+    b.addEventListener('click',()=>setSearch(true));
+  });
   qa('[data-search-close]').forEach(b=>b.addEventListener('click',()=>setSearch(false)));
   backdrop?.addEventListener('click',()=>setSearch(false));
   document.addEventListener('keydown',e=>{
-    if(e.key==='Escape'){setSearch(false);closeMenu()}
-    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){e.preventDefault();setSearch(true)}
+    if(e.key==='Escape'){
+      if(dialog&&!dialog.hidden)setSearch(false);
+      if(nav?.classList.contains('open'))closeMenu(true);
+    }
+    if((e.ctrlKey||e.metaKey)&&e.key.toLowerCase()==='k'){
+      e.preventDefault();
+      setSearch(true);
+    }
     if(e.key==='Tab'&&dialog&&!dialog.hidden){
-      const focusable=qa('button,[href],input,[tabindex]:not([tabindex="-1"])',dialog).filter(el=>!el.hidden&&!el.hasAttribute('disabled'));
+      const focusable=qa('button:not([disabled]),a[href],input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',dialog)
+        .filter(el=>!el.hidden&&!el.closest('[hidden]')&&el.getAttribute('aria-hidden')!=='true'&&el.getClientRects().length);
       if(!focusable.length)return;
       const first=focusable[0],last=focusable[focusable.length-1];
-      if(e.shiftKey&&document.activeElement===first){e.preventDefault();last.focus()}
-      else if(!e.shiftKey&&document.activeElement===last){e.preventDefault();first.focus()}
+      if(!dialog.contains(document.activeElement)){
+        e.preventDefault();
+        (e.shiftKey?last:first).focus();
+      }else if(e.shiftKey&&document.activeElement===first){
+        e.preventDefault();
+        last.focus();
+      }else if(!e.shiftKey&&document.activeElement===last){
+        e.preventDefault();
+        first.focus();
+      }
     }
   });
   input?.addEventListener('input',()=>{
