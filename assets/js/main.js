@@ -8,12 +8,27 @@
   const parseJSON=(s,fallback=[])=>{try{return JSON.parse(s)}catch{return fallback}};
   const copyText=async text=>{
     if(navigator.clipboard?.writeText){try{await navigator.clipboard.writeText(text);return true}catch{}}
+    let area=null;
     try{
-      const area=document.createElement('textarea');
+      area=document.createElement('textarea');
       area.value=text;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';
       document.body.appendChild(area);area.select();
-      const ok=document.execCommand('copy');area.remove();return ok;
+      return document.execCommand('copy');
     }catch{return false}
+    finally{area?.remove()}
+  };
+  const announceAction=(element,message)=>{
+    let status=element.parentElement?.querySelector('[data-action-status]');
+    if(!status){
+      status=document.createElement('span');
+      status.className='visually-hidden';
+      status.dataset.actionStatus='';
+      status.setAttribute('role','status');
+      status.setAttribute('aria-live','polite');
+      status.setAttribute('aria-atomic','true');
+      element.insertAdjacentElement('afterend',status);
+    }
+    status.textContent=message;
   };
 
   const colorScheme=window.matchMedia?.('(prefers-color-scheme: light)')??null;
@@ -200,7 +215,8 @@
       if(navigator.share){await navigator.share({title:document.title,url:location.href});return}
       const ok=await copyText(location.href);
       b.textContent=ok?'تم النسخ':'تعذر النسخ';
-      setTimeout(()=>b.textContent=original,1600);
+      announceAction(b,ok?'تم نسخ رابط الصفحة.':'تعذر نسخ رابط الصفحة.');
+      setTimeout(()=>{b.textContent=original;announceAction(b,'')},1600);
     }catch{}
   }));
 
@@ -269,7 +285,8 @@
     btn.addEventListener('click',async()=>{
       const original=btn.textContent,ok=await copyText(pre.innerText);
       btn.textContent=ok?'تم ✓':'تعذر النسخ';
-      setTimeout(()=>btn.textContent=original,1400);
+      announceAction(btn,ok?'تم نسخ الشيفرة.':'تعذر نسخ الشيفرة.');
+      setTimeout(()=>{btn.textContent=original;announceAction(btn,'')},1400);
     });
   });
 
