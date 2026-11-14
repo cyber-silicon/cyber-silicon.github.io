@@ -17,7 +17,7 @@ tiktok_url: "https://www.tiktok.com/@cyber_silicon/video/7667112940985715989?utm
 permalink: "/2026/11/kali-linux-3-virtualbox-virtual-machine.html"
 ---
 
-![[سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine](/assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg){: .center-image }
+![سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine](/assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg){: .center-image }
 
 # [سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine
 
