@@ -10,6 +10,7 @@ class FrontendContracts(unittest.TestCase):
         cls.js = (ROOT / "assets/js/main.js").read_text(encoding="utf-8")
         cls.css = (ROOT / "assets/css/cyber-silicon.css").read_text(encoding="utf-8")
         cls.header = (ROOT / "_includes/header.html").read_text(encoding="utf-8")
+        cls.head = (ROOT / "_includes/head.html").read_text(encoding="utf-8")
         cls.home = (ROOT / "_layouts/home.html").read_text(encoding="utf-8")
         cls.search = (ROOT / "_includes/search-modal.html").read_text(encoding="utf-8")
         cls.workflow = (ROOT / ".github/workflows/jekyll-ci.yml").read_text(encoding="utf-8")
@@ -20,6 +21,8 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("if(followsSystem)applyTheme(event.matches?'light':'dark')", self.js)
         self.assertIn("event.key!=='cs-theme'&&event.key!==null", self.js)
         self.assertIn("syncGiscusTheme()", self.js)
+        self.assertIn("const validTheme=t==='light'||t==='dark'", self.head)
+        self.assertIn("validTheme?t:", self.head)
 
     def test_bookmark_storage_is_validated_and_shared_between_tabs(self):
         self.assertIn("Array.isArray(stored)", self.js)
