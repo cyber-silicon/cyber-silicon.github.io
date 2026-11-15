@@ -21,12 +21,15 @@ jobs:
       BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
       BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
       BLOGGER_URL: ${{ vars.BLOGGER_URL || 'https://cyber-silicon.blogspot.com/' }}
-      TARGET_BRANCH: feature/blogger-parity-20261112
+      BLOGGER_OAUTH_CLIENT_ID: ${{ secrets.BLOGGER_OAUTH_CLIENT_ID }}
+      BLOGGER_OAUTH_CLIENT_SECRET: ${{ secrets.BLOGGER_OAUTH_CLIENT_SECRET }}
+      BLOGGER_OAUTH_REFRESH_TOKEN: ${{ secrets.BLOGGER_OAUTH_REFRESH_TOKEN }}
+      TARGET_BRANCH: feature/blogger-lifecycle-sync-20261115
     steps:
       - name: Checkout development branch
         uses: actions/checkout@v4
         with:
-          ref: feature/blogger-parity-20261112
+          ref: feature/blogger-lifecycle-sync-20261115
           fetch-depth: 0
 
       - name: Set up Python
@@ -34,15 +37,17 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Validate Blogger API key secret
+      - name: Validate Blogger sync credentials
         run: |
-          if [ -z "$BLOGGER_API_KEY" ]; then
-            echo "::error::Repository secret BLOGGER_API_KEY is missing or empty."
-            exit 1
-          fi
+          for name in BLOGGER_API_KEY BLOGGER_OAUTH_CLIENT_ID BLOGGER_OAUTH_CLIENT_SECRET BLOGGER_OAUTH_REFRESH_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Required repository secret $name is missing or empty."
+              exit 1
+            fi
+          done
 
-      - name: Import published Blogger posts
-        run: python3 scripts/sync_blogger_posts.py --apply
+      - name: Sync Blogger additions, updates, and deletions
+        run: python3 scripts/sync_blogger_posts.py --apply --sync-deletions
 
       - name: Commit imported posts to development branch
         run: |
@@ -53,6 +58,6 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m "Import published Blogger posts into development branch"
-          test "$TARGET_BRANCH" = "feature/blogger-parity-20261112"
-          git push origin "HEAD:refs/heads/feature/blogger-parity-20261112"
+          git commit -m "Sync Blogger posts into development branch"
+          test "$TARGET_BRANCH" = "feature/blogger-lifecycle-sync-20261115"
+          git push origin "HEAD:refs/heads/feature/blogger-lifecycle-sync-20261115"
