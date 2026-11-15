@@ -118,6 +118,7 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("const activeCard=document.activeElement?.closest?.('[data-bookmark-url]')", self.js)
         self.assertIn("const saved=readBookmarks()", self.js)
         self.assertIn("const nextCard=bookmarkCards.slice(activeCardIndex+1).find(card=>!card.hidden)", self.js)
+        self.assertIn("const nextTarget=nextCard?.querySelector('[data-remove-bookmark]')", self.js)
         self.assertIn("(nextTarget||q('#bookmarksEmpty h2'))?.focus()", self.js)
         self.assertIn("تم تحديث المحفوظات من علامة تبويب أخرى.", self.js)
         self.assertIn("event.key!==bookmarkKey&&event.key!==null", self.js)
