@@ -123,5 +123,22 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("تم تحديث المحفوظات من علامة تبويب أخرى.", self.js)
         self.assertIn("event.key!==bookmarkKey&&event.key!==null", self.js)
 
+
+    def test_rouge_syntax_highlighting_has_distinct_token_colors(self):
+        for token in (".highlight .k", ".highlight .s", ".highlight .m",
+                      ".highlight .nf", ".highlight .c", ".highlight .o"):
+            self.assertIn(token, self.css)
+        self.assertIn("color:#c792ea!important", self.css)
+        self.assertIn("color:#c3e88d!important", self.css)
+        self.assertIn("color:#f78c6c!important", self.css)
+
+    def test_embedded_videos_and_html5_media_are_responsive(self):
+        self.assertIn(".prose iframe{", self.css)
+        self.assertIn("width:100%!important", self.css)
+        self.assertIn("aspect-ratio:16/9", self.css)
+        self.assertIn(".prose video{", self.css)
+        self.assertIn("max-width:100%", self.css)
+        self.assertIn("@media(max-width:620px)", self.css)
+
 if __name__ == "__main__":
     unittest.main()
