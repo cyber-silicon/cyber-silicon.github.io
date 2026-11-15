@@ -33,6 +33,7 @@ VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
              "link", "meta", "param", "source", "track", "wbr"}
 ALLOWED_IFRAME_HOSTS = {"www.youtube.com", "youtube.com", "www.youtube-nocookie.com",
                         "youtube-nocookie.com", "player.vimeo.com"}
+TIKTOK_IFRAME_HOSTS = {"www.tiktok.com"}
 
 
 class SyncError(RuntimeError):
@@ -60,6 +61,20 @@ class SafeHTML(HTMLParser):
         lowered = value.lower()
         forbidden = ("javascript:", "expression(", "behavior:", "@import", "url(")
         return not any(token in lowered for token in forbidden)
+
+    @staticmethod
+    def _safe_iframe_src(value: str) -> bool:
+        try:
+            parsed = urlparse(value.strip())
+            host = (parsed.hostname or "").lower()
+        except ValueError:
+            return False
+        if parsed.scheme != "https" or parsed.username or parsed.password:
+            return False
+        if host in TIKTOK_IFRAME_HOSTS:
+            # Accept only TikTok's official video player, never arbitrary TikTok pages.
+            return bool(re.fullmatch(r"/player/v1/[0-9]+/?", parsed.path))
+        return host in ALLOWED_IFRAME_HOSTS
 
     def _attrs(self, tag: str, attrs: list[tuple[str, str | None]]) -> str:
         safe: list[tuple[str, str]] = []
@@ -105,8 +120,7 @@ class SafeHTML(HTMLParser):
             return
         if tag == "iframe":
             src = next((v for k, v in attrs if k.lower() == "src" and v), "")
-            host = urlparse(src or "").hostname or ""
-            if host not in ALLOWED_IFRAME_HOSTS:
+            if not self._safe_iframe_src(src or ""):
                 self.skip_depth = 1
                 return
         self.parts.append(f"<{tag}{self._attrs(tag, attrs)}>")
