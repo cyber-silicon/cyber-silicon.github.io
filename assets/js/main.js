@@ -292,7 +292,7 @@
     if(activeCard&&activeCardUrl&&!saved.includes(activeCardUrl)){
       const nextCard=bookmarkCards.slice(activeCardIndex+1).find(card=>!card.hidden)
         ||bookmarkCards.slice(0,activeCardIndex).reverse().find(card=>!card.hidden);
-      const nextTarget=nextCard?.querySelector('a[href],button:not([disabled])');
+      const nextTarget=nextCard?.querySelector('[data-remove-bookmark]');
       (nextTarget||q('#bookmarksEmpty h2'))?.focus();
     }
     if(bookmarkSyncStatus)bookmarkSyncStatus.textContent='تم تحديث المحفوظات من علامة تبويب أخرى.';
