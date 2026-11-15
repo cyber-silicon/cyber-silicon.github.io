@@ -112,5 +112,15 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn("announceAction(b,'تعذر حفظ المقال في هذا المتصفح.')", self.js)
         self.assertIn("announceAction(b,'تعذرت إزالة المقال من المحفوظات.')", self.js)
 
+    def test_cross_tab_bookmark_updates_preserve_focus_and_are_announced(self):
+        self.assertIn('id="bookmarksSyncStatus"', self.bookmarks)
+        self.assertIn('role="status" aria-live="polite" aria-atomic="true"', self.bookmarks)
+        self.assertIn("const activeCard=document.activeElement?.closest?.('[data-bookmark-url]')", self.js)
+        self.assertIn("const saved=readBookmarks()", self.js)
+        self.assertIn("const nextCard=bookmarkCards.slice(activeCardIndex+1).find(card=>!card.hidden)", self.js)
+        self.assertIn("(nextTarget||q('#bookmarksEmpty h2'))?.focus()", self.js)
+        self.assertIn("تم تحديث المحفوظات من علامة تبويب أخرى.", self.js)
+        self.assertIn("event.key!==bookmarkKey&&event.key!==null", self.js)
+
 if __name__ == "__main__":
     unittest.main()
