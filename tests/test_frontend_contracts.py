@@ -136,6 +136,8 @@ class FrontendContracts(unittest.TestCase):
         self.assertIn(".prose iframe{", self.css)
         self.assertIn("width:100%!important", self.css)
         self.assertIn("aspect-ratio:16/9", self.css)
+        self.assertIn('iframe[src*="www.tiktok.com/player/v1/"]', self.css)
+        self.assertIn("aspect-ratio:9/16", self.css)
         self.assertIn(".prose video{", self.css)
         self.assertIn("max-width:100%", self.css)
         self.assertIn("@media(max-width:620px)", self.css)

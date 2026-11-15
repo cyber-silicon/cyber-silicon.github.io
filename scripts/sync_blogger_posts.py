@@ -28,11 +28,12 @@ BLOGGER_MARKER_RE = re.compile(r'^blogger_id:\s*["\']?([0-9]+)', re.MULTILINE)
 BLOGGER_MANUAL_RE = re.compile(r"^blogger_sync:\s*manual\s*$", re.MULTILINE)
 BLOGGER_ALIAS_IDS_RE = re.compile(r"^blogger_alias_ids:\s*\[(.*)\]\s*$", re.MULTILINE)
 BLOCKED_TAGS = {"script", "style", "object", "embed", "form", "input", "button",
-                "textarea", "select", "option", "meta", "link", "base"}
+                "textarea", "select", "option", "meta", "link", "base", "iframe"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
              "link", "meta", "param", "source", "track", "wbr"}
 ALLOWED_IFRAME_HOSTS = {"www.youtube.com", "youtube.com", "www.youtube-nocookie.com",
                         "youtube-nocookie.com", "player.vimeo.com"}
+TIKTOK_IFRAME_HOSTS = {"www.tiktok.com"}
 
 
 class SyncError(RuntimeError):
@@ -60,6 +61,20 @@ class SafeHTML(HTMLParser):
         lowered = value.lower()
         forbidden = ("javascript:", "expression(", "behavior:", "@import", "url(")
         return not any(token in lowered for token in forbidden)
+
+    @staticmethod
+    def _safe_iframe_src(value: str) -> bool:
+        try:
+            parsed = urlparse(value.strip())
+            host = (parsed.hostname or "").lower()
+        except ValueError:
+            return False
+        if parsed.scheme != "https" or parsed.username or parsed.password:
+            return False
+        if host in TIKTOK_IFRAME_HOSTS:
+            # Accept only TikTok's official video player, never arbitrary TikTok pages.
+            return bool(re.fullmatch(r"/player/v1/[0-9]+/?", parsed.path))
+        return host in ALLOWED_IFRAME_HOSTS
 
     def _attrs(self, tag: str, attrs: list[tuple[str, str | None]]) -> str:
         safe: list[tuple[str, str]] = []
@@ -99,24 +114,23 @@ class SafeHTML(HTMLParser):
             if tag in BLOCKED_TAGS and tag not in VOID_TAGS:
                 self.skip_depth += 1
             return
+        if tag == "iframe":
+            src = next((v for k, v in attrs if k.lower() == "src" and v), "")
+            if not self._safe_iframe_src(src or ""):
+                self.skip_depth = 1
+                return
+            self.parts.append(f"<iframe{self._attrs(tag, attrs)}>")
+            return
         if tag in BLOCKED_TAGS:
             if tag not in VOID_TAGS:
                 self.skip_depth = 1
             return
-        if tag == "iframe":
-            src = next((v for k, v in attrs if k.lower() == "src" and v), "")
-            host = urlparse(src or "").hostname or ""
-            if host not in ALLOWED_IFRAME_HOSTS:
-                self.skip_depth = 1
-                return
         self.parts.append(f"<{tag}{self._attrs(tag, attrs)}>")
 
     def handle_startendtag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
         tag = tag.lower()
         self.handle_starttag(tag, attrs)
-        if tag in BLOCKED_TAGS and tag not in VOID_TAGS:
-            self.skip_depth = max(0, self.skip_depth - 1)
-        elif tag not in VOID_TAGS and self.skip_depth == 0:
+        if tag not in VOID_TAGS:
             self.handle_endtag(tag)
 
     def handle_endtag(self, tag: str) -> None:
@@ -125,7 +139,7 @@ class SafeHTML(HTMLParser):
             if tag in BLOCKED_TAGS:
                 self.skip_depth = max(0, self.skip_depth - 1)
             return
-        if tag not in VOID_TAGS and tag not in BLOCKED_TAGS:
+        if tag not in VOID_TAGS and (tag not in BLOCKED_TAGS or tag == "iframe"):
             self.parts.append(f"</{tag}>")
 
     def handle_data(self, data: str) -> None:
