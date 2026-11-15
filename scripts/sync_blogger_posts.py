@@ -27,6 +27,8 @@ PERMALINK_RE = re.compile(r"^/\d{4}/\d{2}/[A-Za-z0-9._~!$&'()*+,;=:@%-]+\.html$"
 BLOGGER_MARKER_RE = re.compile(r'^blogger_id:\s*["\']?([0-9]+)', re.MULTILINE)
 BLOGGER_MANUAL_RE = re.compile(r"^blogger_sync:\s*manual\s*$", re.MULTILINE)
 BLOGGER_ALIAS_IDS_RE = re.compile(r"^blogger_alias_ids:\s*\[(.*)\]\s*$", re.MULTILINE)
+IMPORTED_POST_RE = re.compile(r"<!-- Imported from Blogger; source post ID: ([0-9]+) -->")
+POST_STATES = ("live", "draft", "scheduled")
 BLOCKED_TAGS = {"script", "style", "object", "embed", "form", "input", "button",
                 "textarea", "select", "option", "meta", "link", "base", "iframe"}
 VOID_TAGS = {"area", "base", "br", "col", "embed", "hr", "img", "input",
@@ -188,10 +190,13 @@ def html_text(source: str) -> str:
     return parser.text()
 
 
-def api_get(path: str, params: dict[str, str]) -> dict:
+def api_get(path: str, params: dict[str, str], access_token: str | None = None) -> dict:
     url = f"{API_ROOT}/{path.lstrip('/')}?{urlencode(params)}"
-    request = Request(url, headers={"Accept": "application/json",
-                                    "User-Agent": "CyberSilicon-Blogger-Sync/1.0"})
+    headers = {"Accept": "application/json",
+               "User-Agent": "CyberSilicon-Blogger-Sync/1.0"}
+    if access_token:
+        headers["Authorization"] = f"Bearer {access_token}"
+    request = Request(url, headers=headers)
     try:
         with urlopen(request, timeout=25) as response:
             payload = json.loads(response.read().decode("utf-8"))
@@ -251,6 +256,172 @@ def fetch_live_posts(api_key: str, blog_id: str, limit: int | None = None) -> li
         seen_tokens.add(next_token)
         page_token = str(next_token)
     return posts
+
+
+def refresh_oauth_access_token(client_id: str, client_secret: str, refresh_token: str) -> str:
+    """Exchange a stored Google OAuth refresh token for a short-lived access token."""
+    token_url = "https://oauth2.googleapis.com/token"
+    body = urlencode({
+        "client_id": client_id,
+        "client_secret": client_secret,
+        "refresh_token": refresh_token,
+        "grant_type": "refresh_token",
+    }).encode("utf-8")
+    request = Request(
+        token_url,
+        data=body,
+        headers={"Accept": "application/json",
+                 "Content-Type": "application/x-www-form-urlencoded"},
+        method="POST",
+    )
+    try:
+        with urlopen(request, timeout=25) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        try:
+            details = json.loads(exc.read(2048).decode("utf-8", errors="replace"))
+            message = details.get("error_description") or details.get("error") or "OAuth token request failed"
+        except (json.JSONDecodeError, AttributeError):
+            message = "OAuth token request failed"
+        raise SyncError(f"Google OAuth returned HTTP {exc.code}: {message}") from None
+    except (URLError, TimeoutError) as exc:
+        reason = exc.reason if isinstance(exc, URLError) else exc
+        raise SyncError(f"Could not reach Google OAuth: {reason}") from None
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise SyncError("Google OAuth returned an invalid JSON response") from None
+    token = payload.get("access_token") if isinstance(payload, dict) else None
+    if not token:
+        raise SyncError("Google OAuth did not return an access token")
+    return str(token)
+
+
+def fetch_post_inventory(api_key: str, blog_id: str, access_token: str) -> dict[str, dict]:
+    """Fetch every Blogger post state with admin metadata; fail closed on partial data."""
+    inventory: dict[str, dict] = {}
+    for requested_state in POST_STATES:
+        page_token = None
+        seen_tokens: set[str] = set()
+        while True:
+            params = {
+                "key": api_key,
+                "status": requested_state,
+                "view": "ADMIN",
+                "fetchBodies": "true",
+                "fetchImages": "true",
+                "maxResults": "100",
+            }
+            if page_token:
+                params["pageToken"] = page_token
+            payload = api_get(f"blogs/{blog_id}/posts", params, access_token=access_token)
+            items = payload.get("items", [])
+            if not isinstance(items, list):
+                raise SyncError(f"Blogger returned an invalid {requested_state} posts list")
+            for item in items:
+                if not isinstance(item, dict):
+                    raise SyncError(f"Blogger returned an invalid item in the {requested_state} list")
+                post_id = str(item.get("id", "")).strip()
+                actual_state = str(item.get("status", "")).strip().casefold()
+                if not post_id.isdigit():
+                    raise SyncError(f"A Blogger {requested_state} post is missing a numeric ID")
+                if actual_state != requested_state:
+                    raise SyncError(
+                        f"Blogger admin inventory is incomplete: expected {requested_state} "
+                        f"status for post {post_id}, received {actual_state or 'no status'}"
+                    )
+                if post_id in inventory:
+                    raise SyncError(f"Blogger returned post {post_id} more than once across status lists")
+                inventory[post_id] = item
+            next_token = payload.get("nextPageToken")
+            if not next_token:
+                break
+            if next_token in seen_tokens:
+                raise SyncError(f"Blogger returned a repeated pagination token for {requested_state} posts")
+            seen_tokens.add(str(next_token))
+            page_token = str(next_token)
+    return inventory
+
+
+def find_imported_deletion_candidates(output_dir: Path, present_ids: set[str]) -> list[tuple[Path, str]]:
+    """Select only importer-generated files absent from all non-trashed Blogger states."""
+    candidates: list[tuple[Path, str]] = []
+    if not output_dir.exists():
+        return candidates
+    for path in output_dir.iterdir():
+        if path.suffix.lower() not in {".md", ".markdown", ".html"} or not path.is_file():
+            continue
+        try:
+            source = path.read_text(encoding="utf-8")
+        except OSError:
+            continue
+        front_matter = source[:12000]
+        marker = BLOGGER_MARKER_RE.search(front_matter)
+        imported = IMPORTED_POST_RE.search(source)
+        if not marker or not imported or marker.group(1) != imported.group(1):
+            continue
+        if BLOGGER_MANUAL_RE.search(front_matter):
+            continue
+        blogger_id = marker.group(1)
+        aliases = BLOGGER_ALIAS_IDS_RE.search(front_matter)
+        alias_ids = set(re.findall(r"[0-9]+", aliases.group(1))) if aliases else set()
+        if blogger_id in present_ids or alias_ids.intersection(present_ids):
+            continue
+        candidates.append((path, blogger_id))
+    return candidates
+
+
+def get_blogger_post_status(api_key: str, blog_id: str, post_id: str, access_token: str) -> str | None:
+    """Re-check a missing ID immediately before pruning to avoid status-transition races.
+
+    Returns None for a 404/410, and a normalized Blogger state for an existing post.
+    """
+    params = urlencode({"key": api_key, "view": "ADMIN"})
+    url = f"{API_ROOT}/blogs/{blog_id}/posts/{post_id}?{params}"
+    request = Request(
+        url,
+        headers={"Accept": "application/json",
+                 "Authorization": f"Bearer {access_token}",
+                 "User-Agent": "CyberSilicon-Blogger-Sync/1.0"},
+    )
+    try:
+        with urlopen(request, timeout=25) as response:
+            payload = json.loads(response.read().decode("utf-8"))
+    except HTTPError as exc:
+        if exc.code in {404, 410}:
+            return None
+        try:
+            details = json.loads(exc.read(2048).decode("utf-8", errors="replace"))
+            message = details.get("error", {}).get("message", "Blogger API error")
+        except (json.JSONDecodeError, AttributeError):
+            message = "Blogger API request failed"
+        raise SyncError(f"Blogger could not verify post {post_id} (HTTP {exc.code}): {message}") from None
+    except (URLError, TimeoutError) as exc:
+        reason = exc.reason if isinstance(exc, URLError) else exc
+        raise SyncError(f"Could not verify Blogger post {post_id}: {reason}") from None
+    except (UnicodeDecodeError, json.JSONDecodeError):
+        raise SyncError(f"Blogger returned invalid data while verifying post {post_id}") from None
+    if not isinstance(payload, dict):
+        raise SyncError(f"Blogger returned an invalid response while verifying post {post_id}")
+    status = str(payload.get("status", "")).strip().casefold()
+    if status not in {*POST_STATES, "soft_trashed"}:
+        raise SyncError(f"Blogger returned an unknown status for post {post_id}; refusing deletion")
+    return status
+
+
+def verify_removed_post_ids(
+    api_key: str, blog_id: str, access_token: str, candidates: list[tuple[Path, str]]
+) -> tuple[set[str], set[str]]:
+    """Confirm candidates individually; existing drafts/scheduled posts are retained."""
+    removed: set[str] = set()
+    retained: set[str] = set()
+    for _, post_id in candidates:
+        if post_id in removed or post_id in retained:
+            continue
+        status = get_blogger_post_status(api_key, blog_id, post_id, access_token)
+        if status is None or status == "soft_trashed":
+            removed.add(post_id)
+        else:
+            retained.add(post_id)
+    return removed, retained
 
 
 def normalise_date(value: str) -> tuple[str, str]:
@@ -385,8 +556,11 @@ def existing_blogger_id_map(output_dir: Path) -> dict[str, list[tuple[Path, bool
     return result
 
 
-def apply_posts(posts: list[dict], output_dir: Path, apply: bool) -> dict[str, list[str]]:
-    summary = {"create": [], "update": [], "unchanged": [], "conflict": [], "invalid": []}
+def apply_posts(
+    posts: list[dict], output_dir: Path, apply: bool,
+    confirmed_deleted_ids: set[str] | None = None,
+) -> dict[str, list[str]]:
+    summary = {"create": [], "update": [], "unchanged": [], "delete": [], "conflict": [], "invalid": []}
     permalink_map = existing_permalink_map(output_dir)
     blogger_id_map = existing_blogger_id_map(output_dir)
     planned: dict[str, str] = {}
@@ -445,6 +619,13 @@ def apply_posts(posts: list[dict], output_dir: Path, apply: bool) -> dict[str, l
                 permalink_map[perm_match.group(1).strip()] = target
             if not any(entry[0] == target for entry in blogger_id_map.get(post_id, [])):
                 blogger_id_map.setdefault(post_id, []).append((target, False))
+    if confirmed_deleted_ids:
+        for path, post_id in find_imported_deletion_candidates(output_dir, set()):
+            if post_id not in confirmed_deleted_ids:
+                continue
+            summary["delete"].append(path.name)
+            if apply:
+                path.unlink()
     return summary
 
 
@@ -454,6 +635,10 @@ def main(argv: list[str] | None = None) -> int:
     parser.add_argument("--output-dir", type=Path, default=Path("_posts"))
     parser.add_argument("--limit", type=int, default=None)
     parser.add_argument("--apply", action="store_true", help="write changes (default is dry-run)")
+    parser.add_argument(
+        "--sync-deletions", action="store_true",
+        help="also check live, draft, and scheduled posts and prune confirmed Blogger deletions",
+    )
     args = parser.parse_args(argv)
 
     api_key = os.getenv("BLOGGER_API_KEY", "").strip()
@@ -464,17 +649,62 @@ def main(argv: list[str] | None = None) -> int:
     if args.limit is not None and args.limit < 1:
         parser.error("--limit must be greater than zero")
 
+    if args.sync_deletions and args.limit is not None:
+        parser.error("--limit cannot be combined with --sync-deletions")
+
     try:
         resolved_id = resolve_blog_id(api_key, args.blog_url, blog_id)
-        posts = fetch_live_posts(api_key, resolved_id, args.limit)
-        summary = apply_posts(posts, args.output_dir, args.apply)
+        counts = {"live": 0, "draft": 0, "scheduled": 0}
+        retained_ids: set[str] = set()
+        confirmed_deleted_ids: set[str] = set()
+        retained_outside_inventory: set[str] = set()
+
+        if args.sync_deletions:
+            client_id = os.getenv("BLOGGER_OAUTH_CLIENT_ID", "").strip()
+            client_secret = os.getenv("BLOGGER_OAUTH_CLIENT_SECRET", "").strip()
+            refresh_token = os.getenv("BLOGGER_OAUTH_REFRESH_TOKEN", "").strip()
+            if not all((client_id, client_secret, refresh_token)):
+                raise SyncError(
+                    "Deletion sync requires BLOGGER_OAUTH_CLIENT_ID, "
+                    "BLOGGER_OAUTH_CLIENT_SECRET, and BLOGGER_OAUTH_REFRESH_TOKEN"
+                )
+            access_token = refresh_oauth_access_token(client_id, client_secret, refresh_token)
+            inventory = fetch_post_inventory(api_key, resolved_id, access_token)
+            counts = {state: sum(1 for post in inventory.values()
+                                 if str(post.get("status", "")).casefold() == state)
+                      for state in POST_STATES}
+            retained_ids = set(inventory)
+            posts = [post for post in inventory.values()
+                     if str(post.get("status", "")).casefold() == "live"]
+            candidates = find_imported_deletion_candidates(args.output_dir, retained_ids)
+            confirmed_deleted_ids, retained_outside_inventory = verify_removed_post_ids(
+                api_key, resolved_id, access_token, candidates
+            )
+            summary = apply_posts(
+                posts, args.output_dir, args.apply,
+                confirmed_deleted_ids=confirmed_deleted_ids,
+            )
+            summary["retained"] = [
+                f"{post_id}: still exists in Blogger; kept local copy"
+                for post_id in sorted(retained_outside_inventory)
+            ]
+        else:
+            posts = fetch_live_posts(api_key, resolved_id, args.limit)
+            summary = apply_posts(posts, args.output_dir, args.apply)
+            summary["retained"] = []
     except SyncError as exc:
         print(f"Sync stopped safely: {exc}", file=sys.stderr)
         return 1
 
     mode = "APPLY" if args.apply else "DRY RUN"
-    print(f"{mode}: Blogger blog ID {resolved_id}; {len(posts)} live posts inspected")
-    for action in ("create", "update", "unchanged", "conflict", "invalid"):
+    if args.sync_deletions:
+        print(
+            f"{mode}: Blogger blog ID {resolved_id}; "
+            f"{counts['live']} live, {counts['draft']} draft, {counts['scheduled']} scheduled posts inspected"
+        )
+    else:
+        print(f"{mode}: Blogger blog ID {resolved_id}; {len(posts)} live posts inspected")
+    for action in ("create", "update", "unchanged", "delete", "retained", "conflict", "invalid"):
         print(f"{action}: {len(summary[action])}")
         for item in summary[action][:10]:
             print(f"  - {item}")
