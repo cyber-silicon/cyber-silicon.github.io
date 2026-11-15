@@ -775,6 +775,20 @@ html[data-theme="light"] .button.primary{
   border-radius:14px;
   background:#071827;
 }
+/* TikTok embeds are portrait videos; keep their native vertical presentation. */
+.prose .tiktok-embed-wrapper{
+  width:100%;
+  max-width:360px;
+  margin:24px auto;
+  overflow:hidden;
+}
+.prose iframe[src*="www.tiktok.com/player/v1/"]{
+  width:100%!important;
+  max-width:360px!important;
+  min-height:560px;
+  aspect-ratio:9/16;
+  margin:0 auto;
+}
 .prose video{
   display:block;
   width:100%;
