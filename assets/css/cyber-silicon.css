@@ -696,3 +696,101 @@ html[data-theme="light"] .button.primary{
   white-space:nowrap;
   border:0;
 }
+
+
+/* Readable syntax highlighting for Rouge-generated code tokens. */
+.prose .highlight,
+.prose pre.highlight{
+  background:#071827!important;
+  color:#e6f2fa!important;
+  border:1px solid #31516a;
+  border-radius:14px;
+}
+.prose .highlight pre{
+  background:transparent!important;
+  color:#e6f2fa!important;
+  border:0!important;
+}
+.prose .highlight .c,
+.prose .highlight .cm,
+.prose .highlight .c1,
+.prose .highlight .cs,
+.prose .highlight .cp{color:#91a4b3!important;font-style:italic}
+.prose .highlight .k,
+.prose .highlight .kc,
+.prose .highlight .kd,
+.prose .highlight .kn,
+.prose .highlight .kp,
+.prose .highlight .kr,
+.prose .highlight .kt{color:#c792ea!important;font-weight:700}
+.prose .highlight .s,
+.prose .highlight .sa,
+.prose .highlight .sb,
+.prose .highlight .sc,
+.prose .highlight .dl,
+.prose .highlight .sd,
+.prose .highlight .s2,
+.prose .highlight .sh,
+.prose .highlight .sx,
+.prose .highlight .sr,
+.prose .highlight .s1,
+.prose .highlight .ss{color:#c3e88d!important}
+.prose .highlight .m,
+.prose .highlight .mb,
+.prose .highlight .mf,
+.prose .highlight .mh,
+.prose .highlight .mi,
+.prose .highlight .mo,
+.prose .highlight .il{color:#f78c6c!important}
+.prose .highlight .na,
+.prose .highlight .nb,
+.prose .highlight .nc,
+.prose .highlight .nd,
+.prose .highlight .ne,
+.prose .highlight .nf,
+.prose .highlight .nn,
+.prose .highlight .nt{color:#82aaff!important}
+.prose .highlight .no,
+.prose .highlight .nv,
+.prose .highlight .vc,
+.prose .highlight .vg,
+.prose .highlight .vi{color:#f07178!important}
+.prose .highlight .o,
+.prose .highlight .ow,
+.prose .highlight .p{color:#89ddff!important}
+.prose .highlight .gd{color:#ff8b92!important;background:#48232b}
+.prose .highlight .gi{color:#c3e88d!important;background:#203b2c}
+.prose .highlight .err{color:#ff5370!important;text-decoration:underline wavy}
+
+/* Responsive embedded media in article bodies (YouTube, Vimeo and HTML5 video). */
+.prose iframe{
+  display:block;
+  width:100%!important;
+  max-width:100%;
+  height:auto!important;
+  min-height:220px;
+  aspect-ratio:16/9;
+  margin:24px 0;
+  border:1px solid var(--line)!important;
+  border-radius:14px;
+  background:#071827;
+}
+.prose video{
+  display:block;
+  width:100%;
+  max-width:100%;
+  height:auto;
+  margin:24px 0;
+  border-radius:14px;
+  background:#071827;
+}
+.prose figure:has(> iframe),
+.prose figure:has(> video){
+  width:100%;
+  max-width:100%;
+  margin:24px 0;
+}
+@media(max-width:620px){
+  .prose iframe{min-height:190px;border-radius:10px}
+  .prose video{border-radius:10px}
+}
