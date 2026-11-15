@@ -48,6 +48,15 @@ class BloggerSyncTests(unittest.TestCase):
         source = '<iframe src="https://www.youtube-nocookie.com/embed/abc" title="Video"></iframe>'
         self.assertIn("youtube-nocookie.com/embed/abc", SYNC.sanitize_html(source))
 
+    def test_sanitizer_keeps_official_tiktok_player_embed(self):
+        source = '<iframe src="https://www.tiktok.com/player/v1/7667112940985715989?autoplay=0" title="Video"></iframe>'
+        result = SYNC.sanitize_html(source)
+        self.assertIn("www.tiktok.com/player/v1/7667112940985715989", result)
+
+    def test_sanitizer_rejects_non_player_tiktok_pages(self):
+        source = '<iframe src="https://www.tiktok.com/@creator/video/7667112940985715989"></iframe>'
+        self.assertEqual("", SYNC.sanitize_html(source))
+
     def test_sanitizer_removes_untrusted_iframe(self):
         source = '<iframe src="https://attacker.example/embed/x"></iframe>'
         self.assertEqual("", SYNC.sanitize_html(source))
