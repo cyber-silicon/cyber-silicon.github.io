@@ -266,7 +266,9 @@ class BloggerSyncTests(unittest.TestCase):
     def test_post_inventory_fails_closed_when_admin_status_is_missing(self):
         def fake_api_get(path, params, access_token=None):
             state = params["status"]
-            return {"items": [{"id": "404", "status": "LIVE" if state == "live" else state.upper()}]}
+            if state == "live":
+                return {"items": [{"id": "404"}]}
+            return {"items": []}
 
         with patch.object(SYNC, "api_get", side_effect=fake_api_get):
             with self.assertRaises(SYNC.SyncError):
@@ -288,13 +290,13 @@ class BloggerSyncTests(unittest.TestCase):
             managed.write_text(imported_content, encoding="utf-8")
             manual = root / "manual.md"
             manual.write_text(
-                '---\\ntitle: "Manual"\\nblogger_id: "232323232"\\nblogger_sync: manual\\n---\\n'
+                '---\ntitle: "Manual"\nblogger_id: "232323232"\nblogger_sync: manual\n---\n'
                 '<!-- Imported from Blogger; source post ID: 232323232 -->',
                 encoding="utf-8",
             )
             unmanaged = root / "unmanaged.md"
             unmanaged.write_text(
-                '---\\ntitle: "Unmanaged"\\nblogger_id: "343434343"\\n---\\n',
+                '---\ntitle: "Unmanaged"\nblogger_id: "343434343"\n---\n',
                 encoding="utf-8",
             )
 
@@ -318,8 +320,8 @@ class BloggerSyncTests(unittest.TestCase):
             managed.write_text(content, encoding="utf-8")
             manual = root / "manual-copy.md"
             manual.write_text(
-                '---\\ntitle: "Manual copy"\\nblogger_id: "565656565"\\n'
-                'blogger_sync: manual\\n---\\n',
+                '---\ntitle: "Manual copy"\nblogger_id: "565656565"\n'
+                'blogger_sync: manual\n---\n',
                 encoding="utf-8",
             )
 
@@ -356,8 +358,8 @@ class BloggerSyncTests(unittest.TestCase):
             root = Path(folder)
             path = root / "canonical.md"
             path.write_text(
-                '---\\ntitle: "Canonical"\\nblogger_id: "787878787"\\n'
-                'blogger_alias_ids: ["898989898"]\\n---\\n'
+                '---\ntitle: "Canonical"\nblogger_id: "787878787"\n'
+                'blogger_alias_ids: ["898989898"]\n---\n'
                 '<!-- Imported from Blogger; source post ID: 787878787 -->',
                 encoding="utf-8",
             )
