@@ -61,6 +61,12 @@ class BloggerSyncTests(unittest.TestCase):
         source = '<iframe src="https://attacker.example/embed/x"></iframe>'
         self.assertEqual("", SYNC.sanitize_html(source))
 
+    def test_rejected_iframe_does_not_hide_following_article_content(self):
+        source = '<p>before</p><iframe src="https://attacker.example/embed/x"></iframe><p>after</p>'
+        result = SYNC.sanitize_html(source)
+        self.assertIn("before", result)
+        self.assertIn("after", result)
+
     def test_preserves_blogger_post_permalink(self):
         url = "https://cyber-silicon.blogspot.com/2026/10/kali-linux-6_02001830419.html"
         self.assertEqual("/2026/10/kali-linux-6_02001830419.html", SYNC.safe_permalink(url))
