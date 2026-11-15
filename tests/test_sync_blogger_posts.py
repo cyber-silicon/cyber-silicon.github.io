@@ -2,6 +2,7 @@ import importlib.util
 from pathlib import Path
 import tempfile
 import unittest
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts" / "sync_blogger_posts.py"
 SPEC = importlib.util.spec_from_file_location("sync_blogger_posts", SCRIPT)
@@ -245,6 +246,134 @@ class BloggerSyncTests(unittest.TestCase):
             summary = SYNC.apply_posts([post], root, apply=True)
             self.assertEqual(1, len(summary["conflict"]))
             self.assertIn("Manually authored", target.read_text(encoding="utf-8"))
+
+    def test_post_inventory_collects_live_draft_and_scheduled_states(self):
+        def fake_api_get(path, params, access_token=None):
+            state = params["status"]
+            self.assertEqual("ADMIN", params["view"])
+            self.assertEqual("admin-token", access_token)
+            return {"items": [{"id": {"live": "101", "draft": "202", "scheduled": "303"}[state],
+                               "status": state.upper()}]}
+
+        with patch.object(SYNC, "api_get", side_effect=fake_api_get):
+            inventory = SYNC.fetch_post_inventory("key", "blog", "admin-token")
+
+        self.assertEqual({"101", "202", "303"}, set(inventory))
+        self.assertEqual("LIVE", inventory["101"]["status"])
+        self.assertEqual("DRAFT", inventory["202"]["status"])
+        self.assertEqual("SCHEDULED", inventory["303"]["status"])
+
+    def test_post_inventory_fails_closed_when_admin_status_is_missing(self):
+        def fake_api_get(path, params, access_token=None):
+            state = params["status"]
+            return {"items": [{"id": "404", "status": "LIVE" if state == "live" else state.upper()}]}
+
+        with patch.object(SYNC, "api_get", side_effect=fake_api_get):
+            with self.assertRaises(SYNC.SyncError):
+                SYNC.fetch_post_inventory("key", "blog", "admin-token")
+
+    def test_deletion_candidates_include_only_managed_non_manual_files(self):
+        post = {
+            "id": "121212121",
+            "title": "Managed",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/managed.html",
+            "labels": [],
+            "content": "<p>Imported body</p>",
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            filename, imported_content = SYNC.render_post(post)
+            managed = root / filename
+            managed.write_text(imported_content, encoding="utf-8")
+            manual = root / "manual.md"
+            manual.write_text(
+                '---\\ntitle: "Manual"\\nblogger_id: "232323232"\\nblogger_sync: manual\\n---\\n'
+                '<!-- Imported from Blogger; source post ID: 232323232 -->',
+                encoding="utf-8",
+            )
+            unmanaged = root / "unmanaged.md"
+            unmanaged.write_text(
+                '---\\ntitle: "Unmanaged"\\nblogger_id: "343434343"\\n---\\n',
+                encoding="utf-8",
+            )
+
+            candidates = SYNC.find_imported_deletion_candidates(root, set())
+
+            self.assertEqual([(managed, "121212121")], candidates)
+
+    def test_confirmed_delete_removes_only_importer_managed_copy(self):
+        post = {
+            "id": "454545454",
+            "title": "Managed copy",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/managed-copy.html",
+            "labels": [],
+            "content": "<p>Imported body</p>",
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            filename, content = SYNC.render_post(post)
+            managed = root / filename
+            managed.write_text(content, encoding="utf-8")
+            manual = root / "manual-copy.md"
+            manual.write_text(
+                '---\\ntitle: "Manual copy"\\nblogger_id: "565656565"\\n'
+                'blogger_sync: manual\\n---\\n',
+                encoding="utf-8",
+            )
+
+            dry_run = SYNC.apply_posts([], root, apply=False, confirmed_deleted_ids={"454545454"})
+            self.assertEqual([filename], dry_run["delete"])
+            self.assertTrue(managed.exists())
+
+            applied = SYNC.apply_posts([], root, apply=True, confirmed_deleted_ids={"454545454"})
+            self.assertEqual([filename], applied["delete"])
+            self.assertFalse(managed.exists())
+            self.assertTrue(manual.exists())
+
+    def test_live_or_draft_or_scheduled_source_id_prevents_prune_candidate(self):
+        post = {
+            "id": "676767676",
+            "title": "Keep while source still exists",
+            "published": "2026-11-14T10:15:00Z",
+            "url": "https://cyber-silicon.blogspot.com/2026/11/keep.html",
+            "labels": [],
+            "content": "<p>Imported body</p>",
+        }
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            filename, content = SYNC.render_post(post)
+            path = root / filename
+            path.write_text(content, encoding="utf-8")
+
+            candidates = SYNC.find_imported_deletion_candidates(root, {"676767676"})
+
+            self.assertEqual([], candidates)
+
+    def test_alias_still_present_prevents_pruning_managed_file(self):
+        with tempfile.TemporaryDirectory() as folder:
+            root = Path(folder)
+            path = root / "canonical.md"
+            path.write_text(
+                '---\\ntitle: "Canonical"\\nblogger_id: "787878787"\\n'
+                'blogger_alias_ids: ["898989898"]\\n---\\n'
+                '<!-- Imported from Blogger; source post ID: 787878787 -->',
+                encoding="utf-8",
+            )
+            candidates = SYNC.find_imported_deletion_candidates(root, {"898989898"})
+            self.assertEqual([], candidates)
+
+    def test_verify_removed_ids_retains_drafts_and_confirms_missing_or_trashed(self):
+        candidates = [(Path("draft.html"), "111"), (Path("missing.html"), "222"),
+                      (Path("trashed.html"), "333")]
+        def fake_status(api_key, blog_id, post_id, access_token):
+            return {"111": "draft", "222": None, "333": "soft_trashed"}[post_id]
+
+        with patch.object(SYNC, "get_blogger_post_status", side_effect=fake_status):
+            removed, retained = SYNC.verify_removed_post_ids("key", "blog", "token", candidates)
+        self.assertEqual({"222", "333"}, removed)
+        self.assertEqual({"111"}, retained)
 
 
 if __name__ == "__main__":
