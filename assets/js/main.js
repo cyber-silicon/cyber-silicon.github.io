@@ -274,16 +274,28 @@
     (nextFocus||q('#bookmarksEmpty h2'))?.focus();
   }));
   renderBookmarks();
+  const bookmarkSyncStatus=q('#bookmarksSyncStatus');
   window.addEventListener('storage',event=>{
     if(event.key!==bookmarkKey&&event.key!==null)return;
+    const activeCard=document.activeElement?.closest?.('[data-bookmark-url]');
+    const activeCardIndex=bookmarkCards.indexOf(activeCard);
+    const activeCardUrl=activeCard?.dataset.bookmarkUrl;
+    const saved=readBookmarks();
     qa('[data-bookmark]').forEach(b=>{
-      const on=readBookmarks().includes(b.dataset.url);
+      const on=saved.includes(b.dataset.url);
       b.classList.toggle('saved',on);
       b.setAttribute('aria-pressed',String(on));
       b.setAttribute('aria-label',on?'إزالة المقال من المحفوظات':'حفظ المقال في المحفوظات');
       b.textContent=on?'محفوظ':'حفظ';
     });
     renderBookmarks();
+    if(activeCard&&activeCardUrl&&!saved.includes(activeCardUrl)){
+      const nextCard=bookmarkCards.slice(activeCardIndex+1).find(card=>!card.hidden)
+        ||bookmarkCards.slice(0,activeCardIndex).reverse().find(card=>!card.hidden);
+      const nextTarget=nextCard?.querySelector('a[href],button:not([disabled])');
+      (nextTarget||q('#bookmarksEmpty h2'))?.focus();
+    }
+    if(bookmarkSyncStatus)bookmarkSyncStatus.textContent='تم تحديث المحفوظات من علامة تبويب أخرى.';
   });
 
   qa('.prose pre').forEach(pre=>{
