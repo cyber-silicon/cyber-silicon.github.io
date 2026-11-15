@@ -1,0 +1,134 @@
+---
+title: "[سلسلة Kali Linux - الدرس 1] الشرح الشامل لاختيار وتحميل نسخة Kali Linux المناسبة"
+date: 2026-10-08T09:38:58+02:00
+categories: ["دروس وتقنيات"]
+tags: ["دروس وتقنيات", "Cyber Silicon", "Kali Linux"]
+blogger_id: "3004261941942939031"
+blogger_url: "https://cyber-silicon.blogspot.com/2026/10/kali-linux-1-kali-linux_0389343734.html"
+comments: true
+description: "[سلسلة Kali Linux - الدرس 1] الشرح الشامل لاختيار وتحميل النسخة المناسبة لجهازك أهلاً بكم في أولى دروس سلسلة تعلم واحتراف نظام Kali Linux من الصفر مقدمة لكم من Cyber Silicon ! 🚀 عن…"
+permalink: "/2026/10/kali-linux-1-kali-linux_0389343734.html"
+---
+
+<!-- Imported from Blogger; source post ID: 3004261941942939031 -->
+<h1>[سلسلة Kali Linux - الدرس 1] الشرح الشامل لاختيار وتحميل النسخة المناسبة لجهازك</h1>
+<p>أهلاً بكم في أولى دروس <strong>سلسلة تعلم واحتراف نظام Kali Linux من الصفر</strong> مقدمة لكم من <strong>Cyber Silicon</strong>! 🚀</p>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1iXfcBMHYsPyH2EoaoPJmoEt4ZYO_GNmf" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<p>عند فتح الصفحة الرسمية لتنزيل Kali Linux (<code>kali.org/get-kali</code>)، ستواجه عدة منصات وخيارات قد تجعل المبتدئ يحتار في اختيار النسخة الملائمة لبيئته وهدفه. في هذا الدرس، سنقوم بشرح وتفكيك كل منصة خياراً بخيار، بالإضافة إلى مقارنة خيارات التثبيت المختلفة.</p>
+<hr>
+<h2>📍 أولاً: شرح المنصات والبيئات المتاحة (Choose your Kali)</h2>
+<p>تتيح شركة Offensive Security نظام Kali Linux على 8 منصات رئيسة لتناسب كافة الاستخدامات:</p>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1Eyqy_ZCVvgP25g7XKckKwwM__MwXbUap" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<h3>1. Installer Images (صور التثبيت الكاملة - الموصى بها)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> للتثبيت المباشر كنظام أساسي بجانب ويندوز (Dual Boot) أو داخل البرامج الوهمية.</li>
+<li><strong>المميزات:</strong> وصول مباشر للعتاد (Hardware)، أداء عالي جداً، وإمكانية تخصيص الواجهة والبرامج أثناء التثبيت.</li>
+</ul>
+<h3>2. Virtual Machines (الأنظمة الوهمية الجاهزة)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> للعمل الفوري على برامج مثل VirtualBox و VMware.</li>
+<li><strong>المميزات:</strong> ملف محمل ومجهز بالكامل، يعمل بضغط زر دون الحاجة لخطوات تثبيت، مع دعم ميزة اللقطات السريعة (Snapshots).</li>
+</ul>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1qkRJskn9KlA7ZMWn0x-k1W1YAg1ecHwM" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<h3>3. ARM (أجهزة المعالجات الموفرة للطاقة)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> للأجهزة الذكية اللوحية وبطاقات Raspberry Pi وأجهزة اللابتوب الحديثة التي تعمل بمعالجات ARM.</li>
+</ul>
+<h3>4. Mobile (أجهزة الهواتف الذكية - Kali NetHunter)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> لتشغيل Kali Linux على هواتف أندرويد (تطبيق NetHunter و NetHunter App Store و Kex).</li>
+<li><strong>المميزات:</strong> بيئة اختبار اختراق كاملة ومحمولة في جيبك.</li>
+</ul>
+<h3>5. Cloud (البيئات السحابية)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> للتثبيت على خوادم AWS و Azure و Google Cloud.</li>
+<li><strong>المميزات:</strong> نشر سريع على سيرفرات عالية الأداء للاختبارات عن بُعد.</li>
+</ul>
+<h3>6. Containers (الحاويات)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> لتشغيل أدوات Kali عبر Docker أو LXD.</li>
+<li><strong>المميزات:</strong> خفيفة جداً وعزل تام للأدوات بدون استهلاك موارد النظام الوهمي الكامل.</li>
+</ul>
+<h3>7. Live Boot (التشغيل المباشر من الفلاشة)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> الاقلاع المباشر من فلاش USB دون التعديل على القرص الصلب أو نظام التشغيل الأصلي.</li>
+<li><strong>المميزات:</strong> الحفاظ على خصوصية النظام وعدم ترك أي أثر على الجهاز المستضيف.</li>
+</ul>
+<h3>8. WSL (نظام ويندوز الفرعي للينكس)</h3>
+<ul>
+<li><strong>الاستخدام:</strong> تشغيل أدوات Kali Linux مباشرة داخل بيئة Windows 10/11 عبر Win-KeX.</li>
+<li><strong>المميزات:</strong> سرعة وصول لأدوات السطر البرمجي دون الحاجة لبرامج وهمية خارجية.</li>
+</ul>
+<hr>
+<h2>⚙️ ثانياً: اختيار المعمارية واختيارات Installer Images</h2>
+<p>إذا اخترت قسم <strong>Installer Images</strong>، فستظهر لك الخيارات التالية بناءً على نوع معالج جهازك:</p>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1owTUOAFtaqNAgO2WkIAXPFQy3dTL48tI" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ul>
+<li><strong>x86_64:</strong> للأجهزة القياسية والحواسيب المحمولة والمكتبية المتوافقة مع معالجات Intel و AMD.</li>
+<li><strong>Apple Silicon (ARM64):</strong> مخصصة لأجهزة ماك الحديثة المزودة بشرائح Apple (M1, M2, M3, M4).</li>
+</ul>
+<h3>خيارات التنزيل داخل قسْم <code>Installer</code>:</h3>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">اسم النسخة</th>
+<th style="text-align: left;">الحجم التقريبي</th>
+<th style="text-align: left;">الوصف والاستخدام</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Installer (Recommended)</strong></td>
+<td style="text-align: left;">~ 4.4 GB</td>
+<td style="text-align: left;">النسخة القياسية الكاملة الشاملة لجميع حزم الأدوات الأساسية والواجهات بدون الحاجة للإنترنت أثناء التثبيت.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Weekly</strong></td>
+<td style="text-align: left;">~ 4.7 GB</td>
+<td style="text-align: left;">نسخة أسبوعية تحتوي على آخر التحديثات والحزم التجريبية.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>NetInstaller</strong></td>
+<td style="text-align: left;">~ 743 MB</td>
+<td style="text-align: left;">نسخة خفيفة جداً، تقوم بتنزيل جميع الأدوات والبرامج من الإنترنت أثناء عملية التثبيت.</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Everything</strong></td>
+<td style="text-align: left;">~ 13 GB</td>
+<td style="text-align: left;">تحتوي على كافة أدوات Kali Linux المتوفرة في المستودعات الرسمية (للمشروعات المعزولة عن الإنترنت air-gapped).</td>
+</tr>
+</tbody>
+</table>
+<hr>
+<h2>📥 روابط التحميل المباشرة</h2>
+<ul>
+<li>🌐 <strong>الصفحة الرسمية لاختيار المنصات:</strong> <a href="https://www.kali.org/get-kali/">kali.org/get-kali</a></li>
+<li>📦 <strong>تحميل Installer Images المباشر:</strong> <a href="https://www.kali.org/get-kali/#kali-installer-images">kali.org/get-kali/#kali-installer-images</a></li>
+<li>💻 <strong>تحميل Virtual Machines المباشر:</strong> <a href="https://www.kali.org/get-kali/#kali-virtual-machines">kali.org/get-kali/#kali-virtual-machines</a></li>
+</ul>
+<hr>
+<h2>⚠️ حل مشكلة الحظر Blocked Error أثناء فتح الموقع</h2>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1N4cHp7WorF62gBAFZDQ1RBGaZLWeesZz" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<p>في حال ظهور خطأ الحظر مثل:<br>
+<code>Sorry, you have been blocked</code> أو <code>Cloudflare Access Denied</code></p>
+<ul>
+<li><strong>السبب:</strong> تقييد جغرافي أو حظر على عنوان الـ IP الخاص بك من قبل خوادم الحماية.</li>
+</ul>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1Fq6nDWyGSCDEnALRju9KDO_TQLaLVQzE" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ul>
+<li><strong>الحل:</strong> قم بتشغيل تطبيق <strong>VPN</strong> وربطه بسيرفر أوروبي أو أمريكي، ثم قم بإعادة تحميل الصفحة وستعمل رابط التحميلات والموقع فوراً.</li>
+</ul>
+<hr>
+<h3>🔗 التنقل بين دروس السلسلة</h3>
+<ul>
+<li><strong>الدرس السابق 👈:</strong> لا يوجد (هذا هو الدرس الأول في السلسلة).</li>
+<li><a href="https://cyber-silicon.blogspot.com/2026/10/kali-linux-2-virtualbox-extension-pack_02082292610.html">[سلسلة Kali Linux - الدرس 2] تحميل برنامج VirtualBox و حزمة Extension Pack</a></li>
+</ul>
+<hr>
+            <div style="display: flex; justify-content: center; margin: 25px 0; width: 100%;">

@@ -1,0 +1,98 @@
+---
+title: "[سلسلة Kali Linux - الدرس 4] تهيئة الفلاشة وتقسيم الهارد للتثبيت"
+date: 2026-10-08T13:16:38+02:00
+categories: ["دروس وتقنيات"]
+tags: ["دروس وتقنيات", "Cyber Silicon", "Kali Linux", "Ventoy"]
+blogger_id: "4909267688577719902"
+blogger_url: "https://cyber-silicon.blogspot.com/2026/10/kali-linux-4.html"
+comments: true
+description: "[سلسلة Kali Linux - الدرس 4] تهيئة الفلاشة وتقسيم الهارد مرحباً بكم في الدرس الرابع من سلسلة تعلم واحتراف نظام Kali Linux من الصفر المقدمة من قناة Cyber Silicon ! 💻🐉 نستعرض في هذا…"
+permalink: "/2026/10/kali-linux-4.html"
+---
+
+<!-- Imported from Blogger; source post ID: 4909267688577719902 -->
+<h1>[سلسلة Kali Linux - الدرس 4] تهيئة الفلاشة وتقسيم الهارد</h1>
+<p>مرحباً بكم في الدرس الرابع من <strong>سلسلة تعلم واحتراف نظام Kali Linux من الصفر</strong> المقدمة من قناة <strong>Cyber Silicon</strong>! 💻🐉</p>
+<p>نستعرض في هذا الدرس الخطوات التمهيدية المهمة لتثبيت النظام أساسياً بجانب نظام الويندوز، حيث نتعلم كيفية تحميل وتجهيز أداة Ventoy لجعل الفلاشة كـ Multi-Boot، واقتطاع مساحة مخصصة للنظام من القرص الصلب.</p>
+<hr>
+<h3>🌐 الخطوة 1: تحميل أداة Ventoy وتوضيح الخيارات</h3>
+<p>للبدء، نحتاج إلى تحميل أداة <strong>Ventoy</strong> من الموقع الرسمي:<br>
+🔗 <strong>رابط الموقع الرسمي:</strong> <a href="https://www.ventoy.net/en/index.html">ventoy.net</a><br>
+🔗 <strong>صفحة التحميل المباشرة:</strong> <a href="https://www.ventoy.net/en/download.html">Ventoy Downloads</a></p>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1yzEfJb-KqO1lpVOi00FJmMhOf2Pw5gn2" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<h4>🛠️ شرح خيارات التنزيل المتاحة (Binary Downloads):</h4>
+<p>عند الدخول لصفحة التحميل، ستجد عدة خيارات مخصصة للأنظمة المختلفة:</p>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/11acBQx_5TToHBdMM2ndLse5KN0E6efOd" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li><strong><code>ventoy-1.1.17-windows.zip</code></strong>:</li>
+<li><strong>الاستخدام:</strong> المخصص لنظام <strong>Windows</strong>. </li>
+<li>يأتي بصيغة ملف مضغوط يضم أداة ذات واجهة رسمية (<code>Ventoy2Disk.exe</code>) لتجهيز الفلاشة بسهولة.</li>
+<li><strong><code>ventoy-1.1.17-linux.tar.gz</code></strong>:</li>
+<li><strong>الاستخدام:</strong> المخصص لأنظمة <strong>Linux</strong> (مثل Kali أو Ubuntu).</li>
+<li>يحتوي على سكربتات التثبيت عبر السطر الأوامر (Terminal) أو الواجهة الرسمية لنظام لينكس.</li>
+<li><strong><code>ventoy-1.1.17-livecd.iso</code></strong>:</li>
+<li><strong>الاستخدام:</strong> قرص إقلاع مستقل (ISO).</li>
+<li>يُستخدم للإقلاع المباشر وحرق الأداة دون الحاجة لنظام تشغيل مثبت.</li>
+<li><strong>رابط SourceForge المباشر (<code>sourceforge.net/projects/ventoy/files</code>)</strong>:</li>
+<li>خيار تحميل بديل وسريع في حال كان السيرفر الرئيسي بطيئاً.</li>
+</ol>
+<hr>
+<h3>📌 الخطوة 2: تثبيت وتجهيز الفلاشة عبر Ventoy</h3>
+<ol>
+<li>قم بفك الضغط عن الملف المخصص لنظامك وافتح أداة Ventoy.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1I4Zs8J5AM-EGeZAFM8h_p_EizTouwOgS" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>أدخل الفلاشة الخاصة بك في الجهاز واختر اسمها من قائمة <strong>Device</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1azxCTgT8Hbg0hLIIqyHUzcj-jth8At9Y" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>توجه إلى قائمة <strong>Option</strong> ثم اختر <strong>Partition Configuration</strong> لتحديد نوع تقسيم القرص (GPT أو MBR حسب دعم جهازك).</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1tGWfA6-SIaEO1hIHnENmrZVKtDvrdmKW" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>اضغط على <strong>Install</strong> وافق على الرسائل التحذيرية لتأكيد الفرمتة وتثبيت Ventoy على الفلاشة.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1t4Qa3gJsy1LrpXxzGM78-55QumnNPlUM" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<hr>
+<h3>📂 الخطوة 3: نسخ ملف الـ ISO إلى الفلاشة</h3>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1BzxKHzqPaeB7lXk4CDstyLZIQoueJn1H" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>قم بنسخ ملف الـ <strong>ISO</strong> الخاص بنظام Kali Linux الذي قمت بتنزيله وتجهيزه سابقاً.</li>
+<li>افتح الفلاشة من <strong>This PC</strong> وقم بلصق ملف الـ ISO مباشرة بداخلها دون الحاجة لاستخدام أدوات حرق مثل Rufus.</li>
+</ol>
+<hr>
+<h3>⚙️ الخطوة 4: اقتطاع مساحة من الهارد (Disk Management)</h3>
+<ol>
+<li>اضغط بزر الماوس الأيمن على زر ابدأ أو <strong>This PC</strong> واختر <strong>Disk Management</strong> (إدارة الأقراص).</li>
+<li>اختر البارتشن المراد اقتطاع المساحة منه واضغط عليه بزر الماوس الأيمن ثم اختر <strong>Shrink Volume</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/16nA1VRD46VXkG2HRiINg9qkoMUi9Pbst" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>حدد المساحة المطلوبة (يُفضل 50GB تقريباً، أي اكتب <strong>50000MB</strong>) ثم اضغط <strong>Shrink</strong>.</li>
+</ol>
+<div style="text-align: center; margin: 15px 0;"><img src="https://lh3.googleusercontent.com/d/1YTPhMiFctrkluNKAw2tCYVrSQMfSoflK" style="max-width:100%; height:auto; border-radius: 6px;"></div>
+
+<ol>
+<li>ستظهر لك مساحة سوداء جديدة باسم <strong>Unallocated Space</strong> جاهزة لتثبيت النظام عليها.</li>
+</ol>
+<p>💡 <em>ملاحظة:</em> إذا أردت إلغاء العملية مستقبلاً، اضغط بزر الماوس الأيمن على البارتشن اقتطعت منه المساحة واختر <strong>Extend Volume</strong> لإعادة المساحة كما كانت.</p>
+<hr>
+<p>🔔 <strong>في الدرس القادم:</strong> سنقوم ببدء الإقلاع من الفلاشة والشروع في تثبيت النظام عملياً، تابع السلسلة ليصلك كل جديد! 🚀</p>
+<hr>
+<h3>🔗 التنقل بين دروس السلسلة</h3>
+<ul>
+<li><strong>الدرس السابق 👈:</strong> <a href="https://cyber-silicon.blogspot.com/2026/10/kali-linux-3-virtualbox-virtual-machine.html">[سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine</a></li>
+<li><strong>الدرس التالي 👈:</strong> <a href="https://cyber-silicon.blogspot.com/2026/11/kali-linux-5-kali-linux_0509810474.html">[سلسلة Kali Linux - الدرس 5] التثبيت الكامل والتشغيل الأول لنظام Kali Linux</a>
+</ul>
+<hr>
+
+            <div style="display: flex; justify-content: center; margin: 25px 0; width: 100%;">

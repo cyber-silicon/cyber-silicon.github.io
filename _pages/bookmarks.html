@@ -7,11 +7,12 @@ permalink: /bookmarks/
 
 <div class="bookmarks-note">
   <p>هذه مساحتك السريعة داخل المدونة. احفظ أي مقال تريد الرجوع إليه لاحقًا، وسيبقى محفوظًا في هذا المتصفح على هذا الجهاز فقط.</p>
+  <span id="bookmarksSyncStatus" class="visually-hidden" role="status" aria-live="polite" aria-atomic="true"></span>
 </div>
 
 <div id="bookmarksEmpty" class="empty-state">
   <span>☆</span>
-  <h2>لا توجد مقالات محفوظة بعد</h2>
+  <h2 tabindex="-1">لا توجد مقالات محفوظة بعد</h2>
   <p>عندما تجد شرحًا أو مرجعًا تريد العودة إليه، افتح المقال واضغط «حفظ» وسيظهر هنا مباشرة.</p>
   <a class="button primary" href="{{ '/' | relative_url }}">استكشف أحدث المقالات</a>
 </div>
@@ -26,7 +27,7 @@ permalink: /bookmarks/
       <span class="meta">{{ post.categories | first | default: "تقنية" }} • {{ post.date | date: "%Y-%m-%d" }}</span>
       <h3><a href="{{ post.url | relative_url }}">{{ post.title }}</a></h3>
       <p>{{ post.description | default: post.excerpt | strip_html | truncate: 110 }}</p>
-      <div class="card-foot"><button class="text-button" data-remove-bookmark="{{ post.url | relative_url }}">إزالة</button><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
+      <div class="card-foot"><button class="text-button" type="button" data-remove-bookmark="{{ post.url | relative_url }}" aria-label="إزالة {{ post.title | escape }} من المحفوظات">إزالة</button><a href="{{ post.url | relative_url }}">اقرأ ←</a></div>
     </div>
   </article>
 {% endfor %}

@@ -6,31 +6,40 @@ permalink: /tags/
 ---
 
 <div class="taxonomy-intro">
-  <p>الوسوم مناسبة عندما تعرف الأداة أو التقنية التي تريدها تحديدًا. استخدمها للوصول سريعًا إلى المقالات المرتبطة بكلمة مثل Linux أو Python أو Kali أو أي موضوع فرعي آخر.</p>
+  <p>الوسوم مناسبة عندما تعرف الأداة أو التقنية التي تريدها تحديدًا. استخدمها للوصول إلى المحتوى المرتبط بكلمة مثل Linux أو Python أو Kali أو أي موضوع فرعي آخر.</p>
 </div>
 
-<div class="tag-cloud-pro">
 {% assign tags = site.tags | sort %}
-{% for tag in tags %}
+{% if site.tags.size > 0 %}
+<div class="tag-cloud-pro">
+  {% for tag in tags %}
   <a href="#{{ tag[0] | slugify }}">#{{ tag[0] }} <span>{{ tag[1].size }}</span></a>
-{% endfor %}
+  {% endfor %}
 </div>
 
 <div class="taxonomy-list">
-{% for tag in tags %}
-<section class="taxonomy-group" id="{{ tag[0] | slugify }}">
-  <div class="taxonomy-head">
-    <div><span class="eyebrow">TAG</span><h2>#{{ tag[0] }}</h2></div>
-    <span class="taxonomy-count">{{ tag[1].size }} مقال</span>
-  </div>
-  <div class="compact-list">
-    {% for post in tag[1] %}
-    <a class="compact-row" href="{{ post.url | relative_url }}">
-      <div><strong>{{ post.title }}</strong><small>{{ post.description | default: post.excerpt | strip_html | truncate: 100 }}</small></div>
-      <span>{{ post.date | date: "%Y-%m-%d" }}</span>
-    </a>
-    {% endfor %}
-  </div>
-</section>
-{% endfor %}
+  {% for tag in tags %}
+  <section class="taxonomy-group" id="{{ tag[0] | slugify }}">
+    <div class="taxonomy-head">
+      <div><span class="eyebrow">TAG</span><h2>#{{ tag[0] }}</h2></div>
+      <span class="taxonomy-count">{{ tag[1].size }} عنصر</span>
+    </div>
+    <div class="compact-list">
+      {% for post in tag[1] %}
+      <a class="compact-row" href="{{ post.url | relative_url }}">
+        <div><strong>{{ post.title }}</strong><small>{{ post.description | default: post.excerpt | strip_html | truncate: 100 }}</small></div>
+        <span>{{ post.date | date: "%Y-%m-%d" }}</span>
+      </a>
+      {% endfor %}
+    </div>
+  </section>
+  {% endfor %}
 </div>
+{% else %}
+<div class="empty-state library-empty-state">
+  <span aria-hidden="true">#</span>
+  <h2>الوسوم ستظهر هنا</h2>
+  <p>سيتم تنظيم المحتوى بالوسوم عند نشر الدروس والمقالات المعتمدة.</p>
+  <a class="button primary" href="{{ '/' | relative_url }}">العودة إلى الرئيسية</a>
+</div>
+{% endif %}

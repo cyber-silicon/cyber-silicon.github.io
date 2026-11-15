@@ -1,5 +1,5 @@
 title: Cyber Silicon
-description: مدونة عربية عملية في الأمن السيبراني، Linux، البرمجة والإلكترونيات، تركز على الفهم والتطبيق خطوة بخطوة.
+description: مدونة عربية متخصصة في البرمجة والأمن السيبراني وLinux، تقدم شروحات عملية وأدوات وتجارب تطبيقية خطوة بخطوة.
 url: "https://cyber-silicon.github.io"
 baseurl: ""
 include:
@@ -37,13 +37,25 @@ collections:
   pages:
     output: true
     permalink: /:name/
+comments:
+  enabled: true
+  provider: giscus
+  repo: "cyber-silicon/cyber-silicon.github.io"
+  repo_id: "R_kgDOVXRHBA"
+  category: "General"
+  category_id: "DIC_kwDOVXRHBM4DJtF0"
+  mapping: "pathname"
+  strict: "1"
+  reactions_enabled: "1"
+  input_position: "bottom"
+  lang: "ar"
 defaults:
   - scope:
       path: ""
       type: posts
     values:
       layout: post
-      comments: false
+      comments: true
 exclude:
   - Gemfile
   - Gemfile.lock

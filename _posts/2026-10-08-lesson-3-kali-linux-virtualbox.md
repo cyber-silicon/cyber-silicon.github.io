@@ -1,22 +1,23 @@
 ---
 title: "[سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine"
-date: 2026-11-11 01:42:30 +0200
+date: 2026-10-08T12:06:40+02:00
 categories: ["Kali Linux", "VirtualBox", "Cyber Silicon"]
 tags: ["Kali Linux", "VirtualBox", "Cyber Silicon", "دروس وتقنيات"]
 labels: ["Kali Linux", "VirtualBox", "Cyber Silicon", "دروس وتقنيات"]
 image: /assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg
-summary: ""
+description: "شرح عملي لتثبيت VirtualBox وتجهيز آلة افتراضية لتشغيل Kali Linux، مع ضبط الذاكرة والمعالج والقرص وإعدادات الشبكة."
 lang: ar
 direction: rtl
 comments: true
+blogger_id: "1235759867469387700"
+blogger_alias_ids: ["1061904667240081919"]
+blogger_url: "https://cyber-silicon.blogspot.com/2026/10/kali-linux-3-virtualbox-virtual-machine.html"
+blogger_alias_urls: ["https://cyber-silicon.blogspot.com/2026/11/kali-linux-3-virtualbox-virtual-machine.html"]
+blogger_sync: manual
 toc: true
 tiktok_url: "https://www.tiktok.com/@cyber_silicon/video/7667112940985715989?utm_campaign=tt4d_open_api&utm_source=sbawotogm6mg76anhw"
-permalink: "/kali linux/virtualbox/cyber silicon/2026/11/11/lesson-3-سلسلة-kali-linux-الدرس-3-تثبيت-virtualbox-وتجهيز-الـ-virtual.html"
+permalink: "/2026/10/kali-linux-3-virtualbox-virtual-machine.html"
 ---
-
-![[سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine](/assets/images/tiktok-cover-سلسلة-kali-linux-الد.jpg){: .center-image }
-
-# [سلسلة Kali Linux - الدرس 3] تثبيت VirtualBox وتجهيز الـ Virtual Machine
 
 مرحباً بكم في الدرس الثالث من **سلسلة تعلم واحتراف نظام Kali Linux من الصفر** المقدمة من قناة **Cyber Silicon**! 💻🐉
 
@@ -61,7 +62,7 @@ permalink: "/kali linux/virtualbox/cyber silicon/2026/11/11/lesson-3-سلسلة-
 1. من الواجهة الرئيسية لبرنامج VirtualBox، اضغط على زر **New** (أو **Create a new virtual machine**).
 2. في خانة **Name**، اكتب اسم الآلة الوهمية (مثلاً: `Kali`).
 3. اختر مجلد الحفظ المطلوب في **Folder**.
-4. . في خيار **ISO Image**، قم بتحديد مسار ملف نظام Kali Linux الذي قمت بتنزيله بصيغة `.iso`.
+4. في خيار **ISO Image**، قم بتحديد مسار ملف نظام Kali Linux الذي قمت بتنزيله بصيغة `.iso`.
 
 ---
 
@@ -97,8 +98,8 @@ permalink: "/kali linux/virtualbox/cyber silicon/2026/11/11/lesson-3-سلسلة-
 
 ### 🔗 التنقل بين دروس السلسلة
 
-* **الدرس السابق 👈:** تلقائي
-* **الدرس التالي 👈:** جاري إعداد الدرس الثالث...
+* **الدرس السابق 👈:** [تحميل برنامج VirtualBox وحزمة Extension Pack](/2026/10/kali-linux-2-virtualbox-extension-pack_02082292610.html)
+* **الدرس التالي 👈:** [تهيئة الفلاشة وتقسيم القرص للتثبيت](/2026/10/kali-linux-4.html)
 
 
 <div class='tiktok-embed-wrapper' style='display:flex;justify-content:center;margin:25px 0'>
