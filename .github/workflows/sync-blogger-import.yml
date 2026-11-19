@@ -19,7 +19,7 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 20
     env:
       BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
       BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
@@ -51,6 +51,35 @@ jobs:
 
       - name: Sync Blogger additions, updates, and deletions
         run: python3 scripts/sync_blogger_posts.py --apply --sync-deletions
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.3'
+          bundler-cache: true
+
+      - name: Build Jekyll site before pushing
+        run: bundle exec jekyll build --trace
+
+      - name: Test Blogger importer
+        run: python3 -m unittest discover -s tests -p 'test_*.py' -v
+
+      - name: Check internal links and assets
+        run: python3 scripts/check_internal_links.py
+
+      - name: Validate generated site and SEO
+        run: python3 scripts/validate_generated_site.py
+
+      - name: Verify protected OAuth and Android App Links assets
+        run: |
+          set -euo pipefail
+          test -s _site/tiktok-callback/index.html
+          test -s _site/.well-known/assetlinks.json
+          python3 -m json.tool _site/.well-known/assetlinks.json >/dev/null
+          grep -Fq 'https://cyber-silicon.github.io/tiktok-callback/' _site/tiktok-callback/index.html
+          grep -Fq 'com.cybersilicon.pro' _site/.well-known/assetlinks.json
+          test -f tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
+          cmp --silent tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt _site/tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
 
       - name: Commit imported posts to development branch
         run: |
