@@ -22,7 +22,7 @@ jobs:
     timeout-minutes: 20
     env:
       BLOGGER_API_KEY: ${{ secrets.BLOGGER_API_KEY }}
-      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID }}
+      BLOGGER_BLOG_ID: ${{ secrets.BLOGGER_BLOG_ID || '2033316582671880720' }}
       BLOGGER_OAUTH_CLIENT_ID: ${{ secrets.BLOGGER_OAUTH_CLIENT_ID }}
       BLOGGER_OAUTH_CLIENT_SECRET: ${{ secrets.BLOGGER_OAUTH_CLIENT_SECRET }}
       BLOGGER_OAUTH_REFRESH_TOKEN: ${{ secrets.BLOGGER_OAUTH_REFRESH_TOKEN }}
@@ -40,7 +40,7 @@ jobs:
 
       - name: Validate Blogger credentials
         run: |
-          for name in BLOGGER_API_KEY BLOGGER_BLOG_ID BLOGGER_OAUTH_CLIENT_ID BLOGGER_OAUTH_CLIENT_SECRET BLOGGER_OAUTH_REFRESH_TOKEN; do
+          for name in BLOGGER_API_KEY BLOGGER_OAUTH_CLIENT_ID BLOGGER_OAUTH_CLIENT_SECRET BLOGGER_OAUTH_REFRESH_TOKEN; do
             if [ -z "${!name}" ]; then
               echo "::error::Required repository secret $name is missing or empty."
               exit 1
