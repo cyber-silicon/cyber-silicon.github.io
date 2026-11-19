@@ -23,6 +23,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     permissions:
       contents: write
+      pages: write
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -98,3 +99,11 @@ jobs:
           git commit -m "Sync Blogger posts into development branch"
           test "$TARGET_BRANCH" = "main"
           git push origin "HEAD:refs/heads/main"
+
+      - name: Request GitHub Pages build from latest main
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            -H "Accept: application/vnd.github+json" \
+            "repos/${GITHUB_REPOSITORY}/pages/builds"
