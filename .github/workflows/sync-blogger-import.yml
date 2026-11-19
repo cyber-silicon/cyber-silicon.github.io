@@ -2,6 +2,9 @@ name: Import Blogger posts to development branch
 
 on:
   workflow_dispatch:
+  # Poll Blogger twice per hour; scheduled runs originate from the default branch.
+  schedule:
+    - cron: "17,47 * * * *"
 
 permissions:
   contents: read
