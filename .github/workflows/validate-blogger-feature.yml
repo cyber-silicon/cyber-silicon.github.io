@@ -19,15 +19,15 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout development branch
+      - name: Checkout current Blogger lifecycle development branch
         uses: actions/checkout@v4
         with:
-          ref: feature/blogger-parity-20261112
+          ref: feature/blogger-lifecycle-sync-20261115
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: "3.3"
+          ruby-version: '3.3'
           bundler-cache: true
 
       - name: Build Jekyll site
