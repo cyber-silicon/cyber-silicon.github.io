@@ -1,16 +1,21 @@
-name: Import Blogger posts to development branch
+name: Sync Blogger posts to production site
 
 on:
   workflow_dispatch:
   # Poll Blogger twice per hour; scheduled runs originate from the default branch.
   schedule:
     - cron: "17,47 * * * *"
+  # Run once immediately when the production sync configuration changes.
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/sync-blogger-import.yml"
 
 permissions:
   contents: read
 
 concurrency:
-  group: blogger-import-feature-branch
+  group: blogger-import-main
   cancel-in-progress: false
 
 jobs:
@@ -27,12 +32,12 @@ jobs:
       BLOGGER_OAUTH_CLIENT_ID: ${{ secrets.BLOGGER_OAUTH_CLIENT_ID }}
       BLOGGER_OAUTH_CLIENT_SECRET: ${{ secrets.BLOGGER_OAUTH_CLIENT_SECRET }}
       BLOGGER_OAUTH_REFRESH_TOKEN: ${{ secrets.BLOGGER_OAUTH_REFRESH_TOKEN }}
-      TARGET_BRANCH: feature/blogger-lifecycle-sync-20261115
+      TARGET_BRANCH: main
     steps:
-      - name: Checkout development branch
+      - name: Checkout production branch
         uses: actions/checkout@v4
         with:
-          ref: feature/blogger-lifecycle-sync-20261115
+          ref: main
           fetch-depth: 0
 
       - name: Set up Python
@@ -81,7 +86,7 @@ jobs:
           test -f tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
           cmp --silent tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt _site/tiktoky3OKmXmwUNjswR7HZjSinb9EBScow5tj.txt
 
-      - name: Commit imported posts to development branch
+      - name: Commit imported posts to main
         run: |
           git add _posts/
           if git diff --cached --quiet; then
@@ -91,5 +96,5 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git commit -m "Sync Blogger posts into development branch"
-          test "$TARGET_BRANCH" = "feature/blogger-lifecycle-sync-20261115"
-          git push origin "HEAD:refs/heads/feature/blogger-lifecycle-sync-20261115"
+          test "$TARGET_BRANCH" = "main"
+          git push origin "HEAD:refs/heads/main"
