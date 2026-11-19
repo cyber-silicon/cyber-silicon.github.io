@@ -3,9 +3,18 @@ name: Validate Blogger development branch
 on:
   workflow_dispatch:
   push:
-    branches: [main]
+    branches:
+      - main
+      - feature/blogger-lifecycle-sync-20261115
     paths:
       - ".github/workflows/validate-blogger-feature.yml"
+      - ".github/workflows/sync-blogger-import.yml"
+      - "_posts/**"
+      - "scripts/**"
+      - "tests/**"
+      - "_config.yml"
+      - "Gemfile"
+      - "Gemfile.lock"
 
 permissions:
   contents: read
