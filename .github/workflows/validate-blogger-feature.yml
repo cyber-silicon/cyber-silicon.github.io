@@ -1,11 +1,10 @@
-name: Validate Blogger development branch
+name: Validate Blogger production branch
 
 on:
   workflow_dispatch:
   push:
     branches:
       - main
-      - feature/blogger-lifecycle-sync-20261115
     paths:
       - ".github/workflows/validate-blogger-feature.yml"
       - ".github/workflows/sync-blogger-import.yml"
@@ -28,10 +27,10 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     steps:
-      - name: Checkout current Blogger lifecycle development branch
+      - name: Checkout production branch
         uses: actions/checkout@v4
         with:
-          ref: feature/blogger-lifecycle-sync-20261115
+          ref: main
 
       - name: Setup Ruby
         uses: ruby/setup-ruby@v1
